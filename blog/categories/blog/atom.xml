@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: blog | Thujikun blog]]></title>
+  <link href="http://thujikun.github.io/blog/categories/blog/atom.xml" rel="self"/>
+  <link href="http://thujikun.github.io/"/>
+  <updated>2013-12-14T01:43:03+09:00</updated>
+  <id>http://thujikun.github.io/</id>
+  <author>
+    <name><![CDATA[Ryosuke Tsuji]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://thujikun.github.io/blog/2013/12/14/hello-world/"/>
+    <updated>2013-12-14T00:22:16+09:00</updated>
+    <id>http://thujikun.github.io/blog/2013/12/14/hello-world</id>
+    <content type="html"><![CDATA[<h2>Blog始めました</h2>
+
+<p>本日初のAdvent Calendarを投稿するにあたってGithub + Octopress + Gitbucketを利用してBlogを作成しました。<br/>
+みんな大好きmarkdownで記述できるのはものすごく楽ですね。もちろんHTMLも使えますが。<br/>
+構築には下記のサイトを参考にさせていただきましたので、興味のある方はやってみてください。</p>
+
+<p><a href="http://morizyun.github.io/blog/octopress-gitpage-minimum-install-guide/">http://morizyun.github.io/blog/octopress-gitpage-minimum-install-guide/</a></p>
+]]></content>
+  </entry>
+  
+</feed>
