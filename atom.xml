@@ -4,11 +4,11 @@
   <title><![CDATA[Thujikun blog]]></title>
   <link href="http:// thujikun.github.io/atom.xml" rel="self"/>
   <link href="http:// thujikun.github.io/"/>
-  <updated>2013-12-14T10:45:52+09:00</updated>
+  <updated>2013-12-14T10:58:01+09:00</updated>
   <id>http:// thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
-    
+    <email><![CDATA[tsuji.0107@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
