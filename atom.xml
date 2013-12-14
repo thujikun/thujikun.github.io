@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Thujikun blog]]></title>
-  <link href="http:// thujikun.github.io/atom.xml" rel="self"/>
-  <link href="http:// thujikun.github.io/"/>
-  <updated>2013-12-14T11:14:35+09:00</updated>
-  <id>http:// thujikun.github.io/</id>
+  <link href="http://thujikun.github.io/atom.xml" rel="self"/>
+  <link href="http://thujikun.github.io/"/>
+  <updated>2013-12-14T11:21:19+09:00</updated>
+  <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
     <email><![CDATA[tsuji.0107@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ちょっと未来のJavaScript]]></title>
-    <link href="http:// thujikun.github.io/blog/2013/12/14/ie/"/>
+    <link href="http://thujikun.github.io/blog/2013/12/14/ie/"/>
     <updated>2013-12-14T02:00:03+09:00</updated>
-    <id>http:// thujikun.github.io/blog/2013/12/14/ie</id>
+    <id>http://thujikun.github.io/blog/2013/12/14/ie</id>
     <content type="html"><![CDATA[<p>来年遂にXPが逝去されるということで、IE9以降のシェアが飛躍的に伸びることを祈りつつ、IE9以降でJavaScriptでできるようになることを気がつく限りまとめてみました。</p>
 
 <h2>DOM</h2>
@@ -852,9 +852,9 @@ Java7までがRhino、Java8からがNashornになります。<br/>
   
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http:// thujikun.github.io/blog/2013/12/14/hello-world/"/>
+    <link href="http://thujikun.github.io/blog/2013/12/14/hello-world/"/>
     <updated>2013-12-14T00:22:16+09:00</updated>
-    <id>http:// thujikun.github.io/blog/2013/12/14/hello-world</id>
+    <id>http://thujikun.github.io/blog/2013/12/14/hello-world</id>
     <content type="html"><![CDATA[<h2>Blog始めました</h2>
 
 <p>本日初のAdvent Calendarを投稿するにあたってGithub + Octopress + Gitbucketを利用してBlogを作成しました。<br/>
