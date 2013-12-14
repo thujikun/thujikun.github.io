@@ -766,6 +766,26 @@ Functionのthisを引数のオブジェクトでバインドする。apply/call�
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>Date</h3>
+
+<ul>
+<li>now<br/>
+UTC（協定世界時）での1970年1月1日00時00分00秒から現在までの経過ミリ秒を数値で取得するメソッド。new Date().getTime()と同じ。相違点はスピード。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Date/now">now</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>IE8とどうしたもまだ付き合わなきゃいけない方へ</h2>
+
+<p>es5のshimを使ってくださってる方がいるので、これを入れると上記のメソッド達はだいたい使えます。<br/>
+<a href="https://github.com/kriskowal/es5-shim  ">https://github.com/kriskowal/es5-shim  </a>
+DOM系のやつもそれぞれshimを作ってる方がいたり、あとは自分でpolyfill作ってしまってもよいかもですね。</p>
+
 <h2>まとめ的な</h2>
 
 <p>HTML5とかCSS3はまだだいぶ弱いですが、DOM系とES5系でそれなりに強化されるので、小さいサイトの制作であればjQueryを使わない選択肢があってもいいんじゃないかなーと思ってます。<br/>
@@ -824,6 +844,98 @@ Functionのthisを引数のオブジェクトでバインドする。apply/call�
 <h3>File API</h3>
 
 <h3>pagevisibility API</h3>
+
+<h2>さらにES6も使いたい方へ</h2>
+
+<p>ES6では、定数、ブロックスコープ変数、Class、Module、Promise、generator、iterator、配列内包記法、arrow function、Map、WeakMap、Set、of loopなどなどまさに夢のようなAPI達がこれでもかと使うことができます。現在の実装状況は下記を参照すると良いです。<br/>
+<a href="http://kangax.github.io/es5-compat-table/es6/  ">http://kangax.github.io/es5-compat-table/es6/  </a>
+見ていただければわかりますが、FFの実装が最も進んでいます。Chromeも頑張ってはいますが、FlagをONにしなきゃいけないので非現実的ですね。<br/>
+まとめると以下の方法が現在ES6を使うための手法です。<br/>
+* traceur-compilerを使う。<br/>
+<a href="https://github.com/google/traceur-compiler">https://github.com/google/traceur-compiler</a></p>
+
+<p>主要な機能は大体使えます。具体的な使い方はこんな感じ。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://traceur-compiler.googlecode.com/git/bin/traceur.js&quot;</span>
+</span><span class='line'>        <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://traceur-compiler.googlecode.com/git/src/bootstrap.js&quot;</span>
+</span><span class='line'>        <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/traceur&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="kr">class</span> <span class="nx">Greeter</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">constructor</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">message</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">greet</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>          <span class="kd">let</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;#message&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">element</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">let</span> <span class="nx">greeter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Greeter</span><span class="p">(</span><span class="s1">&#39;Hello, world!&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">greeter</span><span class="p">.</span><span class="nx">greet</span><span class="p">();</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>node.jsを使う。<br/>
+Gruntなどサーバを立てる用途でなくてもnodeを使う機会は確実に増えている今日この頃、これを使わない手はありません。<br/>
+node起動時に&mdash;harmonyオプションをつけるか、Gruntなど内部的にNodeを呼ぶやつで使う場合はpackage.jsonをちょっと工夫してやるとES6の機能が開放されます。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{
+</span><span class='line'>  &quot;scripts&quot;: {
+</span><span class='line'>    &quot;start&quot;: &quot;node --harmony ./node_modules/.bin/grunt start&quot;
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>FirefoxOSアプリ開発を行う。<br/>
+上記でも言ったようにFirefoxの実装は最も進んでいる状況なので、FirefoxOS向けアプリ開発ではES6の機能がガンガン使えます。<br/>
+本来Web標準で作れることのメリットであるクロスプラットフォームの互換性は失われますが、そんなものは現場からすると初めから幻想なのでムシムシ。</li>
+<li>RhinoもしくはNashornを使う。<br/>
+これはだいぶマニアックな方法ですがMozillaがJVM上でjavascriptで書いたコードをJavaに変換して実行するライブラリを出しています。<br/>
+MozillaということはFirefoxと大体同じ実装状況だと言えるので、ES6の機能もだいぶサポートされています。<br/>
+Java7までがRhino、Java8からがNashornになります。<br/>
+ちなみにClosure CompilerはRhinoを使ってますね。</li>
+</ul>
+
 
 <p>というわけでここまで読んでいただいてありがとうございましたー！</p>
 

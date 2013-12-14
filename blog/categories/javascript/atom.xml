@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http:// thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http:// thujikun.github.io/"/>
-  <updated>2013-12-14T06:15:54+09:00</updated>
+  <updated>2013-12-14T10:33:29+09:00</updated>
   <id>http:// thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -429,6 +429,24 @@ var foo = &lsquo;　　　   bar   　　　&rsquo;;</li>
 // &ndash;> bar
 ```</p>
 
+<h3>Date</h3>
+
+<ul>
+<li>now<br/>
+UTC（協定世界時）での1970年1月1日00時00分00秒から現在までの経過ミリ秒を数値で取得するメソッド。new Date().getTime()と同じ。相違点はスピード。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Date/now">now</a>
+<code>javascript
+console.log(Date.now());
+</code></li>
+</ul>
+
+
+<h2>IE8とどうしたもまだ付き合わなきゃいけない方へ</h2>
+
+<p>es5のshimを使ってくださってる方がいるので、これを入れると上記のメソッド達はだいたい使えます。<br/>
+<a href="https://github.com/kriskowal/es5-shim  ">https://github.com/kriskowal/es5-shim  </a>
+DOM系のやつもそれぞれshimを作ってる方がいたり、あとは自分でpolyfill作ってしまってもよいかもですね。</p>
+
 <h2>まとめ的な</h2>
 
 <p>HTML5とかCSS3はまだだいぶ弱いですが、DOM系とES5系でそれなりに強化されるので、小さいサイトの制作であればjQueryを使わない選択肢があってもいいんじゃないかなーと思ってます。<br/>
@@ -487,6 +505,66 @@ var foo = &lsquo;　　　   bar   　　　&rsquo;;</li>
 <h3>File API</h3>
 
 <h3>pagevisibility API</h3>
+
+<h2>さらにES6も使いたい方へ</h2>
+
+<p>ES6では、定数、ブロックスコープ変数、Class、Module、Promise、generator、iterator、配列内包記法、arrow function、Map、WeakMap、Set、of loopなどなどまさに夢のようなAPI達がこれでもかと使うことができます。現在の実装状況は下記を参照すると良いです。<br/>
+<a href="http://kangax.github.io/es5-compat-table/es6/  ">http://kangax.github.io/es5-compat-table/es6/  </a>
+見ていただければわかりますが、FFの実装が最も進んでいます。Chromeも頑張ってはいますが、FlagをONにしなきゃいけないので非現実的ですね。<br/>
+まとめると以下の方法が現在ES6を使うための手法です。<br/>
+* traceur-compilerを使う。<br/>
+<a href="https://github.com/google/traceur-compiler">https://github.com/google/traceur-compiler</a></p>
+
+<p>主要な機能は大体使えます。具体的な使い方はこんな感じ。<br/>
+```html
+<html>
+  <body></p>
+
+<pre><code>&lt;script src="https://traceur-compiler.googlecode.com/git/bin/traceur.js" 
+    type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="https://traceur-compiler.googlecode.com/git/src/bootstrap.js"
+    type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/traceur"&gt;
+  class Greeter {
+    constructor(message) {
+      this.message = message;
+    }
+
+    greet() {
+      let element = document.querySelector('#message');
+      element.innerHTML = this.message;
+    }
+  };
+
+  let greeter = new Greeter('Hello, world!');
+  greeter.greet();
+&lt;/script&gt;
+</code></pre>
+
+<p>  </body>
+</html>
+<code>
+* node.jsを使う。  
+Gruntなどサーバを立てる用途でなくてもnodeを使う機会は確実に増えている今日この頃、これを使わない手はありません。  
+node起動時に--harmonyオプションをつけるか、Gruntなど内部的にNodeを呼ぶやつで使う場合はpackage.jsonをちょっと工夫してやるとES6の機能が開放されます。  
+</code>
+{
+  &ldquo;scripts&rdquo;: {</p>
+
+<pre><code>"start": "node --harmony ./node_modules/.bin/grunt start"
+</code></pre>
+
+<p>  }
+}
+```
+* FirefoxOSアプリ開発を行う。<br/>
+上記でも言ったようにFirefoxの実装は最も進んでいる状況なので、FirefoxOS向けアプリ開発ではES6の機能がガンガン使えます。<br/>
+本来Web標準で作れることのメリットであるクロスプラットフォームの互換性は失われますが、そんなものは現場からすると初めから幻想なのでムシムシ。<br/>
+* RhinoもしくはNashornを使う。<br/>
+これはだいぶマニアックな方法ですがMozillaがJVM上でjavascriptで書いたコードをJavaに変換して実行するライブラリを出しています。<br/>
+MozillaということはFirefoxと大体同じ実装状況だと言えるので、ES6の機能もだいぶサポートされています。<br/>
+Java7までがRhino、Java8からがNashornになります。<br/>
+ちなみにClosure CompilerはRhinoを使ってますね。</p>
 
 <p>というわけでここまで読んでいただいてありがとうございましたー！</p>
 ]]></content>
