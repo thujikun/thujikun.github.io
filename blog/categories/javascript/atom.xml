@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-14T11:21:19+09:00</updated>
+  <updated>2013-12-14T11:31:59+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -297,19 +297,10 @@ var MyClass = function() {
 <p>  // 現在のメンバー数を返却するcountアクセサを追加。値を指定された場合は何もしない。
   Object.defineProperty(MyClass.prototype, &lsquo;count&rsquo;, {
       get: function() {
-          var count = 0,
-              p;</p>
-
-<pre><code>      for(p in this.members) {
-          count++;
-      }
-
-      return count;
-  },
-  set: function() {}
-</code></pre>
-
-<p>  });</p>
+          return Object.keys(this.members).length;
+      },
+      set: function() {}
+  });</p>
 
 <p>  var myClass = new MyClass();</p>
 

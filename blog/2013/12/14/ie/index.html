@@ -548,13 +548,6 @@
 <span class='line-number'>44</span>
 <span class='line-number'>45</span>
 <span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">MyClass</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">members</span> <span class="o">=</span> <span class="p">{};</span>
 </span><span class='line'><span class="p">};</span>
@@ -582,14 +575,7 @@
 </span><span class='line'><span class="c1">// 現在のメンバー数を返却するcountアクセサを追加。値を指定された場合は何もしない。</span>
 </span><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">MyClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="p">{</span>
 </span><span class='line'>    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">p</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="nx">p</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">members</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">members</span><span class="p">).</span><span class="nx">length</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">},</span>
 </span><span class='line'>    <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
 </span><span class='line'><span class="p">});</span>
