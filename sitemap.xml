@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http:// thujikun.github.io/blog/2013/12/14/hello-world/</loc>
+        <loc>http://thujikun.github.io/blog/2013/12/14/hello-world/</loc>
         <lastmod>2013-12-14T01:54:55+09:00</lastmod>
     </url>
     <url>
-        <loc>http:// thujikun.github.io/blog/2013/12/14/ie/</loc>
+        <loc>http://thujikun.github.io/blog/2013/12/14/ie/</loc>
         <lastmod>2013-12-14T10:32:53+09:00</lastmod>
     </url>
     <url>
-        <loc>http:// thujikun.github.io/blog/archives/</loc>
+        <loc>http://thujikun.github.io/blog/archives/</loc>
         <lastmod>2013-12-14T10:48:16+09:00</lastmod>
     </url>
     <url>
-        <loc>http:// thujikun.github.io/</loc>
+        <loc>http://thujikun.github.io/</loc>
         <lastmod>2013-12-14T10:32:53+09:00</lastmod>
     </url>
     <url>
-        <loc>http:// thujikun.github.io/robots.txt</loc>
+        <loc>http://thujikun.github.io/robots.txt</loc>
         <lastmod>2013-12-14T01:54:55+09:00</lastmod>
     </url>
 </urlset>
