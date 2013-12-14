@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-14T17:07:48+09:00</updated>
+  <updated>2013-12-15T01:13:50+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -348,7 +348,7 @@ console.log(Object.getOwnPropertyNames(Array.prototype));
 <code>
 * keys  
 オブジェクトの列挙可能なプロパティを配列で返却する。for-inループと違い、プロトタイプのプロパティはとってこない。   
-※ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+※ [keys](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/keys)
 </code>
 var obj = {</p>
 

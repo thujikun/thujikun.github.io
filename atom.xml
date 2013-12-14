@@ -4,7 +4,7 @@
   <title><![CDATA[Thujikun blog]]></title>
   <link href="http://thujikun.github.io/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-14T17:07:48+09:00</updated>
+  <updated>2013-12-15T01:13:50+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -551,7 +551,7 @@ enumerable属性に関わらず、オブジェクトのプロパティを配列�
 <ul>
 <li>keys<br/>
 オブジェクトの列挙可能なプロパティを配列で返却する。for-inループと違い、プロトタイプのプロパティはとってこない。 <br/>
-※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/keys">https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/keys</a></li>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/keys">keys</a></li>
 </ul>
 
 
