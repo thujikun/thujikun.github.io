@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-16T01:11:24+09:00</updated>
+  <updated>2013-12-16T01:15:15+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -809,6 +809,9 @@ console.log(Date.now());
 <p>  </body>
 </html>
 <code>
+* typescriptを使う。
+MicroSoftの開発しているtypescriptはES6の先行実装的な思想で作られてるjsのプリコンパイラなので、これを使う手もあります。  
+[typescript](http://www.typescriptlang.org/)  
 * node.jsを使う。  
 Gruntなどサーバを立てる用途でなくてもnodeを使う機会は確実に増えている今日この頃、これを使わない手はありません。  
 node起動時に--harmonyオプションをつけるか、Gruntなど内部的にNodeを呼ぶやつで使う場合はpackage.jsonをちょっと工夫してやるとES6の機能が開放されます。  
