@@ -126,6 +126,331 @@
   
 
 
+<i class="icon-calendar-empty"></i> <time datetime="2013-12-15T10:33:40+09:00" pubdate data-updated="true">Dec 15<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/javascript/"><span class="badge">javascript</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10 post-container">
+      <h1 class="link"><a href="/blog/2013/12/15/js-tech/">便利なjavascriptテクニック集</a></h1>
+      <p>今回はjavascriptで知ってる人にとっては当たり前だけど、そうでない人は全然知らないようなテクニックをまとめていきます。</p>
+
+<h2>globalを汚さない無名関数スコープ</h2>
+
+<p>javascriptの問題のひとつとしてスコープがよくとりあげられますが、ここではグローバルスコープを汚さない手法を紹介していきます。</p>
+
+<h3>悪い例</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// これはグローバルスコープ</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみにglobalスコープとはwindowオブジェクトにプロパティを追加していくことと同義です。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// 下記の２つは結果として同じことを行っている。</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解決するには下記のように無名関数を用います。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// 無名関数をつくり即時実行</span>
+</span><span class='line'><span class="p">;(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// スコープが関数内で閉じる。</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>また、jQueryを使うときは、下記のように引数でjQueryを渡して、$という名前で引数として受け取ってあげると、$のconflict問題から開放されます。<br/>
+というか$をグローバル参照するのはバグの元になるのでやめましょう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">;(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// スコープが関数内で閉じる。</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#hoge&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s1">&#39;hogehoge&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">jQuery</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみに無名関数の書き方は他にもあります。気にしなきゃいけないほどの違いはないので好みで選んでよいでしょう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// カッコの位置がちょっと違う。</span>
+</span><span class='line'><span class="p">;(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// jslintだとsyntaxエラーになるかも。一応一文字少ないので一番軽い。</span>
+</span><span class='line'><span class="p">;</span><span class="o">!</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>※1 先頭のセミコロンはconcatした場合に、エラーになる可能性を排除するためです。<br/>
+※2 callを使っているのは、通常の関数呼び出しだとstrictモードの場合に無名関数内部のthisがwindowオブジェクトにならないためです。</p>
+
+<h3>ArrayっぽいけどArrayじゃないObjectをArrayにする方法</h3>
+
+<p>document.getElementsByClassNameとかdocument.querySelectorAllとかで複数のDOMを取得したときの戻り値とか、argumentsプロパティは見た感じArrayっぽいのにArrayにはなってません。<br/>
+その結果何がどうなるかというと、pushとかjoinとかArrayが持っているメソッドが使えず、非常に使いづらい状態です。<br/>
+それを解消するための方法が下記のテクニックです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// リストのDOMを取得</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.hoge-list li&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ArrayっぽいObjectからArrayに変換</span>
+</span><span class='line'><span class="nx">list</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">list</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちょっと解説すると、まずArray型が持っているメソッドで、配列の一部を切り出すsliceメソッドがあります。<br/>
+これは非破壊的メソッドで、このメソッドを実行したArrayはそのままで、実行結果を新しいArrayとして返却してくれます。<br/>
+その結果引数を指定しなければ、Arrayをdeepコピーすることができます。<br/>
+さらにその特性を活かして、sliceをArrayのprototypeから直接呼び出し、callを使ってthisをArrayっぽいObjectで上書くことで完全なArray型にキャストすることができます。</p>
+
+<h3>関数のthisを指定したObjectでbind</h3>
+
+<p>当たり前に使われてますが、知らない人も結構多いかと思うので一応。applyとcallです。<br/>
+javascriptのfunction型はprototypeにcallとapplyってメソッドを持っていて、呼び出したfunctionのthisを第一引数でbindすることができます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">hoge</span><span class="p">(</span><span class="nx">foo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">hoge</span><span class="p">,</span> <span class="nx">foo</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">// -&gt; hogehoge bar</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// hoge関数のthisに文字列’hogehoge’を指定して実行。</span>
+</span><span class='line'><span class="nx">hoge</span><span class="p">.</span><span class="nx">call</span><span class="p">({</span><span class="nx">hoge</span><span class="o">:</span> <span class="s1">&#39;hogehoge&#39;</span><span class="p">},</span> <span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>jQueryでthisを参照するとDOMオブジェクトになってるのはこういう方法を使ってます。そのせいでthisってなんぞ？みたいなことになるわけですが。<br/>
+callとapplyの違いは関数の引数の指定方法です。<br/>
+callは第2引数が第1引数に、第3引数が第2引数に、といった具合に順番がひとつずつずれる方法になります。<br/>
+applyは第2引数をArray指定する形になっていて、それが順番に引数になります。<br/>
+apply使うと$.whenみたいなArrayの引数ではなく可変長な引数の関数が格段に使いやすくなるのでお勧めです。</p>
+
+<h3>可変長引数の扱い方</h3>
+
+<p>関数で可変長な引数に対応したい場合がたまにあります。その方が綺麗に見える場合だったり、プラグインを独自拡張したい場合だったり。<br/>
+そんなときに使えるのargumentsプロパティです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">hoge</span><span class="p">(</span><span class="nx">name1</span><span class="p">,</span> <span class="nx">name2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">name2</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">// -&gt; foo bar</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// arumentsプロパティには引数が入っている</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</span><span class='line'>    <span class="c1">// -&gt; foo bar</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">hoge</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ただ、実際に可変長引数を使いたいと思った場合は、for文とかでまわして処理を行いたいことが多いです。<br/>
+しかし、argumentsプロパティは配列っぽい要素であって配列ではありません。というわけで、上で書いた手法がよく使われることになります。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">hoge</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">args</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// 引数それぞれに対しての処理</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ちなみにargumentsプロパティは実装がヤバイらしく、あまり使用が推奨されていません。<br/>
+ES6からは正式に可変長引数がサポートされるので将来的にはそっちを使うほうがよいです。<br/>
+あとこれ必要ない場合に使うと可読性が著しく落ちるのでご利用は計画的に。<br/>
+最後に、プラグイン内部で関数どおしが何やってるかわからないけど、一部の値をちょっと書き換えたり、取得したいって場合がまれによくあります。<br/>
+そんなときは下記のようなテクニックが使えます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// 元の処理を退避</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">_ajax</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">ajax</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Backbone</span><span class="p">.</span><span class="nx">ajax</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// なんか独自処理</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 元々のBackbone.ajaxを本来呼ばれたときと同じ形で呼び出す。</span>
+</span><span class='line'>    <span class="nx">_ajax</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>このときはBackboneのajaxをカスタマイズして、エラーハンドリングを全処理で共通的に行うようなことをしたんですが、長くなるので今回は見送ります。</p>
+
+<h3>argumentsの隠された力</h3>
+
+<p>argumentsプロパティは上で書いたようによく引数取得で使われるわけですが、実は隠された力を持っています。<br/>
+ただその力はあまりにチートで危険すぎるため、strictモードでは禁止されていますのであらかじめご了承ください。<br/>
+まず一つ目はarguments.calleeです。これはその関数自身のことです。無名関数だけど再帰処理がしたい場合とかに使えます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">deepCopy</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">name</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">ret</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">ret</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">callee</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">ret</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">ret</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記はObjectをdeepコピーする関数ですが、無名関数で作っているため再帰処理をする場合に自分自身を関数名で呼び出すことができません。<br/>
+そのため、arguments.calleeで自分自身を呼んでいます。<br/>
+もちろん名前付き関数として定義すれば問題なく動作しますが、関数名変えたりする場合に一箇所修正すればいいので個人的には好きな書き方です。<br/>
+次に紹介するのはarguments.callee.caller.argumentsです。<br/>
+これはなんとひとつ前の関数の引数を取得することができます。ちなみにarguments.callee.callerは一つ前の関数が取得できます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">hoge</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">hogehoge</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">hogehoge</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 呼び出し元の一つ目の引数を表示</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">callee</span><span class="p">.</span><span class="nx">caller</span><span class="p">.</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</span><span class='line'>    <span class="c1">// -&gt; foo</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">hoge</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ただしこれをやってしまうと、可読性が著しく悪化するばかりか、関数の呼び出し順に過度に依存することになるので、非常事態以外には触るな危険です。<br/>
+私はBackbone.ajaxでBackbone.syncの引数の取得に使用しました。ごめんなさい。</p>
+
+      
+      
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2 post-meta">
+	  <h5 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
 <i class="icon-calendar-empty"></i> <time datetime="2013-12-14T02:00:03+09:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time></h5>
           <div class="row-fluid">
           

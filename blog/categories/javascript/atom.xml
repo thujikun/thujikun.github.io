@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T01:13:50+09:00</updated>
+  <updated>2013-12-15T12:17:32+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -12,6 +12,212 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[便利なjavascriptテクニック集]]></title>
+    <link href="http://thujikun.github.io/blog/2013/12/15/js-tech/"/>
+    <updated>2013-12-15T10:33:40+09:00</updated>
+    <id>http://thujikun.github.io/blog/2013/12/15/js-tech</id>
+    <content type="html"><![CDATA[<p>今回はjavascriptで知ってる人にとっては当たり前だけど、そうでない人は全然知らないようなテクニックをまとめていきます。</p>
+
+<h2>globalを汚さない無名関数スコープ</h2>
+
+<p>javascriptの問題のひとつとしてスコープがよくとりあげられますが、ここではグローバルスコープを汚さない手法を紹介していきます。</p>
+
+<h3>悪い例</h3>
+
+<p><code>javascript
+// これはグローバルスコープ
+var foo = 'bar';
+</code>
+ちなみにglobalスコープとはwindowオブジェクトにプロパティを追加していくことと同義です。<br/>
+<code>javascript
+// 下記の２つは結果として同じことを行っている。
+var foo = 'bar';
+window.foo = 'bar';
+</code>
+解決するには下記のように無名関数を用います。<br/>
+```javascript
+// 無名関数をつくり即時実行
+;(function() {</p>
+
+<pre><code>// スコープが関数内で閉じる。
+var foo = 'bar';
+</code></pre>
+
+<p>}.call(this));
+<code>
+また、jQueryを使うときは、下記のように引数でjQueryを渡して、$という名前で引数として受け取ってあげると、$のconflict問題から開放されます。  
+というか$をグローバル参照するのはバグの元になるのでやめましょう。
+</code>javascript
+;(function($) {</p>
+
+<pre><code>// スコープが関数内で閉じる。
+var foo = 'bar';
+$('#hoge').text('hogehoge')
+</code></pre>
+
+<p>}.call(this, jQuery));
+<code>
+ちなみに無名関数の書き方は他にもあります。気にしなきゃいけないほどの違いはないので好みで選んでよいでしょう。  
+</code>javascript
+// カッコの位置がちょっと違う。
+;(function() {
+}).call(this);</p>
+
+<p>// jslintだとsyntaxエラーになるかも。一応一文字少ないので一番軽い。
+;!function() {
+}.call(this);
+```
+※1 先頭のセミコロンはconcatした場合に、エラーになる可能性を排除するためです。<br/>
+※2 callを使っているのは、通常の関数呼び出しだとstrictモードの場合に無名関数内部のthisがwindowオブジェクトにならないためです。</p>
+
+<h3>ArrayっぽいけどArrayじゃないObjectをArrayにする方法</h3>
+
+<p>document.getElementsByClassNameとかdocument.querySelectorAllとかで複数のDOMを取得したときの戻り値とか、argumentsプロパティは見た感じArrayっぽいのにArrayにはなってません。<br/>
+その結果何がどうなるかというと、pushとかjoinとかArrayが持っているメソッドが使えず、非常に使いづらい状態です。<br/>
+それを解消するための方法が下記のテクニックです。<br/>
+```javascript
+// リストのDOMを取得
+var list = document.querySelectorAll(&lsquo;.hoge-list li&rsquo;);</p>
+
+<p>// ArrayっぽいObjectからArrayに変換
+list = Array.prototype.slice.call(list);
+```
+ちょっと解説すると、まずArray型が持っているメソッドで、配列の一部を切り出すsliceメソッドがあります。<br/>
+これは非破壊的メソッドで、このメソッドを実行したArrayはそのままで、実行結果を新しいArrayとして返却してくれます。<br/>
+その結果引数を指定しなければ、Arrayをdeepコピーすることができます。<br/>
+さらにその特性を活かして、sliceをArrayのprototypeから直接呼び出し、callを使ってthisをArrayっぽいObjectで上書くことで完全なArray型にキャストすることができます。</p>
+
+<h3>関数のthisを指定したObjectでbind</h3>
+
+<p>当たり前に使われてますが、知らない人も結構多いかと思うので一応。applyとcallです。<br/>
+javascriptのfunction型はprototypeにcallとapplyってメソッドを持っていて、呼び出したfunctionのthisを第一引数でbindすることができます。<br/>
+```javascript
+function hoge(foo) {</p>
+
+<pre><code>console.log(this.hoge, foo);
+// -&gt; hogehoge bar
+</code></pre>
+
+<p>}
+// hoge関数のthisに文字列’hogehoge’を指定して実行。
+hoge.call({hoge: &lsquo;hogehoge&rsquo;}, &lsquo;bar&rsquo;);
+```
+jQueryでthisを参照するとDOMオブジェクトになってるのはこういう方法を使ってます。そのせいでthisってなんぞ？みたいなことになるわけですが。<br/>
+callとapplyの違いは関数の引数の指定方法です。<br/>
+callは第2引数が第1引数に、第3引数が第2引数に、といった具合に順番がひとつずつずれる方法になります。<br/>
+applyは第2引数をArray指定する形になっていて、それが順番に引数になります。<br/>
+apply使うと$.whenみたいなArrayの引数ではなく可変長な引数の関数が格段に使いやすくなるのでお勧めです。</p>
+
+<h3>可変長引数の扱い方</h3>
+
+<p>関数で可変長な引数に対応したい場合がたまにあります。その方が綺麗に見える場合だったり、プラグインを独自拡張したい場合だったり。<br/>
+そんなときに使えるのargumentsプロパティです。
+```javascript
+function hoge(name1, name2) {</p>
+
+<pre><code>console.log(name, name2);
+// -&gt; foo bar
+
+// arumentsプロパティには引数が入っている
+console.log(arguments[0], arguments[1]);
+// -&gt; foo bar
+</code></pre>
+
+<p>}
+hoge(&lsquo;foo&rsquo;, &lsquo;bar&rsquo;);
+<code>
+ただ、実際に可変長引数を使いたいと思った場合は、for文とかでまわして処理を行いたいことが多いです。  
+しかし、argumentsプロパティは配列っぽい要素であって配列ではありません。というわけで、上で書いた手法がよく使われることになります。  
+</code>javascript
+function hoge() {</p>
+
+<pre><code>var args = Array.prototype.slice.call(arguments);
+
+args.forEach(function(value)) {
+    // 引数それぞれに対しての処理
+}
+</code></pre>
+
+<p>}
+<code>
+ちなみにargumentsプロパティは実装がヤバイらしく、あまり使用が推奨されていません。  
+ES6からは正式に可変長引数がサポートされるので将来的にはそっちを使うほうがよいです。  
+あとこれ必要ない場合に使うと可読性が著しく落ちるのでご利用は計画的に。  
+最後に、プラグイン内部で関数どおしが何やってるかわからないけど、一部の値をちょっと書き換えたり、取得したいって場合がまれによくあります。  
+そんなときは下記のようなテクニックが使えます。  
+</code>javascript
+// 元の処理を退避
+var _ajax = Backbone.ajax;</p>
+
+<p>Backbone.ajax = function() {</p>
+
+<pre><code>// なんか独自処理
+
+// 元々のBackbone.ajaxを本来呼ばれたときと同じ形で呼び出す。
+_ajax.apply(this, arguments);
+</code></pre>
+
+<p>};
+```
+このときはBackboneのajaxをカスタマイズして、エラーハンドリングを全処理で共通的に行うようなことをしたんですが、長くなるので今回は見送ります。</p>
+
+<h3>argumentsの隠された力</h3>
+
+<p>argumentsプロパティは上で書いたようによく引数取得で使われるわけですが、実は隠された力を持っています。<br/>
+ただその力はあまりにチートで危険すぎるため、strictモードでは禁止されていますのであらかじめご了承ください。<br/>
+まず一つ目はarguments.calleeです。これはその関数自身のことです。無名関数だけど再帰処理がしたい場合とかに使えます。<br/>
+```javascript
+var deepCopy = function(obj) {</p>
+
+<pre><code>var name,
+    ret;
+
+if(typeof obj === 'object') {
+    ret = {};
+    for(name in obj) {
+        if(typeof obj[name] === 'object') {
+            ret[name] = arguments.callee(obj[name]);
+        } else {
+            ret[name] = obj[name];
+        }
+    }
+} else {
+    ret = obj;
+}
+
+return ret;
+</code></pre>
+
+<p>}
+<code>
+上記はObjectをdeepコピーする関数ですが、無名関数で作っているため再帰処理をする場合に自分自身を関数名で呼び出すことができません。  
+そのため、arguments.calleeで自分自身を呼んでいます。  
+もちろん名前付き関数として定義すれば問題なく動作しますが、関数名変えたりする場合に一箇所修正すればいいので個人的には好きな書き方です。  
+次に紹介するのはarguments.callee.caller.argumentsです。  
+これはなんとひとつ前の関数の引数を取得することができます。ちなみにarguments.callee.callerは一つ前の関数が取得できます。  
+</code>javascript
+function hoge(name) {</p>
+
+<pre><code>hogehoge();
+</code></pre>
+
+<p>}
+function hogehoge() {</p>
+
+<pre><code>// 呼び出し元の一つ目の引数を表示
+console.log(arguments.callee.caller.arguments[0]);
+// -&gt; foo
+</code></pre>
+
+<p>}
+hoge(&lsquo;foo&rsquo;);
+```
+ただしこれをやってしまうと、可読性が著しく悪化するばかりか、関数の呼び出し順に過度に依存することになるので、非常事態以外には触るな危険です。<br/>
+私はBackbone.ajaxでBackbone.syncの引数の取得に使用しました。ごめんなさい。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ちょっと未来のJavaScript]]></title>
