@@ -328,8 +328,11 @@ ES6からは正式に可変長引数がサポートされるので将来的に�
 <h2>argumentsの隠された力</h2>
 
 <p>argumentsプロパティは上で書いたようによく引数取得で使われるわけですが、実は隠された力を持っています。<br/>
-ただその力はあまりにチートで危険すぎるため、strictモードでは禁止されていますのであらかじめご了承ください。<br/>
-まず一つ目はarguments.calleeです。これはその関数自身のことです。無名関数だけど再帰処理がしたい場合とかに使えます。</p>
+ただその力はあまりにチートで危険すぎるため、strictモードでは禁止されていますのであらかじめご了承ください。</p>
+
+<h3>arguments.callee</h3>
+
+<p>まず一つ目はarguments.calleeです。これはその関数自身のことです。無名関数だけど再帰処理がしたい場合とかに使えます。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -368,14 +371,110 @@ ES6からは正式に可変長引数がサポートされるので将来的に�
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>上記はObjectをdeepコピーする関数ですが、無名関数で作っているため再帰処理をする場合に自分自身を関数名で呼び出すことができません。<br/>
 そのため、arguments.calleeで自分自身を呼んでいます。<br/>
 もちろん名前付き関数として定義すれば問題なく動作しますが、関数名変えたりする場合に一箇所修正すればいいので個人的には好きな書き方です。<br/>
-次に紹介するのはarguments.callee.caller.argumentsです。<br/>
+あと<a href="https://twitter.com/azu_re">@azu_re</a>さんからご指摘もらった件について追記します。<br/>
+IE8を無視すれば名前付き関数式がサポートされてるので下記のような書き方が可能です。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">deepCopy</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">dc</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">name</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">ret</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">ret</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">dc</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">ret</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">ret</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// IE8に対応した書き方は下記のような感じ</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">deepCopy</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">dc</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">function</span> <span class="nx">dc</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">name</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">ret</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="nx">ret</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">dc</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">]);</span>
+</span><span class='line'>                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="nx">ret</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">ret</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>arguments.callee.caller.arguments</h3>
+
+<p>次に紹介するのはarguments.callee.caller.argumentsです。<br/>
 これはなんと呼び出し元の関数の引数を取得することができます。ちなみにarguments.callee.callerは呼び出しの関数が取得できます。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
