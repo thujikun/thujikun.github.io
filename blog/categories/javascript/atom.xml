@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T19:04:01+09:00</updated>
+  <updated>2013-12-15T19:13:33+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -700,11 +700,12 @@ console.log(Date.now());
 </ul>
 
 
-<h2>IE8とどうしたもまだ付き合わなきゃいけない方へ</h2>
+<h2>IE8とどうしてもまだ付き合わなきゃいけない方へ</h2>
 
 <p>es5のshimを使ってくださってる方がいるので、これを入れると上記のメソッド達はだいたい使えます。<br/>
-<a href="https://github.com/kriskowal/es5-shim  ">https://github.com/kriskowal/es5-shim  </a>
-DOM系のやつもそれぞれshimを作ってる方がいたり、あとは自分でpolyfill作ってしまってもよいかもですね。</p>
+<a href="https://github.com/kriskowal/es5-shim">https://github.com/kriskowal/es5-shim</a></p>
+
+<p>DOM系のやつもそれぞれshimを作ってる方がいたり、あとは自分でpolyfill作ってしまってもよいかもですね。</p>
 
 <h2>まとめ的な</h2>
 
