@@ -376,7 +376,7 @@ ES6からは正式に可変長引数がサポートされるので将来的に�
 そのため、arguments.calleeで自分自身を呼んでいます。<br/>
 もちろん名前付き関数として定義すれば問題なく動作しますが、関数名変えたりする場合に一箇所修正すればいいので個人的には好きな書き方です。<br/>
 次に紹介するのはarguments.callee.caller.argumentsです。<br/>
-これはなんとひとつ前の関数の引数を取得することができます。ちなみにarguments.callee.callerは一つ前の関数が取得できます。</p>
+これはなんと呼び出し元の関数の引数を取得することができます。ちなみにarguments.callee.callerは呼び出しの関数が取得できます。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -400,6 +400,7 @@ ES6からは正式に可変長引数がサポートされるので将来的に�
 
 
 <p>ただしこれをやってしまうと、可読性が著しく悪化するばかりか、関数の呼び出し順に過度に依存することになるので、非常事態以外には触るな危険です。<br/>
+また、もちろんこれどんどん遡って行くことが可能で、一番最初の呼び出し元関数まで全部取得可能です。<br/>
 私はBackbone.ajaxでBackbone.syncの引数の取得に使用しました。ごめんなさい。</p>
 
     </div>

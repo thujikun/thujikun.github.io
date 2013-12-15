@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T12:17:32+09:00</updated>
+  <updated>2013-12-15T12:23:04+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -196,7 +196,7 @@ return ret;
 そのため、arguments.calleeで自分自身を呼んでいます。  
 もちろん名前付き関数として定義すれば問題なく動作しますが、関数名変えたりする場合に一箇所修正すればいいので個人的には好きな書き方です。  
 次に紹介するのはarguments.callee.caller.argumentsです。  
-これはなんとひとつ前の関数の引数を取得することができます。ちなみにarguments.callee.callerは一つ前の関数が取得できます。  
+これはなんと呼び出し元の関数の引数を取得することができます。ちなみにarguments.callee.callerは呼び出しの関数が取得できます。  
 </code>javascript
 function hoge(name) {</p>
 
@@ -215,6 +215,7 @@ console.log(arguments.callee.caller.arguments[0]);
 hoge(&lsquo;foo&rsquo;);
 ```
 ただしこれをやってしまうと、可読性が著しく悪化するばかりか、関数の呼び出し順に過度に依存することになるので、非常事態以外には触るな危険です。<br/>
+また、もちろんこれどんどん遡って行くことが可能で、一番最初の呼び出し元関数まで全部取得可能です。<br/>
 私はBackbone.ajaxでBackbone.syncの引数の取得に使用しました。ごめんなさい。</p>
 ]]></content>
   </entry>
