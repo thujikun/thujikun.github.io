@@ -718,7 +718,8 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 <h3>querySelector / querySelectorAll</h3>
 
 <p>CSSのselectorでDOM探索ができるメソッド。完全にjQuery感覚で使えます。まあgetElementByIdとかgetElementsByClassNameとか別のが使える場合はそっち使った方が速いです。<br/>
-※ <a href="https://developer.mozilla.org/ja/docs/Web/API/document.querySelectorAll">querySelectorAll</a></p>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/API/document.querySelectorAll">querySelectorAll</a>
+※ 追記 querySelectorはIE8からサポートされてましたm(__)m。<a href="https://twitter.com/teppeis">@teppeis</a>さんご指摘ありがとうございますー！</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;ul li&#39;</span><span class="p">);</span>
