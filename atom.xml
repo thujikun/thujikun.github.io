@@ -4,7 +4,7 @@
   <title><![CDATA[Thujikun blog]]></title>
   <link href="http://thujikun.github.io/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T20:20:03+09:00</updated>
+  <updated>2013-12-15T20:26:07+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -559,7 +559,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 <h3>querySelector / querySelectorAll</h3>
 
 <p>CSSのselectorでDOM探索ができるメソッド。完全にjQuery感覚で使えます。まあgetElementByIdとかgetElementsByClassNameとか別のが使える場合はそっち使った方が速いです。<br/>
-※ <a href="https://developer.mozilla.org/ja/docs/Web/API/document.querySelectorAll">querySelectorAll</a>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/API/document.querySelectorAll">querySelectorAll</a><br/>
 ※ 追記 querySelectorはIE8からサポートされてましたm(__)m。<a href="https://twitter.com/teppeis">@teppeis</a>さんご指摘ありがとうございますー！</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
