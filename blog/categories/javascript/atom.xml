@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T17:07:15+09:00</updated>
+  <updated>2013-12-15T17:59:47+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -364,7 +364,7 @@ textxElement.addEventListener('compositionend', function(e) {
 <h3>Mutation Events</h3>
 
 <p>DOMの追加/変更/削除などDOMの状態監視ができるイベント。類似メソッドは今までなかったのでかなり画期的なんじゃないかと思う。Angularの処理を強引にjQueryで補足したいときとかに使えるかもね。<br/>
-※ 多用すると処理が追えなくなり可能性あり。<br/>
+※ 多用すると処理が追えなくなる可能性あり。<br/>
 ※ IE9ではDOMNodeInsertedが動かないらしい。<br/>
 ※ パフォーマンスの関係でMutation Eventsは非推奨になり、最新仕様はMutation Observerになっている。そのためMutation EventsはPolyfillとして用いるべし。<br/>
 ※ <a href="https://developer.mozilla.org/ja/docs/Web/Guide/API/DOM/Events/Mutation_events">Mutation Events</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/MutationObserver">Mutation Observer</a>
@@ -382,7 +382,7 @@ document.getElementById('hoge').style.backgroundColor = '#000';
 
 <p>```</p>
 
-<pre><code>あれ、数日前に試したときは動作したのになぜか今動かない。。。とりあえず先に進もう。  
+<pre><code>あれ、数日前に試したときは動作したのになぜか今動かない。。。キニシナイキニシナイ。  
 </code></pre>
 
 <h3>DOMContentLoaded Event</h3>
@@ -407,7 +407,7 @@ document.getElementById('hoge').style.backgroundColor = '#000';
 var list = document.querySelectorAll('ul li');
 </code></p>
 
-<p>classListはIE10から、datasetとはIE11からの実装のようです。。。</p>
+<p>classListはIE10から、datasetはIE11からの実装のようです。。。</p>
 
 <h2>ECMA Script 5</h2>
 
@@ -433,7 +433,7 @@ var list = document.querySelectorAll('ul li');
 
 <p>  });
 ```</p></li>
-<li><p>filter
+<li><p>filter<br/>
   配列の中から指定した条件を満たすものだけを取り出して新たな配列を作成することができる。非破壊的メソッド。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">filter</a><br/>
 ```javascript
@@ -444,7 +444,7 @@ var list = document.querySelectorAll('ul li');
       return value % 2 === 0;
   });
 ```</p></li>
-<li><p>indexOf
+<li><p>indexOf<br/>
   配列を指定された値で検索するメソッド。返却値は見つかった最初のインデックスで、ない場合は-1が返る。<br/>
   検索を始めるインデックスを第二引数で指定することも可能。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">indexOf</a>
@@ -456,7 +456,7 @@ var list = document.querySelectorAll('ul li');
   console.log(arr.indexOf(&lsquo;mno&rsquo;));
   // &ndash;> -1
 ```</p></li>
-<li><p>some
+<li><p>some<br/>
   配列の各要素に対してテストを実行し、一つでもテストに合格する要素があればtrueを返し、一つもなければfalseを返す。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a>
 ```javascript
@@ -474,7 +474,7 @@ var list = document.querySelectorAll('ul li');
   }));
   // &ndash;> false
 ```</p></li>
-<li><p>every
+<li><p>every<br/>
   配列の各要素に対してテストを実行し、全要素がテストに合格であればtrueを返し、一つでも欠ければfalseを返す。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a>
 ```javascript
@@ -492,7 +492,7 @@ var list = document.querySelectorAll('ul li');
   }));
   // &ndash;> false
 ```</p></li>
-<li><p>map
+<li><p>map<br/>
   配列の各要素に対して処理を行い、その結果からなる新しい配列を生成する。非破壊的メソッド<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map">map</a>
 ```javascript
@@ -504,7 +504,7 @@ var list = document.querySelectorAll('ul li');
   }));
   // &ndash;> [20, 450, 210, 670, 320, 20, 430]
 ```</p></li>
-<li><p>reduce
+<li><p>reduce<br/>
   配列の隣り合う値を左から順に呼び出し、その結果から単一の値をつくる。<br/>
   ※ 右から実行する<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight">reduceRight</a>もある。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce">reduce</a>

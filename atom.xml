@@ -4,7 +4,7 @@
   <title><![CDATA[Thujikun blog]]></title>
   <link href="http://thujikun.github.io/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T17:07:15+09:00</updated>
+  <updated>2013-12-15T17:59:47+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -514,7 +514,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 <h3>Mutation Events</h3>
 
 <p>DOMの追加/変更/削除などDOMの状態監視ができるイベント。類似メソッドは今までなかったのでかなり画期的なんじゃないかと思う。Angularの処理を強引にjQueryで補足したいときとかに使えるかもね。<br/>
-※ 多用すると処理が追えなくなり可能性あり。<br/>
+※ 多用すると処理が追えなくなる可能性あり。<br/>
 ※ IE9ではDOMNodeInsertedが動かないらしい。<br/>
 ※ パフォーマンスの関係でMutation Eventsは非推奨になり、最新仕様はMutation Observerになっている。そのためMutation EventsはPolyfillとして用いるべし。<br/>
 ※ <a href="https://developer.mozilla.org/ja/docs/Web/Guide/API/DOM/Events/Mutation_events">Mutation Events</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/MutationObserver">Mutation Observer</a></p>
@@ -538,7 +538,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 </span></code></pre></td></tr></table></div></figure>
 
 
-<pre><code>あれ、数日前に試したときは動作したのになぜか今動かない。。。とりあえず先に進もう。  
+<pre><code>あれ、数日前に試したときは動作したのになぜか今動かない。。。キニシナイキニシナイ。  
 </code></pre>
 
 <h3>DOMContentLoaded Event</h3>
@@ -566,7 +566,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>classListはIE10から、datasetとはIE11からの実装のようです。。。</p>
+<p>classListはIE10から、datasetはIE11からの実装のようです。。。</p>
 
 <h2>ECMA Script 5</h2>
 
@@ -604,7 +604,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 
 
 <ul>
-<li>filter
+<li>filter<br/>
   配列の中から指定した条件を満たすものだけを取り出して新たな配列を作成することができる。非破壊的メソッド。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">filter</a></li>
 </ul>
@@ -626,7 +626,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 
 
 <ul>
-<li>indexOf
+<li>indexOf<br/>
   配列を指定された値で検索するメソッド。返却値は見つかった最初のインデックスで、ない場合は-1が返る。<br/>
   検索を始めるインデックスを第二引数で指定することも可能。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">indexOf</a></li>
@@ -649,7 +649,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 
 
 <ul>
-<li>some
+<li>some<br/>
   配列の各要素に対してテストを実行し、一つでもテストに合格する要素があればtrueを返し、一つもなければfalseを返す。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a></li>
 </ul>
@@ -685,7 +685,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 
 
 <ul>
-<li>every
+<li>every<br/>
   配列の各要素に対してテストを実行し、全要素がテストに合格であればtrueを返し、一つでも欠ければfalseを返す。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a></li>
 </ul>
@@ -721,7 +721,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 
 
 <ul>
-<li>map
+<li>map<br/>
   配列の各要素に対して処理を行い、その結果からなる新しい配列を生成する。非破壊的メソッド<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map">map</a></li>
 </ul>
@@ -745,7 +745,7 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 
 
 <ul>
-<li>reduce
+<li>reduce<br/>
   配列の隣り合う値を左から順に呼び出し、その結果から単一の値をつくる。<br/>
   ※ 右から実行する<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight">reduceRight</a>もある。<br/>
   ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce">reduce</a></li>
