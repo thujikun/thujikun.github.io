@@ -4,7 +4,7 @@
   <title><![CDATA[Thujikun blog]]></title>
   <link href="http://thujikun.github.io/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T18:03:27+09:00</updated>
+  <updated>2013-12-15T19:04:01+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -118,7 +118,7 @@
 
 <p>ちょっと解説すると、まずArray型が持っているメソッドで、配列の一部を切り出すsliceメソッドがあります。<br/>
 これは非破壊的メソッドで、このメソッドを実行したArrayはそのままで、実行結果を新しいArrayとして返却してくれます。<br/>
-その結果引数を指定しなければ、Arrayを値渡しでコピーすることができます。（たぶん1階層のみでdeepではない。）<br/>
+その結果引数を指定しなければ、Arrayをシャローコピー(1階層のみコピー)することができます。<br/>
 さらにその特性を活かして、sliceをArrayのprototypeから直接呼び出し、callを使ってthisをArrayっぽいObjectで上書くことで完全なArray型にキャストすることができます。</p>
 
 <h2>関数のthisを指定したObjectでbind</h2>
