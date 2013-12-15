@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T20:26:07+09:00</updated>
+  <updated>2013-12-16T00:18:04+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -371,18 +371,18 @@ textxElement.addEventListener('compositionend', function(e) {
 ```</p>
 
 <pre><code>// エレメントの属性の変更を監視
-document.getElementById('hoge').addEventListener('DOMAttrModified', function(e) {
+document.addEventListener('DOMNodeInserted', function(e) {
     // 属性変更時処理
-    console.log('変更された！');
+    console.log('追加された！');
 });
 
-document.getElementById('hoge').style.backgroundColor = '#000';
-// -&gt; 変更された！
+document.body.appendChild(document.createElement('div'));
+// -&gt; 追加された！
 </code></pre>
 
 <p>```</p>
 
-<pre><code>あれ、数日前に試したときは動作したのになぜか今動かない。。。キニシナイキニシナイ。  
+<pre><code>DOMAttrModifiedはどのブラウザでも動作しない模様。  
 </code></pre>
 
 <h3>DOMContentLoaded Event</h3>

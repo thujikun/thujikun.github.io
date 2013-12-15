@@ -4,7 +4,7 @@
   <title><![CDATA[Thujikun blog]]></title>
   <link href="http://thujikun.github.io/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2013-12-15T20:26:07+09:00</updated>
+  <updated>2013-12-16T00:18:04+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -528,17 +528,17 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// エレメントの属性の変更を監視</span>
-</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMAttrModified&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMNodeInserted&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="c1">// 属性変更時処理</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;変更された！&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;追加された！&#39;</span><span class="p">);</span>
 </span><span class='line'><span class="p">});</span>
 </span><span class='line'>
-</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="s1">&#39;#000&#39;</span><span class="p">;</span>
-</span><span class='line'><span class="c1">// -&gt; 変更された！</span>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// -&gt; 追加された！</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<pre><code>あれ、数日前に試したときは動作したのになぜか今動かない。。。キニシナイキニシナイ。  
+<pre><code>DOMAttrModifiedはどのブラウザでも動作しない模様。  
 </code></pre>
 
 <h3>DOMContentLoaded Event</h3>
