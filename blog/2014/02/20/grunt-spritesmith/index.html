@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hello World - Thujikun blog</title>
+  <title>CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ - Thujikun blog</title>
   <meta name="author" content="Ryosuke Tsuji">
 
    
@@ -18,15 +18,15 @@
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="Hello World">
+  <meta property="og:title" content="CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ">
   <meta property="og:type" content="article">
   <meta property="og:description" content="気になった技術系のトピックを書いていく予定です。">
-  <meta property="og:url" content="http://thujikun.github.io/blog/2013/12/14/hello-world">
+  <meta property="og:url" content="http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith">
   <meta property="og:site_name" content="Thujikun blog">
   <meta property="og:locale" content="ja_JP" />
   <meta property="fb:app_id" content="1400028983574269" />
 
-  <link rel="canonical" href="http://thujikun.github.io/blog/2013/12/14/hello-world">
+  <link rel="canonical" href="http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -103,7 +103,7 @@
 
   <header>
   <div class="jumbotron">
-    Hello World
+    CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ
 	<h5>
 
 
@@ -116,18 +116,79 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-12-14T00:22:16+09:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-02-20T21:42:54+09:00" pubdate data-updated="true">Feb 20<span>th</span>, 2014</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <h2>Blog始めました</h2>
+      <p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。<br/>
+Compassの方については山ほど記事があるので、あまり知らないよって方はてきとーにググってください。</p>
 
-<p>本日初のAdvent Calendarを投稿するにあたってGithub + Octopress + Gitbucketを利用してBlogを作成しました。<br/>
-みんな大好きmarkdownで記述できるのはものすごく楽ですね。もちろんHTMLも使えますが。<br/>
-構築には下記のサイトを参考にさせていただきましたので、興味のある方はやってみてください。</p>
+<h2>Compassの問題点</h2>
 
-<p><a href="http://morizyun.github.io/blog/octopress-gitpage-minimum-install-guide/">http://morizyun.github.io/blog/octopress-gitpage-minimum-install-guide/</a></p>
+<h3>Sassでしか使えない(´・ω・｀)</h3>
+
+<pre><code>一つ目は当然ですが、CompassはSassのフレームワークなのでLessとかStylus派の人は使えないってことです。  
+私は最近はStylus派なので、なにか良いSpriteツールないかなーと探し始めたのが最初でした。  
+</code></pre>
+
+<h3>SassのCompileのたびにSprite化処理が実行される( ﾟдﾟ)</h3>
+
+<pre><code>これは画像が多いサイトではかなり深刻な問題となります。画像とは関係ないStyleの変更時でも毎回Sprite化が実行されるため、確認までかなりの時間をロスします。  
+</code></pre>
+
+<h3>正方形に画像を並べるとPaddingの指定が効かない(´；ω；｀)</h3>
+
+<pre><code>Sprite画像のサイズをできるだけ小さくしようとすると、当然正方形に近い方が望ましいといえます。が！CompassのSprite Generatorの場合正方形にするとpaddingの指定が効かず、画像どおしがくっついちゃいます。  
+そうするとちょっとpaddingをもたせて配置したいときとか、拡大縮小されたときに隣の画像がチラホラ見えておかしなことになります。  
+</code></pre>
+
+<h3>Retina対応わかりづらい(・・?)</h3>
+
+<pre><code>なんかいろんな指定方法があって正直わかりづらいと個人的には感じてます。画像サイズも手で指定しなきゃいけないし。  
+</code></pre>
+
+<h3>Compassの開発が停滞中(ToT)</h3>
+
+<pre><code>最近はめっきり開発が止まっちゃってますね。CSS3のmixinも不十分だし、ちょっとこれからも使っていくには不安です。ちなみにCSS3のmixinについては[bourbon](http://bourbon.io/)入れれば一応解決できます。  
+</code></pre>
+
+<p>だいたいぱっと思い浮かぶのはこのへんでしょうか。とくに1と2は深刻な問題ですね。</p>
+
+<h2>grunt-spritesmithができること</h2>
+
+<h3>CSS, Sass, Less, Stylus, JSON形式に対応(｀・ω・´)</h3>
+
+<pre><code>生のCSSや各CSSプリプロセッサ、さらにはJSON形式でも出力してくれます。  
+生のCSSの場合昔ながらのGeneratorを使ったときと同じように、画像名でclassがつくられます。もちろんprefixもつけられます。  
+各CSSプリプロセッサの形式を指定した場合、画像名ごとのmixinと画像の各パラメータ(width, height, offset, 画像名, positionなど)を全て変数として出力してくれます。なのでRetina対応とかもそのへんのパラメータ使えば簡単にできます。  
+JSON形式の場合もCSSプリプロセッサの形式と同じように各パラメータをJSON形式で出力してくれます。個人的にはまだ利用はしていないですが、gruntを経由してjade, js, stylusで同じJSONファイルを元に開発を行ったりできそうだなーとは思ってます。  
+</code></pre>
+
+<h3>画像が増えたときのみタスクを実行すれば良い٩(๑❛ᴗ❛๑)۶</h3>
+
+<pre><code>当然CSSプリプロセッサとは別のタスクとしてGruntの設定を行うため、Sprite画像生成とCSSプリプロセッサのCompileをわけることができます。高速Compile最高ですね。  
+</code></pre>
+
+<h3>画像を正方形に並べてpaddingもとれる(๑╹ڡ╹๑)</h3>
+
+<pre><code>こちらは問題なく画像を正方形に並べつつ、かつpaddingも設定することができます。なのでSprite画像のサイズを最小限に抑えることができます。  
+</code></pre>
+
+<h3>絶賛メンテ中♪～(´ε｀ )</h3>
+
+<pre><code>12日前にも依存モジュールのバージョンアップがされてたりするのでまだまだHotです！  
+</code></pre>
+
+<h2>使い方</h2>
+
+<p>サンプルを<a href="https://github.com/thujikun/spritesmith-sample">こちら</a>に作成しましたので、よかったら試してみてください。<br/>
+cloneしてnpm installしてgruntって実行すると、distフォルダに各出力結果ごとの結果が見れます。<br/>
+他にもいくつかパラメータつけてるので、Gruntfile.jsと合わせて見てもらえればと思います。</p>
+
+<h2>結論</h2>
+
+<p>みんなこれで心置きなくStylusに移行できる☆彡</p>
 
     </div>
   </div>
@@ -143,12 +204,6 @@
         <p class="meta">
         
         
-
-
-
-  <a href="/blog/categories/blog/"><span class="badge">blog</span></a>
-
-
 
 
         </p>
@@ -181,8 +236,8 @@
       <div class="span12">
         <p class="meta">
           
+            <a class="basic-alignment left" href="/blog/2013/12/15/js-tech/" title="Previous Post: 便利なjavascriptテクニック集">&laquo; 便利なjavascriptテクニック集</a>
           
-            <a class="basic-alignment right" href="/blog/2013/12/14/ie/" title="Next Post: ちょっと未来のJavaScript">ちょっと未来のJavaScript &raquo;</a>
           
         </p>
       </div>
