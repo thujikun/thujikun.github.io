@@ -13,19 +13,12 @@
   
   <meta name="keywords" content="">
 
-  
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ">
-  <meta property="og:type" content="article">
-  <meta property="og:description" content="気になった技術系のトピックを書いていく予定です。">
-  <meta property="og:url" content="http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith">
-  <meta property="og:site_name" content="Thujikun blog">
-  <meta property="og:locale" content="ja_JP" />
-  <meta property="fb:app_id" content="1400028983574269" />
 
+  
   <link rel="canonical" href="http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
@@ -74,6 +67,7 @@
     <li><a href="http://github.com/thujikun" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
     
     
+    
     <li><a href="http://linkedin.com/in/ryosuketsuji" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
     
     
@@ -86,7 +80,9 @@
     <li><a href="http://facebook.com/ryosuke.ryan.tsuji" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
     
     
-    <li><a href="mailto:tsuji.0107@gmail.com" title="Email"><i class="icon-envelope-alt social-navbar"></i></a></li>
+
+    
+    <li><a href="mailto:tsuji.0107@gmail.com" title="Email"><i class="icon-envelope social-navbar"></i></a></li>
     
 </ul>
 
@@ -121,30 +117,30 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。<br/>
+      <p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。
 Compassの方については山ほど記事があるので、あまり知らないよって方はてきとーにググってください。</p>
 
 <h2>Compassの問題点</h2>
 
-<h3>Sassでしか使えない(´・ω・｀)</h3>
+<h3>Sassでしか使えない</h3>
 
-<p>一つ目は当然ですが、CompassはSassのフレームワークなのでLessとかStylus派の人は使えないってことです。<br/>
+<p>一つ目は当然ですが、CompassはSassのフレームワークなのでLessとかStylus派の人は使えないってことです。
 私は最近はStylus派なので、なにか良いSpriteツールないかなーと探し始めたのが最初でした。</p>
 
-<h3>SassのCompileのたびにSprite化処理が実行される( ﾟдﾟ)</h3>
+<h3>SassのCompileのたびにSprite化処理が実行される</h3>
 
 <p>これは画像が多いサイトではかなり深刻な問題となります。画像とは関係ないStyleの変更時でも毎回Sprite化が実行されるため、確認までかなりの時間をロスします。</p>
 
-<h3>正方形に画像を並べるとPaddingの指定が効かない(´；ω；｀)</h3>
+<h3>正方形に画像を並べるとPaddingの指定が効かない</h3>
 
-<p>Sprite画像のサイズをできるだけ小さくしようとすると、当然正方形に近い方が望ましいといえます。が！CompassのSprite Generatorの場合正方形にするとpaddingの指定が効かず、画像どおしがくっついちゃいます。<br/>
+<p>Sprite画像のサイズをできるだけ小さくしようとすると、当然正方形に近い方が望ましいといえます。が！CompassのSprite Generatorの場合正方形にするとpaddingの指定が効かず、画像どおしがくっついちゃいます。
 そうするとちょっとpaddingをもたせて配置したいときとか、拡大縮小されたときに隣の画像がチラホラ見えておかしなことになります。</p>
 
-<h3>Retina対応わかりづらい(・・?)</h3>
+<h3>Retina対応わかりづらい</h3>
 
 <p>なんかいろんな指定方法があって正直わかりづらいと個人的には感じてます。画像サイズも手で指定しなきゃいけないし。</p>
 
-<h3>Compassの開発が停滞中(ToT)</h3>
+<h3>Compassの開発が停滞中</h3>
 
 <p>最近はめっきり開発が止まっちゃってますね。CSS3のmixinも不十分だし、ちょっとこれからも使っていくには不安です。ちなみにCSS3のmixinについては<a href="http://bourbon.io/">bourbon</a>入れれば一応解決できます。</p>
 
@@ -152,7 +148,7 @@ Compassの方については山ほど記事があるので、あまり知らな�
 
 <h2>grunt-spritesmithができること</h2>
 
-<h3>CSS, Sass, Less, Stylus, JSON形式に対応(｀・ω・´)</h3>
+<h3>CSS, Sass, Less, Stylus, JSON形式に対応</h3>
 
 <p>生のCSSや各CSSプリプロセッサ、さらにはJSON形式でも出力してくれます。</p>
 
@@ -163,22 +159,18 @@ Compassの方については山ほど記事があるので、あまり知らな�
 </ul>
 
 
-<h3>画像が増えたときのみタスクを実行すれば良い٩(๑❛ᴗ❛๑)۶</h3>
+<h3>画像が増えたときのみタスクを実行すれば良い</h3>
 
 <p>当然CSSプリプロセッサとは別のタスクとしてGruntの設定を行うため、Sprite画像生成とCSSプリプロセッサのCompileをわけることができます。高速Compile最高ですね。</p>
 
-<h3>画像を正方形に並べてpaddingもとれる(๑╹ڡ╹๑)</h3>
+<h3>画像を正方形に並べてpaddingもとれる</h3>
 
 <p>こちらは問題なく画像を正方形に並べつつ、かつpaddingも設定することができます。なのでSprite画像のサイズを最小限に抑えることができます。</p>
 
-<h3>絶賛メンテ中♪～(´ε｀ )</h3>
-
-<p>12日前にも依存モジュールのバージョンアップがされてたりするのでまだまだHotです！</p>
-
 <h2>使い方</h2>
 
-<p>サンプルを<a href="https://github.com/thujikun/spritesmith-sample">こちら</a>に作成しましたので、よかったら試してみてください。<br/>
-cloneしてnpm installしてgruntって実行すると、distフォルダに各出力結果ごとの結果が見れます。<br/>
+<p>サンプルを<a href="https://github.com/thujikun/spritesmith-sample">こちら</a>に作成しましたので、よかったら試してみてください。
+cloneしてnpm installしてgruntって実行すると、distフォルダに各出力結果ごとの結果が見れます。
 他にもいくつかパラメータつけてるので、Gruntfile.jsと合わせて見てもらえればと思います。</p>
 
 <h2>結論</h2>
@@ -225,7 +217,6 @@ cloneしてnpm installしてgruntって実行すると、distフォルダに各�
   <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
   
   <a class="addthis_counter addthis_pill_style"></a>
-  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
   </div>
   <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
@@ -242,7 +233,7 @@ cloneしてnpm installしてgruntって実行すると、distフォルダに各�
             <a class="basic-alignment left" href="/blog/2013/12/15/js-tech/" title="Previous Post: 便利なjavascriptテクニック集">&laquo; 便利なjavascriptテクニック集</a>
           
           
-            <a class="basic-alignment right" href="/blog/2014/04/21/jsdoc3-grunt-template/" title="Next Post: Gruntのタスク一覧を表示するためのJSDocテンプレートつくってみた">Gruntのタスク一覧を表示するためのJSDocテンプレートつくってみた &raquo;</a>
+            <a class="basic-alignment right" href="/blog/2014/12/07/webpack/" title="Next Post: webpackを使い倒す">webpackを使い倒す &raquo;</a>
           
         </p>
       </div>
@@ -276,7 +267,7 @@ cloneしてnpm installしてgruntって実行すると、distフォルダに各�
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {return;}
   js = d.createElement(s); js.id = id; js.async = true;
-  js.src = "//connect.facebook.net/ja_JP/all.js#appId=1400028983574269&xfbml=1";
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 

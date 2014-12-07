@@ -1,24 +1,154 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Thujikun blog]]></title>
-  <link href="http://thujikun.github.io/atom.xml" rel="self"/>
-  <link href="http://thujikun.github.io/"/>
-  <updated>2014-12-07T19:11:14+09:00</updated>
-  <id>http://thujikun.github.io/</id>
-  <author>
-    <name><![CDATA[Ryosuke Tsuji]]></name>
-    <email><![CDATA[tsuji.0107@gmail.com]]></email>
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thujikun blog</title>
+  <meta name="author" content="Ryosuke Tsuji">
+
+   
+  <meta name="description" content="気になった技術系のトピックを書いていく予定です。">
+  
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <entry>
-    <title type="html"><![CDATA[webpackを使い倒す]]></title>
-    <link href="http://thujikun.github.io/blog/2014/12/07/webpack/"/>
-    <updated>2014-12-07T16:23:03+09:00</updated>
-    <id>http://thujikun.github.io/blog/2014/12/07/webpack</id>
-    <content type="html"><![CDATA[<p>本エントリー<a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>&nbsp;7日目の記事になります。</p>
+  <link rel="canonical" href="http://thujikun.github.io/blog">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thujikun blog" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <script src="/js/application.js"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46463901-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/thujikun" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://linkedin.com/in/ryosuketsuji" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/thujikun" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://plus.google.com/100605060001403477962" title="Google+ Profile"><i class="icon-google-plus-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://facebook.com/ryosuke.ryan.tsuji" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+    
+
+    
+    <li><a href="mailto:tsuji.0107@gmail.com" title="Email"><i class="icon-envelope social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+      <div class="row-fluid">
+        <div id="content">
+            
+  
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2014/12/07/webpack/">webpackを使い倒す</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2014-12-07T16:23:03+09:00" pubdate data-updated="true"><i class="icon-calendar"></i> Dec 7<span>th</span>, 2014</time>
+    
+
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      
+        <li><a class='category' href='/blog/categories/ect/'>ect</a></li>
+      
+        <li><a class='category' href='/blog/categories/gulp/'>gulp</a></li>
+      
+        <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
+      
+        <li><a class='category' href='/blog/categories/stylus/'>stylus</a></li>
+      
+        <li><a class='category' href='/blog/categories/webpack/'>webpack</a></li>
+      
+    
+    </ul>
+  </div>
+
+    
+  </div>
+  
+</header>
+
+
+
+
+  <p>本エントリー<a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>&nbsp;7日目の記事になります。</p>
 
 <h2>webpackとは</h2>
 
@@ -770,15 +900,59 @@
 <p>ふー、なんとか日にち間に合った。駆け足だったので変なこと書いていたら教えて下さい。使い倒すとか言ってますがまだまだ使い倒せてません＞＜</p>
 
 <p><a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>の8日目は、muyuuさんです！よろしくお願いします！</p>
-]]></content>
-  </entry>
+
+
+  </article>
+  <hr>
   
-  <entry>
-    <title type="html"><![CDATA[CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ]]></title>
-    <link href="http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith/"/>
-    <updated>2014-02-20T21:42:54+09:00</updated>
-    <id>http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith</id>
-    <content type="html"><![CDATA[<p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2014/02/20/grunt-spritesmith/">CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2014-02-20T21:42:54+09:00" pubdate data-updated="true"><i class="icon-calendar"></i> Feb 20<span>th</span>, 2014</time>
+    
+
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      
+        <li><a class='category' href='/blog/categories/grunt/'>grunt</a></li>
+      
+        <li><a class='category' href='/blog/categories/sprite/'>sprite</a></li>
+      
+    
+    </ul>
+  </div>
+
+    
+  </div>
+  
+</header>
+
+
+
+
+  <p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。
 Compassの方については山ほど記事があるので、あまり知らないよって方はてきとーにググってください。</p>
 
 <h2>Compassの問題点</h2>
@@ -837,15 +1011,57 @@ cloneしてnpm installしてgruntって実行すると、distフォルダに各�
 <h2>結論</h2>
 
 <p>みんなこれで心置きなくStylusに移行できる☆彡</p>
-]]></content>
-  </entry>
+
+
+  </article>
+  <hr>
   
-  <entry>
-    <title type="html"><![CDATA[便利なjavascriptテクニック集]]></title>
-    <link href="http://thujikun.github.io/blog/2013/12/15/js-tech/"/>
-    <updated>2013-12-15T10:33:40+09:00</updated>
-    <id>http://thujikun.github.io/blog/2013/12/15/js-tech</id>
-    <content type="html"><![CDATA[<p>今回はjavascriptで知ってる人にとっては当たり前だけど、そうでない人は全然知らないようなテクニックをまとめていきます。</p>
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2013/12/15/js-tech/">便利なjavascriptテクニック集</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2013-12-15T10:33:40+09:00" pubdate data-updated="true"><i class="icon-calendar"></i> Dec 15<span>th</span>, 2013</time>
+    
+
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      
+        <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
+      
+    
+    </ul>
+  </div>
+
+    
+  </div>
+  
+</header>
+
+
+
+
+  <p>今回はjavascriptで知ってる人にとっては当たり前だけど、そうでない人は全然知らないようなテクニックをまとめていきます。</p>
 
 <h2>globalを汚さない無名関数スコープ</h2>
 
@@ -1225,15 +1441,57 @@ IE8を無視すれば名前付き関数式がサポートされてるので下�
 <p>ただしこれをやってしまうと、可読性が著しく悪化するばかりか、関数の呼び出し順に過度に依存することになるので、非常事態以外には触るな危険です。<br/>
 また、もちろんこれどんどん遡って行くことが可能で、一番最初の呼び出し元関数まで全部取得可能です。<br/>
 私はBackbone.ajaxでBackbone.syncの引数の取得に使用しました。ごめんなさい。</p>
-]]></content>
-  </entry>
+
+
+  </article>
+  <hr>
   
-  <entry>
-    <title type="html"><![CDATA[ちょっと未来のJavaScript]]></title>
-    <link href="http://thujikun.github.io/blog/2013/12/14/ie/"/>
-    <updated>2013-12-14T02:00:03+09:00</updated>
-    <id>http://thujikun.github.io/blog/2013/12/14/ie</id>
-    <content type="html"><![CDATA[<p>本エントリは　<a href="http://qiita.com/advent-calendar/2013/javascript">JavaScript Advent Calendar 2013</a>14日目となります。<br/>
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2013/12/14/ie/">ちょっと未来のJavaScript</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2013-12-14T02:00:03+09:00" pubdate data-updated="true"><i class="icon-calendar"></i> Dec 14<span>th</span>, 2013</time>
+    
+
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      
+        <li><a class='category' href='/blog/categories/javascript/'>javascript</a></li>
+      
+    
+    </ul>
+  </div>
+
+    
+  </div>
+  
+</header>
+
+
+
+
+  <p>本エントリは　<a href="http://qiita.com/advent-calendar/2013/javascript">JavaScript Advent Calendar 2013</a>14日目となります。<br/>
 来年遂にXPが逝去されるということで、IE9以降のシェアが飛躍的に伸びることを祈りつつ、IE9以降でJavaScriptでできるようになることを気がつく限りまとめてみました。</p>
 
 <h2>DOM</h2>
@@ -2058,22 +2316,126 @@ Java7までがRhino、Java8からがNashornになります。<br/>
 
 
 <p>というわけでここまで読んでいただいてありがとうございましたー！</p>
-]]></content>
-  </entry>
+
+
+  </article>
+  <hr>
   
-  <entry>
-    <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://thujikun.github.io/blog/2013/12/14/hello-world/"/>
-    <updated>2013-12-14T00:22:16+09:00</updated>
-    <id>http://thujikun.github.io/blog/2013/12/14/hello-world</id>
-    <content type="html"><![CDATA[<h2>Blog始めました</h2>
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2013/12/14/hello-world/">Hello World</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2013-12-14T00:22:16+09:00" pubdate data-updated="true"><i class="icon-calendar"></i> Dec 14<span>th</span>, 2013</time>
+    
+
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      
+        <li><a class='category' href='/blog/categories/blog/'>blog</a></li>
+      
+    
+    </ul>
+  </div>
+
+    
+  </div>
+  
+</header>
+
+
+
+
+  <h2>Blog始めました</h2>
 
 <p>本日初のAdvent Calendarを投稿するにあたってGithub + Octopress + Gitbucketを利用してBlogを作成しました。<br/>
 みんな大好きmarkdownで記述できるのはものすごく楽ですね。もちろんHTMLも使えますが。<br/>
 構築には下記のサイトを参考にさせていただきましたので、興味のある方はやってみてください。</p>
 
 <p><a href="http://morizyun.github.io/blog/octopress-gitpage-minimum-install-guide/">http://morizyun.github.io/blog/octopress-gitpage-minimum-install-guide/</a></p>
-]]></content>
-  </entry>
+
+
+  </article>
+  <hr>
   
-</feed>
+
+  <div class="pagination">
+    
+
+    
+  </div>
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Ryosuke Tsuji -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+  </div>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

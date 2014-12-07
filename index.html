@@ -13,19 +13,12 @@
   
   <meta name="keywords" content="">
 
-  
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:title" content="">
-  <meta property="og:type" content="article">
-  <meta property="og:description" content="気になった技術系のトピックを書いていく予定です。">
-  <meta property="og:url" content="http://thujikun.github.io">
-  <meta property="og:site_name" content="Thujikun blog">
-  <meta property="og:locale" content="ja_JP" />
-  <meta property="fb:app_id" content="1400028983574269" />
 
+  
   <link rel="canonical" href="http://thujikun.github.io">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
@@ -74,6 +67,7 @@
     <li><a href="http://github.com/thujikun" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
     
     
+    
     <li><a href="http://linkedin.com/in/ryosuketsuji" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
     
     
@@ -86,7 +80,9 @@
     <li><a href="http://facebook.com/ryosuke.ryan.tsuji" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
     
     
-    <li><a href="mailto:tsuji.0107@gmail.com" title="Email"><i class="icon-envelope-alt social-navbar"></i></a></li>
+
+    
+    <li><a href="mailto:tsuji.0107@gmail.com" title="Email"><i class="icon-envelope social-navbar"></i></a></li>
     
 </ul>
 
@@ -99,8 +95,14 @@
         <div id="content">
           <div class="jumbotron">
   <div class="container">
-    Thujikun blog
-    <h3 class="tagline">気になった技術系のネタだったり備忘録だったり・・・</h3>
+    
+      Thujikun blog
+    
+    <h3 class="tagline">
+      
+        気になった技術系のネタだったり備忘録だったり・・・
+      
+    </h3>
   </div>
 </div>
 
@@ -126,54 +128,53 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-04-21T21:18:06+09:00" pubdate data-updated="true">Apr 21<span>st</span>, 2014</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-12-07T16:23:03+09:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time></h5>
           <div class="row-fluid">
           
           </div>
           
           <div class="row-fluid">
           
-          <a href="/blog/categories/grunt/"><span class="badge">grunt</span></a>
+          <a href="/blog/categories/ect/"><span class="badge">ect</span></a>
           
-          <a href="/blog/categories/jsdoc/"><span class="badge">jsdoc</span></a>
+          <a href="/blog/categories/gulp/"><span class="badge">gulp</span></a>
+          
+          <a href="/blog/categories/javascript/"><span class="badge">javascript</span></a>
+          
+          <a href="/blog/categories/stylus/"><span class="badge">stylus</span></a>
+          
+          <a href="/blog/categories/webpack/"><span class="badge">webpack</span></a>
           
           </div>
           
     </div>
     <div class="span10 post-container">
-      <h1 class="link"><a href="/blog/2014/04/21/jsdoc3-grunt-template/">Gruntのタスク一覧を表示するためのJSDocテンプレートつくってみた</a></h1>
-      <h1>Gruntのタスク一覧を表示するためのJSDocテンプレートつくってみた</h1>
+      <h1 class="link"><a href="/blog/2014/12/07/webpack/">webpackを使い倒す</a></h1>
+      <p>本エントリー<a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>&nbsp;7日目の記事になります。</p>
 
-<p><a href="https://github.com/thujikun/jsdoc3-grunt-template">jsdoc3-grunt-template</a><br/>
-最近当たり前のようにGruntで作業環境を構築するようになってきてますが、人によってタスク名とか構成がバラバラになったりで共有とか引き継ぎが大変ですよね。<br/>
-わざわざREADMEにタスク一覧書いたりすることもありますが、一回書いたはいいけど更新せずに風化していくこともしばしば。<br/>
-そこで、jsファイルなんだからJSDocでドキュメント作っちゃいえばいいじゃんってことでGruntに特化させたシンプルなテンプレートつくってみました。</p>
+<h2>webpackとは</h2>
 
-<h2>DEMO</h2>
+<p>概要については最近いろんな方が書いてるいるのでそちらを参考にしていただければつかめるかと。</p>
 
-<p>出来上がるファイルとしては<a href="http://kabocha.orz.hm/labo/jsdoc3-grunt-template-demo/">こちら</a>のようなフォーマットになります。</p>
-
-<h2>使い方</h2>
-
-<h3>プロジェクトのディレクトリでgrunt-jsdocのインストール</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>npm install grunt-jsdoc --save-dev</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li><a href="http://qiita.com/shn/items/7bd544a39ee7ac858669">全部のせRequireJSっぽいWebpackを使ってみた。</a></li>
+<li><a href="http://ameblo.jp/ca-1pixel/entry-11884453208.html">RequireJS等はもう古い。WebPackとは？</a></li>
+</ul>
 
 
-<h3>テンプレートファイルをプロジェクトフォルダ内のどこかにcloneする</h3>
+<p>ようはナウいフロントエンドの依存解決ツールですね。</p>
 
-<p>（ここではjs-doc-templates/ディレクトリとする）</p>
+<p>っていうネタで書こうと思っていたら、昨日yutaponさんが既に書いていたりするので（<a href="http://yutapon.hatenablog.com/entry/2014/12/06/123000">gulp.jsを使ってフロントエンドのビルドをする【webpack, stylus】</a>）、いいところは<del>パクリ</del>参考にしつつ、もうちょっとwebpackに突っ込んだ内容を書いてみようと思います。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd jsdoc-templates/
-</span><span class='line'>git clone git@github.com:thujikun/jsdoc3-grunt-template.git</span></code></pre></td></tr></table></div></figure>
+<h2>Options</h2>
 
+<h3>entryとoutput</h3>
 
-<h3>JSDocを作成するためのGruntタスクを作成</h3>
+<p>簡単に試すときはentryは1ファイルだけ指定できればよいですが、実際にプロジェクトで使うとなると複数のファイルを指定しなければならない状況になるかと思います。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>webpackのentryはオブジェクト形式に対応していて、outputでそのproperty名を使用して動的に名前をつけることでその問題が解決できます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -181,29 +182,60 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>jsdoc: {
-</span><span class='line'>    dist: {
-</span><span class='line'>        src: [
-</span><span class='line'>            './Gruntfile.js'
-</span><span class='line'>        ],
-</span><span class='line'>        options: {
-</span><span class='line'>            destination: 'docs/grunt/',
-</span><span class='line'>            configure: 'jsdoc-templates/jsdoc3-grunt-template/jsdoc.conf.json',
-</span><span class='line'>            template: 'jsdoc-templates/jsdoc3-grunt-template'
-</span><span class='line'>        },
-</span><span class='line'>    },
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>    <span class="nx">entry</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">top</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">list</span><span class="o">:</span> <span class="s1">&#39;./app/list/main.js&#39;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">output</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">filename</span><span class="o">:</span> <span class="s1">&#39;[name].bundle.js&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">publicPath</span><span class="o">:</span> <span class="s1">&#39;/assets/&#39;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Gruntfile.jsにJSDoc形式のコメントを記述</h3>
+<p>上記のような設定をすることで結果的に top.bundle.jsとlist.bundle.jsの2ファイルがdestに指定したディレクトリに置かれることになります。</p>
 
-<p>※ シンプルにするために、@functionと@desc以外は無視しています。</p>
+<h3>loader</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>Webpackの大きな特徴としてjs以外のどんなファイルでもloaderさえ使えば読み込むことができる、というのがあります。</p>
+
+<p><a href="http://webpack.github.io/docs/list-of-loaders.html">loader一覧</a></p>
+
+<p>上記を見てわかるようにかなりの数のloaderがあるので、いくつかpuckupして紹介します。</p>
+
+<ul>
+<li><p>html-loader</p>
+
+<p>  htmlファイルを読み込んで文字列としてjs内で使用することが可能。underscoreのtemplateなど、フロントでrenderingをするときに非常に便利。</p></li>
+<li><p>css-loader(sass-loader, stylus-loader)</p>
+
+<p>  cssファイルをテキストとして読み込んで、headに埋め込むことが可能。sass-loaderやstylus-loaderの場合compileも同時に行う。angularやreact等を使ってHTMLをcomponentとして扱っている場合に有効。</p></li>
+<li><p>json-loader</p>
+
+<p>  jsonファイルを読み込んで、jsのオブジェクトに変換して使うことが可能。</p></li>
+<li><p>coffee-loader</p>
+
+<p>  coffee scriptで書かれたファイルをjsに変換して読み込むことが可能。</p></li>
+<li><p>jade-loader</p>
+
+<p>  jadeで書かれたファイルをhtmlに変換して読み込むことが可能。</p></li>
+<li><p>es6-loader</p>
+
+<p>  es6で書かれたコードをes5互換にして読み込むことが可能。</p></li>
+<li><p>url-loader
+  ファイルサイズが小さい場合data-uriに変換して読み込み、大きい場合はそのままpathとして読み込むことが可能。</p></li>
+<li><p>expose-loader</p>
+
+<p>  指定したファイル内のオブジェクトをグローバル変数として外に公開することが可能。詳しくは下の例を見るとわかりやすい。</p></li>
+<li><p>export-loader</p>
+
+<p>  commonJS形式に対応していない（module.exportsがない）jsファイルにmodule.exportsの記述を追加し、内部の変数を外に公開することが可能。</p></li>
+</ul>
+
+
+<p>などなどwebpackを強力なツールたらしめているのがloaderです。是非使いこなしましょう。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -219,27 +251,131 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/**
-</span><span class='line'> * @function grunt
-</span><span class='line'> * @desc default grunt task
-</span><span class='line'> */
-</span><span class='line'>grunt.registerTask('default', [
-</span><span class='line'>    'your tasks'
-</span><span class='line'>]);
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// configで指定する場合</span>
+</span><span class='line'><span class="nx">module</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">loaders</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="c1">// htmlファイルを読み込んだ場合にhtml-loaderを使用する。その際minimizeする。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.html$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;html?minimize&#39;</span> <span class="p">},</span>
 </span><span class='line'>
-</span><span class='line'>/**
-</span><span class='line'> * @function grunt serve
-</span><span class='line'> * @desc create server and watch
-</span><span class='line'> */
-</span><span class='line'>grunt.registerTask('serve', [
-</span><span class='line'>    'connect',
-</span><span class='line'>    'watch'
-</span><span class='line'>]);</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>        <span class="c1">// cssファイルを読み込んだ場合にcss-loaderを使用する。その際minimizeする。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.css$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;css?minimize&#39;</span> <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// jsonファイルを読み込んだ場合にjson-loaderを使用する。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.json$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;json&#39;</span> <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// coffeeファイルを読み込んだ場合にcoffee-loaderを使用する。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.coffee$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;coffee&#39;</span> <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// jadeファイルを読み込んだ場合にjade-loaderを使用する。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.jade$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;jade&#39;</span> <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// es6で記述されたjsファイルを読み込んだ場合にes6-loaderを使用する。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.js$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;es6&#39;</span> <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 画像ファイルを読み込んだ場合にurl-loaderを使用する。ファイルサイズが8kb以下であればdata-uriに変換する</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.png$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;url?limit=8192&#39;</span> <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// jQueryを読み込んだ場合に&quot;jQuery&quot;をグローバルオブジェクトにする。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.jquery.js$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;espose?jQuery&#39;</span> <span class="p">},</span>
+</span><span class='line'>        <span class="c1">// var $ = require(&#39;jquery&#39;);</span>
+</span><span class='line'>        <span class="c1">// でグローバル変数にjQUeryが登録される</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// angularJsを読み込んだ場合に&quot;angular&quot;を外に公開する。</span>
+</span><span class='line'>        <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/angular\.js$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;exports?angular&#39;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="c1">// var angular = require(&#39;angular&#39;);</span>
+</span><span class='line'>        <span class="c1">// で変数&quot;angular&quot;が取得できる</span>
+</span><span class='line'>    <span class="p">],</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// requireのタイミングでloaderを指定することもできる。</span>
+</span><span class='line'><span class="c1">// settings.jsonをjsのオブジェクトとして使用する。</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">settings</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;json!./data/settings.json&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// angularオブジェクトを使用する</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">angular</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;exports?angular!angular&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>ドキュメントのタイトルの修正はjsdoc.conf.jsonのtemplate.titleを修正</h3>
+<h2>resolve</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<h3>extention</h3>
+
+<p>読み込む際に拡張子を省略できるようにする。jsはデフォルトで入っている。個人的にはコンポーネントを作成した場合に名前を被らせることが多いのでjs以外の省略はしていない。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">resolve</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">extenstions</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;.js&#39;</span><span class="p">,</span> <span class="s1">&#39;.json&#39;</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// 上記のようになっているとき、下記のように省略することが可能。</span>
+</span><span class='line'><span class="c1">// require(&#39;settings.json&#39;) -&gt;require(&#39;settings&#39;)</span>
+</span><span class='line'><span class="c1">// require(&#39;item-template.html&#39;) -&gt;require(&#39;item-template&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>root</h3>
+
+<p>requireで読み込むときのrootのpathを指定できる。配列で複数の指定が可能。下記のようなディレクトリ構造の場合</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">gulpfile</span><span class="p">.</span><span class="nx">js</span>
+</span><span class='line'><span class="nx">gulp</span> <span class="err">┬</span> <span class="nx">config</span><span class="p">.</span><span class="nx">js</span>
+</span><span class='line'>     <span class="err">└</span> <span class="nx">tasks</span> <span class="err">─</span> <span class="err">各タスクファイル</span>
+</span><span class='line'><span class="nx">app</span> <span class="err">─</span> <span class="nx">js</span> <span class="err">┬</span> <span class="nx">app</span><span class="p">.</span><span class="nx">js</span>
+</span><span class='line'>         <span class="err">└</span> <span class="err">─</span> <span class="nx">modules</span> <span class="err">┬</span> <span class="nx">dialog</span><span class="p">.</span><span class="nx">js</span>
+</span><span class='line'>                     <span class="err">└</span> <span class="nx">tab</span><span class="p">.</span><span class="nx">js</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通常であれば</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//@file app.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">dialog</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./modules/dialog&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">tab</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./modules/tab&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>としなければならないところを、</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -252,32 +388,520 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>{
-</span><span class='line'>    "tags"      : {
-</span><span class='line'>        "allowUnknownTags" : true
-</span><span class='line'>    },
-</span><span class='line'>    "plugins"   : ["plugins/markdown"],
-</span><span class='line'>    "templates" : {
-</span><span class='line'>        "title" : "Your JSDoc Document Name"
-</span><span class='line'>    },
-</span><span class='line'>    "markdown"  : {
-</span><span class='line'>        "parser"   : "gfm",
-</span><span class='line'>        "hardwrap" : true
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//@ config.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">current</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">();</span>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 他の設定</span>
+</span><span class='line'>    <span class="nx">resolve</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">root</span><span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="s1">&#39;app/js/modules&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// 他の設定</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//@app.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">dialog</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;dialog&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">tab</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;tab&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>最後に</p>
+<p>のように記述することが可能。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grunt jsdoc</span></code></pre></td></tr></table></div></figure>
+<h3>alias</h3>
+
+<p>ファイル単位でaliasをはる。root使えばいらない子のようなきがする。用途としてはbowerでとってきたときのmainに設定されてないファイルを使いたい場合くらいかな。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//@ config.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">current</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">();</span>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 他の設定</span>
+</span><span class='line'>    <span class="nx">resolve</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">alias</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">bar</span><span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="s1">&#39;bower_components/foo/plugins/bar.js&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// 他の設定</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//@app.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>を実行すれば指定したディレクトリにタスク一覧が出力されます。</p>
+<h2>plugins</h2>
 
-<p><a href="https://github.com/thujikun/jsdoc3-grunt-template/tree/master/demo">demo</a>もおいてあるので参考にしてみてください。</p>
+<p>loaderと並んでwebpackの強力な機能。というか一部どっち使えばいいか迷うものもある。後述。</p>
 
-<p><a href="https://github.com/thujikun/jsdoc3-grunt-template">jsdoc3-grunt-template</a></p>
+<p><a href="https://github.com/webpack/docs/wiki/list-of-plugins">plugins一覧</a></p>
+
+<p>見てわかるように非常に沢山あるので自分も見切れてないです。なので便利なやつだけ一部紹介します。</p>
+
+<h3>ResolverPlugin</h3>
+
+<p>これとresolveのrootの設定と組わせると、bowerでとってきたmoduleをそのままrequireすることが可能。非常に便利。他の用途もあるんだろうけど知らない。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//@ config.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">current</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 他の設定</span>
+</span><span class='line'>    <span class="nx">resolve</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">root</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="s1">&#39;bower_components&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">plugins</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">(</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">.</span><span class="nx">DirectoryDescriptionFilePlugin</span><span class="p">(</span><span class="s1">&#39;.bower.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;main&#39;</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">),</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//@app.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jquery&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>※ bowerモジュールの中にはbower.jsonをignoreに設定しているものがあるため、bowerが動的に作成する.bower.jsonを参照する方が安全。</p>
+
+<h3>ProvidePlugin</h3>
+
+<p>指定した変数を他のモジュール内で使用できるようにする。globalには置かない。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//@ config.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">current</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 他の設定</span>
+</span><span class='line'>    <span class="nx">resolve</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">root</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="s1">&#39;bower_components&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">plugins</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">(</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">.</span><span class="nx">DirectoryDescriptionFilePlugin</span><span class="p">(</span><span class="s1">&#39;.bower.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;main&#39;</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">),</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ProvidePlugin</span><span class="p">({</span>
+</span><span class='line'>        <span class="nx">jQuery</span><span class="o">:</span> <span class="s2">&quot;jquery&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">$</span><span class="o">:</span> <span class="s2">&quot;jquery&quot;</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//@app.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jquery&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jquery-ui&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>jQueryとかAngularのプラグインは、jQueryやangular変数に対してオブジェクトを追加する形となるため、その変数を参照できないとエラーになってしまいます。</p>
+
+<p>そのときこのprovidePluginを使用するとこの問題を解決できるのですが、グローバル変数を生成するexpose-loaderでも解決することができます。</p>
+
+<p>グローバル汚染しない分providePluginを使用する方が望ましいですが、別機能でwebpackに依存しないモジュールが画面内にあったりする場合はexpose-loaderで解決してもよいでしょう。</p>
+
+<h3>開発環境向けplugin</h3>
+
+<ul>
+<li><p>HotModuleReplacementPlugin</p>
+
+<p>  webpack-dev-serverを使っているときに、画面をリロードすることなくモジュールの差し替えを可能にする。（実験的機能）</p></li>
+<li><p>NoErrorsPlugin</p>
+
+<p>  compile時にエラーが出たらskipする。</p></li>
+</ul>
+
+
+<h3>本番環境向けplugin</h3>
+
+<ul>
+<li><p>DedupePlugin</p>
+
+<p>  被ってるモジュールがいたらひとつにまとめる。</p></li>
+<li><p>UglifyJsPlugin</p>
+
+<p>  compile時にuglifyでminimizeする。</p></li>
+<li><p>OccurenceOrderPlugin</p>
+
+<p>  よく使われるモジュールに降るIDの桁数をより短くすることでよりコードを圧縮する。</p></li>
+<li><p>AggressiveMergingPlugin</p>
+
+<p>  ファイルを細かく分析し、まとめられるところはできるだけまとめてコードを圧縮する。Closure CompilerのADVANCED_OPTIMIZATIONみたいなことはしない。</p></li>
+</ul>
+
+
+<h2>Webpack Deb Server</h2>
+
+<p>webpackが提供している開発環境向けのサーバー。compile時に時間がかかる問題を、修正がかかった箇所だけcompileする方式を採用することで高速化している。</p>
+
+<p>上記で紹介したHotModuleReplacementPluginを使用するとreloadなしにモジュールの再読み込みが可能。</p>
+
+<p>が、これ実際に使おうとすると情報が少なかったりして結構苦戦したので備忘録。</p>
+
+<p>今回サンプルのアプリケーションを作成したときの開発環境、本番環境、webpack dev server、gulp-serveでたてたstaticサーバのそれぞれのconfig</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// 本番環境</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nx">entry</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">top</span><span class="o">:</span> <span class="nx">dir</span><span class="p">.</span><span class="nx">js</span> <span class="o">+</span> <span class="s1">&#39;/main.js&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">output</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">filename</span><span class="o">:</span> <span class="s1">&#39;[name].bundle.js&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">publicPath</span><span class="o">:</span> <span class="s1">&#39;/js/&#39;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">resolve</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">extensions</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;.js&#39;</span><span class="p">],</span>
+</span><span class='line'>        <span class="nx">root</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="s1">&#39;bower_components&#39;</span><span class="p">),</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">dir</span><span class="p">.</span><span class="nx">js</span><span class="p">,</span> <span class="s1">&#39;modules&#39;</span><span class="p">),</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">dir</span><span class="p">.</span><span class="nx">js</span><span class="p">,</span> <span class="s1">&#39;templates&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">debug</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">devtool</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">stats</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">colors</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">reasons</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">(</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">.</span><span class="nx">DirectoryDescriptionFilePlugin</span><span class="p">(</span><span class="s1">&#39;.bower.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;main&#39;</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">optimize</span><span class="p">.</span><span class="nx">DedupePlugin</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">optimize</span><span class="p">.</span><span class="nx">UglifyJsPlugin</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">optimize</span><span class="p">.</span><span class="nx">OccurenceOrderPlugin</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">optimize</span><span class="p">.</span><span class="nx">AggressiveMergingPlugin</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ProvidePlugin</span><span class="p">({</span>
+</span><span class='line'>            <span class="nx">jQuery</span><span class="o">:</span> <span class="s2">&quot;jquery&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">$</span><span class="o">:</span> <span class="s2">&quot;jquery&quot;</span>
+</span><span class='line'>        <span class="p">})</span>
+</span><span class='line'>    <span class="p">],</span>
+</span><span class='line'>    <span class="nx">module</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">loaders</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.html$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;html?minimize&#39;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 開発環境</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nx">entry</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">top</span><span class="o">:</span> <span class="nx">dir</span><span class="p">.</span><span class="nx">js</span> <span class="o">+</span> <span class="s1">&#39;/main.js&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">output</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">path</span><span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="s1">&#39;app&#39;</span><span class="p">,</span>  <span class="s1">&#39;js&#39;</span><span class="p">),</span>
+</span><span class='line'>        <span class="nx">filename</span><span class="o">:</span> <span class="s1">&#39;[name].bundle.js&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">publicPath</span><span class="o">:</span> <span class="s1">&#39;/js/&#39;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">resolve</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">extensions</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;.js&#39;</span><span class="p">],</span>
+</span><span class='line'>        <span class="nx">root</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="s1">&#39;bower_components&#39;</span><span class="p">),</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">dir</span><span class="p">.</span><span class="nx">js</span><span class="p">,</span> <span class="s1">&#39;modules&#39;</span><span class="p">),</span>
+</span><span class='line'>            <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">dir</span><span class="p">.</span><span class="nx">js</span><span class="p">,</span> <span class="s1">&#39;templates&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">cache</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">debug</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">devtool</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">stats</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">colors</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">reasons</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">(</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ResolverPlugin</span><span class="p">.</span><span class="nx">DirectoryDescriptionFilePlugin</span><span class="p">(</span><span class="s1">&#39;.bower.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;main&#39;</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">HotModuleReplacementPlugin</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">NoErrorsPlugin</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ProvidePlugin</span><span class="p">({</span>
+</span><span class='line'>            <span class="nx">jQuery</span><span class="o">:</span> <span class="s2">&quot;jquery&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">$</span><span class="o">:</span> <span class="s2">&quot;jquery&quot;</span>
+</span><span class='line'>        <span class="p">})</span>
+</span><span class='line'>    <span class="p">],</span>
+</span><span class='line'>    <span class="nx">module</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">loaders</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="p">{</span> <span class="nx">test</span><span class="o">:</span> <span class="sr">/\.html$/</span><span class="p">,</span> <span class="nx">loader</span><span class="o">:</span> <span class="s1">&#39;html?minimize&#39;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// webpack dev server</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nx">contentBase</span><span class="o">:</span> <span class="s2">&quot;http://localhost:3000&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">hot</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">quiet</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">noInfo</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">lazy</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">watchDelay</span><span class="o">:</span> <span class="mi">300</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">publicPath</span><span class="o">:</span> <span class="s2">&quot;http://localhost:9000/js/&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">stats</span><span class="o">:</span> <span class="p">{</span> <span class="nx">colors</span><span class="o">:</span> <span class="kc">true</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// static server by gulp-serve</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nx">port</span><span class="o">:</span> <span class="mi">3000</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">root</span><span class="o">:</span> <span class="p">[</span><span class="nx">dir</span><span class="p">.</span><span class="nx">tmp</span><span class="p">,</span> <span class="nx">dir</span><span class="p">.</span><span class="nx">app</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>ハマりポイント1</h3>
+
+<p>webpack dev serverでは&#8221;<a href="http://localhost:9000/webpack-dev-server/">http://localhost:9000/webpack-dev-server/</a>&ldquo;のようなURLでページを確認することになるため、pathをどう通していいかわからない。</p>
+
+<p>→ と思っていたらiframeで&#8221;/webpack-dev-server/&ldquo;の部分を削ったページを表示していたので、pathに関してはやってみたら問題なかった。</p>
+
+<h3>ハマりポイント2</h3>
+
+<p>webpack dev serverでは、baseが一箇所しか指定できないため、開発環境でcompileしたファイルだけtmpディレクトリに置き、compileせずにそのまま使うファイルはappディレクトリに置いてどちらも参照する方法がわからない。</p>
+
+<p>→ 別でたてたサーバをcontentBaseに設定することが可能。そのためgulp-serveを使って.tmpとappをrootにしたサーバを立ち上げ、webpack dev serverをそこに向けることができる。</p>
+
+<p><code>contentBase: "http://localhost:3000",</code> のところ。</p>
+
+<h3>はまりポイント3</h3>
+
+<p>2の対策をした場合に、webpack dev serverが動的にcompileをかけるjsファイルの参照の仕方がわからない。</p>
+
+<p>→ jsファイルのみwebpack dev serverの方のportを参照する必要あり。自分の場合&#8221;<a href="http://localhost:9000/js/top.bundle.js">http://localhost:9000/js/top.bundle.js</a>&#8220;を参照している。</p>
+
+<p>またその場合に本番環境ではそのままにするわけにはいかないので、自分の場合はgulp-ectでhtmlも本番用と開発用を分けてbuildできるようにした。</p>
+
+<p>ただ正直ここは自動で書き換えられるようにwebpack側で対応入れて欲しい。</p>
+
+<h3>はまりポイント4</h3>
+
+<p>webpack dev serverのwatchとgulp-watchの住み分けをどうすればいいかわからない。</p>
+
+<p>→ webpack dev serverとwatchを並列で実行してしまえば問題ない。もちろんwatchの方でwebpackで管理しているファイルの監視をする必要はない。</p>
+
+<p>以上、なかなか厄介でしたがとりあえず使えるようになりました。</p>
+
+<h2>AMD形式の読み込み</h2>
+
+<p>requireの第二引数のfunctionを入れれば、結果がcallbackで返ってくる。</p>
+
+<p>この後紹介するsampleでは使っていないが、publicPathに設定したディレクトリに非同期で読み込むファイルが置かれる。</p>
+
+<p>requirejsとは違い、非同期で読み込む先のファイルも最適なbuildがかかった状態になるためパフォーマンスがよい。また、複雑なファイル解析はせず、単純にjsonp形式で追加モジュールを読み込むため非常にシンプル。</p>
+
+<h2>その他</h2>
+
+<ul>
+<li>webpackでは全てのモジュールが閉じたスコープ内で管理される。（もちろんexpose-loaderを使用しない限り）</li>
+<li>何度requireしてもキャッシュされた同じ箇所を参照するのみなので、パフォーマンスに悪影響を与えない。例えばurl-loaderで何度画像をrequireしても、文字列として展開される箇所は一箇所。</li>
+</ul>
+
+
+<h2>サンプルアプリケーション</h2>
+
+<p>今回紹介したポイントをほとんど抑えたサンプルを作成しました。</p>
+
+<p><a href="http://instarest.thujikun.com/">demo</a></p>
+
+<p>やっていることは</p>
+
+<ol>
+<li>instagramのAPIで画像及びテキストデータ取得。</li>
+<li>pinterest風に並べる。</li>
+</ol>
+
+
+<p>の２つです。環境は</p>
+
+<ul>
+<li>gulp</li>
+<li>webpack</li>
+<li>webpack-dev-server</li>
+<li>stylus</li>
+<li>ect</li>
+</ul>
+
+
+<p>を用いて開発環境と本番環境をそれぞれ別々に構築していて、Backbone、Angular、react等のフレームワークには依存していないので、応用しやすいかなと思います。</p>
+
+<p><a href="https://github.com/thujikun/instarest/tree/master/">source</a></p>
+
+<p>ふー、なんとか日にち間に合った。駆け足だったので変なこと書いていたら教えて下さい。使い倒すとか言ってますがまだまだ使い倒せてません＞＜</p>
+
+<p><a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>の8日目は、muyuuさんです！よろしくお願いします！</p>
 
       
       
@@ -325,30 +949,30 @@
     </div>
     <div class="span10 post-container">
       <h1 class="link"><a href="/blog/2014/02/20/grunt-spritesmith/">CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ</a></h1>
-      <p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。<br/>
+      <p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。
 Compassの方については山ほど記事があるので、あまり知らないよって方はてきとーにググってください。</p>
 
 <h2>Compassの問題点</h2>
 
-<h3>Sassでしか使えない(´・ω・｀)</h3>
+<h3>Sassでしか使えない</h3>
 
-<p>一つ目は当然ですが、CompassはSassのフレームワークなのでLessとかStylus派の人は使えないってことです。<br/>
+<p>一つ目は当然ですが、CompassはSassのフレームワークなのでLessとかStylus派の人は使えないってことです。
 私は最近はStylus派なので、なにか良いSpriteツールないかなーと探し始めたのが最初でした。</p>
 
-<h3>SassのCompileのたびにSprite化処理が実行される( ﾟдﾟ)</h3>
+<h3>SassのCompileのたびにSprite化処理が実行される</h3>
 
 <p>これは画像が多いサイトではかなり深刻な問題となります。画像とは関係ないStyleの変更時でも毎回Sprite化が実行されるため、確認までかなりの時間をロスします。</p>
 
-<h3>正方形に画像を並べるとPaddingの指定が効かない(´；ω；｀)</h3>
+<h3>正方形に画像を並べるとPaddingの指定が効かない</h3>
 
-<p>Sprite画像のサイズをできるだけ小さくしようとすると、当然正方形に近い方が望ましいといえます。が！CompassのSprite Generatorの場合正方形にするとpaddingの指定が効かず、画像どおしがくっついちゃいます。<br/>
+<p>Sprite画像のサイズをできるだけ小さくしようとすると、当然正方形に近い方が望ましいといえます。が！CompassのSprite Generatorの場合正方形にするとpaddingの指定が効かず、画像どおしがくっついちゃいます。
 そうするとちょっとpaddingをもたせて配置したいときとか、拡大縮小されたときに隣の画像がチラホラ見えておかしなことになります。</p>
 
-<h3>Retina対応わかりづらい(・・?)</h3>
+<h3>Retina対応わかりづらい</h3>
 
 <p>なんかいろんな指定方法があって正直わかりづらいと個人的には感じてます。画像サイズも手で指定しなきゃいけないし。</p>
 
-<h3>Compassの開発が停滞中(ToT)</h3>
+<h3>Compassの開発が停滞中</h3>
 
 <p>最近はめっきり開発が止まっちゃってますね。CSS3のmixinも不十分だし、ちょっとこれからも使っていくには不安です。ちなみにCSS3のmixinについては<a href="http://bourbon.io/">bourbon</a>入れれば一応解決できます。</p>
 
@@ -356,7 +980,7 @@ Compassの方については山ほど記事があるので、あまり知らな�
 
 <h2>grunt-spritesmithができること</h2>
 
-<h3>CSS, Sass, Less, Stylus, JSON形式に対応(｀・ω・´)</h3>
+<h3>CSS, Sass, Less, Stylus, JSON形式に対応</h3>
 
 <p>生のCSSや各CSSプリプロセッサ、さらにはJSON形式でも出力してくれます。</p>
 
@@ -367,22 +991,18 @@ Compassの方については山ほど記事があるので、あまり知らな�
 </ul>
 
 
-<h3>画像が増えたときのみタスクを実行すれば良い٩(๑❛ᴗ❛๑)۶</h3>
+<h3>画像が増えたときのみタスクを実行すれば良い</h3>
 
 <p>当然CSSプリプロセッサとは別のタスクとしてGruntの設定を行うため、Sprite画像生成とCSSプリプロセッサのCompileをわけることができます。高速Compile最高ですね。</p>
 
-<h3>画像を正方形に並べてpaddingもとれる(๑╹ڡ╹๑)</h3>
+<h3>画像を正方形に並べてpaddingもとれる</h3>
 
 <p>こちらは問題なく画像を正方形に並べつつ、かつpaddingも設定することができます。なのでSprite画像のサイズを最小限に抑えることができます。</p>
 
-<h3>絶賛メンテ中♪～(´ε｀ )</h3>
-
-<p>12日前にも依存モジュールのバージョンアップがされてたりするのでまだまだHotです！</p>
-
 <h2>使い方</h2>
 
-<p>サンプルを<a href="https://github.com/thujikun/spritesmith-sample">こちら</a>に作成しましたので、よかったら試してみてください。<br/>
-cloneしてnpm installしてgruntって実行すると、distフォルダに各出力結果ごとの結果が見れます。<br/>
+<p>サンプルを<a href="https://github.com/thujikun/spritesmith-sample">こちら</a>に作成しましたので、よかったら試してみてください。
+cloneしてnpm installしてgruntって実行すると、distフォルダに各出力結果ごとの結果が見れます。
 他にもいくつかパラメータつけてるので、Gruntfile.jsと合わせて見てもらえればと思います。</p>
 
 <h2>結論</h2>
@@ -1776,7 +2396,7 @@ Java7までがRhino、Java8からがNashornになります。<br/>
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {return;}
   js = d.createElement(s); js.id = id; js.async = true;
-  js.src = "//connect.facebook.net/ja_JP/all.js#appId=1400028983574269&xfbml=1";
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
