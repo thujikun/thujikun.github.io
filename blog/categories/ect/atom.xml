@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ect | Thujikun blog]]></title>
   <link href="http://thujikun.github.io/blog/categories/ect/atom.xml" rel="self"/>
   <link href="http://thujikun.github.io/"/>
-  <updated>2014-12-07T19:11:14+09:00</updated>
+  <updated>2014-12-07T19:33:11+09:00</updated>
   <id>http://thujikun.github.io/</id>
   <author>
     <name><![CDATA[Ryosuke Tsuji]]></name>
@@ -519,6 +519,8 @@ root: [dir.tmp, dir.app]
 <p>→ webpack dev serverとwatchを並列で実行してしまえば問題ない。もちろんwatchの方でwebpackで管理しているファイルの監視をする必要はない。</p>
 
 <p>以上、なかなか厄介でしたがとりあえず使えるようになりました。</p>
+
+<p>gruntで使いたい場合はgenerator-react-webpackがやっているので参考にすると良いかもしれない。</p>
 
 <h2>AMD形式の読み込み</h2>
 
