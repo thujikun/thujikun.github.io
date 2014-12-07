@@ -1,0 +1,1065 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ちょっと未来のJavaScript - Thujikun blog</title>
+  <meta name="author" content="Ryosuke Tsuji">
+
+   
+  <meta name="description" content="気になった技術系のトピックを書いていく予定です。">
+  
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thujikun.github.io/blog/2013/12/14/ie">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thujikun blog" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <script src="/js/application.js"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46463901-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/thujikun" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://linkedin.com/in/ryosuketsuji" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/thujikun" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://plus.google.com/100605060001403477962" title="Google+ Profile"><i class="icon-google-plus-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://facebook.com/ryosuke.ryan.tsuji" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+    
+
+    
+    <li><a href="mailto:tsuji.0107@gmail.com" title="Email"><i class="icon-envelope social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    ちょっと未来のJavaScript
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-12-14T02:00:03+09:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>本エントリは　<a href="http://qiita.com/advent-calendar/2013/javascript">JavaScript Advent Calendar 2013</a>14日目となります。<br/>
+来年遂にXPが逝去されるということで、IE9以降のシェアが飛躍的に伸びることを祈りつつ、IE9以降でJavaScriptでできるようになることを気がつく限りまとめてみました。</p>
+
+<h2>DOM</h2>
+
+<h3>addEventListener / removeEventListener</h3>
+
+<p>イベントを登録/削除するためのメソッド。IE8まではattachEventとdetachEventという似たような、でも割と細かいところで動きが違うメソッドを使う必要があったが、IE9から標準のaddEventListenerがサポートされている。<br/>
+※ jQueryのon/offとかbind/unbindとだいたい同じ。<br/>
+※ 第3引数はuseCaptureといって、trueにするとイベント伝播を上位のDOMから発生させることができる。まあ使うことないけど。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/API/EventTarget.addEventListener">addEventListener</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/EventTarget.removeEventListener">removeEventListener</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">onClickFunction</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//クリック時の処理</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// クリックイベント設定</span>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="nx">onClickFunction</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// クリックイベント削除</span>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">).</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="nx">onClickFunction</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>createEvent / dispatchEvent</h3>
+
+<p>イベントを作成/発火するためのメソッド。IE8まではcreateEventObjectとfireEventというこれまた似たような、でもやっぱり色々動きが異なるメソッドがあった。<br/>
+※ jQueryの$.eventとかtriggerとだいたい同じ。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/DOM/document.createEvent">createEvent</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/EventTarget.dispatchEvent">dispatchEvent</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// イベントオブジェクト作成</span>
+</span><span class='line'><span class="c1">// 引数にはイベント種別を渡す。</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">evt</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s1">&#39;MouseEvents&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// イベントオブジェクト初期化</span>
+</span><span class='line'><span class="c1">// 引数の内容はhttps://developer.mozilla.org/ja/docs/Web/API/event.initMouseEventを参照。</span>
+</span><span class='line'><span class="c1">// マウス座標とかctrlキーが押されてるかどうかなど色々指定可能。</span>
+</span><span class='line'><span class="nx">evt</span><span class="p">.</span><span class="nx">initMouseEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nb">window</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// イベント発火</span>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">).</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Composition Events</h3>
+
+<p>composition Eventsは文字の変換イベントを取得できるメソッドです。<br/>
+これまではFFにも対応したければsetIntervalで入力中にテキストフィールドを監視する必要があったのが、これを使えば解消することができます。<br/>
+まあIE系ならkeydown + setTimeoutでもいいし、FFならinputイベント使えばいいって話もあるけど。<br/>
+※ compositionstartイベントとcompositionupdateイベントは同時に発火するが、compositionupdateイベントとcompositionendイベントは同時に発火しない。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/DOM/CompositionEvent">CompositionEvent</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">textElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// テキスト変換開始時イベント監視</span>
+</span><span class='line'><span class="nx">textxElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;compositionstart&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//変換開始時処理</span>
+</span><span class='line'><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// テキスト変換中イベント監視</span>
+</span><span class='line'><span class="nx">textxElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;compositionupdate&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//変換中処理</span>
+</span><span class='line'><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// テキスト変換完了時イベント監視</span>
+</span><span class='line'><span class="nx">textxElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;compositionend&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//変換完了時処理</span>
+</span><span class='line'><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Mutation Events</h3>
+
+<p>DOMの追加/変更/削除などDOMの状態監視ができるイベント。類似メソッドは今までなかったのでかなり画期的なんじゃないかと思う。Angularの処理を強引にjQueryで補足したいときとかに使えるかもね。<br/>
+※ 多用すると処理が追えなくなる可能性あり。<br/>
+※ IE9ではDOMNodeInsertedが動かないらしい。<br/>
+※ パフォーマンスの関係でMutation Eventsは非推奨になり、最新仕様はMutation Observerになっている。そのためMutation EventsはPolyfillとして用いるべし。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/Guide/API/DOM/Events/Mutation_events">Mutation Events</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/MutationObserver">Mutation Observer</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// エレメントの属性の変更を監視</span>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMNodeInserted&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 属性変更時処理</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;追加された！&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// -&gt; 追加された！</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>DOMAttrModifiedはどのブラウザでも動作しない模様。  
+</code></pre>
+
+<h3>DOMContentLoaded Event</h3>
+
+<p>DOMの読み込みを待ち合わせるイベント。<br/>
+※ $(document).ready(function(){})とか$(function(){})と同じ。IE9以降なら内f部的にこれが使われてる。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/Reference/Events/DOMContentLoaded">DOMContentLoaded</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// DOM読み込み時処理</span>
+</span><span class='line'><span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>querySelector / querySelectorAll</h3>
+
+<p>CSSのselectorでDOM探索ができるメソッド。完全にjQuery感覚で使えます。まあgetElementByIdとかgetElementsByClassNameとか別のが使える場合はそっち使った方が速いです。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/API/document.querySelectorAll">querySelectorAll</a><br/>
+※ 追記 querySelectorはIE8からサポートされてましたm(__)m。<a href="https://twitter.com/teppeis">@teppeis</a>さんご指摘ありがとうございますー！</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;ul li&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>classListはIE10から、datasetはIE11からの実装のようです。。。</p>
+
+<h2>ECMA Script 5</h2>
+
+<h3>Array</h3>
+
+<pre><code>Array型の追加メソッドはunderscoreとか使ってる人ならピンとくるはず。  
+</code></pre>
+
+<ul>
+<li>forEach<br/>
+  引数に関数をとり、値とインデックスがループでまわって引数に入ってくる。ようはfor文回すのに、iとかlengthとか必要ないし、 ループ内スコープの変数が使えるってこと。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">forEach</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">arr</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// function内部なので、スコープがループの中で閉じる</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">index</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">// -&gt; 値とインデックスがコンソールに出力される</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>filter<br/>
+  配列の中から指定した条件を満たすものだけを取り出して新たな配列を作成することができる。非破壊的メソッド。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">filter</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">43</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">arr</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 偶数のものだけ取り出す。</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">value</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">===</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>indexOf<br/>
+  配列を指定された値で検索するメソッド。返却値は見つかった最初のインデックスで、ない場合は-1が返る。<br/>
+  検索を始めるインデックスを第二引数で指定することも可能。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">indexOf</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;def&#39;</span><span class="p">,</span> <span class="s1">&#39;ghi&#39;</span><span class="p">,</span> <span class="s1">&#39;jkl&#39;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;def&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// -&gt; 1</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;mno&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// -&gt; -1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>some<br/>
+  配列の各要素に対してテストを実行し、一つでもテストに合格する要素があればtrueを返し、一つもなければfalseを返す。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">43</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 60以上の値があるかどうか判定</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">60</span> <span class="o">&lt;</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}));</span>
+</span><span class='line'><span class="c1">// -&gt; true</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 70以上の値があるかどうか判定</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">70</span> <span class="o">&lt;</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}));</span>
+</span><span class='line'><span class="c1">// -&gt; false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>every<br/>
+  配列の各要素に対してテストを実行し、全要素がテストに合格であればtrueを返し、一つでも欠ければfalseを返す。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">43</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 全ての値が1以上かどうか判定</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}));</span>
+</span><span class='line'><span class="c1">// -&gt; true</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 全ての値が5以上かどうか判定</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">5</span> <span class="o">&lt;</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}));</span>
+</span><span class='line'><span class="c1">// -&gt; false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>map<br/>
+  配列の各要素に対して処理を行い、その結果からなる新しい配列を生成する。非破壊的メソッド<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map">map</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">43</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 全ての値が1以上かどうか判定</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">value</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'><span class="p">}));</span>
+</span><span class='line'><span class="c1">// -&gt; [20, 450, 210, 670, 320, 20, 430]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>reduce<br/>
+  配列の隣り合う値を左から順に呼び出し、その結果から単一の値をつくる。<br/>
+  ※ 右から実行する<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight">reduceRight</a>もある。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce">reduce</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">43</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 全ての値が1以上かどうか判定</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">value1</span><span class="p">,</span> <span class="nx">value2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">value1</span> <span class="o">+</span> <span class="nx">value2</span><span class="p">;</span>
+</span><span class='line'><span class="p">}));</span>
+</span><span class='line'><span class="c1">// -&gt; 212</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Object</h3>
+
+<ul>
+<li>defineProperty / defineProperties<br/>
+  -Object.hoge = function(){};の形で書くのに比べ、writable属性、enumerable属性、configurable属性の設定ができたり、アクセサ（配列のlengthみたいなやつ）がつくれたりする。
+
+<ul>
+<li>writable: 上書き可能かどうか</li>
+<li>enumerable: for inループなどのObjectのプロパティ列挙時に表示されるかどうか。</li>
+<li>configurable: プロパティの設定を変更することができるかどうか。</li>
+<li>get: プロパティのゲッターとなるメソッド。(アクセサの場合のみ)</li>
+<li>set: プロパティのセッターとなるメソッド。(アクセサの場合のみ)<br/>
+※ 個人的にはprototype拡張の際によく使うが、様々な用途で使えるとは思う。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">defineProperty</a></li>
+</ul>
+</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">MyClass</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">members</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// メンバーを登録するsetMemberメソッドを作成</span>
+</span><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">MyClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="s1">&#39;setMember&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">writable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">enumeable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">configurable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">value</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="p">.</span><span class="nx">members</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// メンバーを取得するgetMemberメソッドを作成</span>
+</span><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">MyClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="s1">&#39;getMember&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">writable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">enumeable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">configurable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">value</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">members</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 現在のメンバー数を返却するcountアクセサを追加。値を指定された場合は何もしない。</span>
+</span><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">MyClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">members</span><span class="p">).</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">myClass</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyClass</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">myClass</span><span class="p">.</span><span class="nx">setMember</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">myClass</span><span class="p">.</span><span class="nx">setMember</span><span class="p">(</span><span class="s1">&#39;hoge&#39;</span><span class="p">,</span> <span class="s1">&#39;hogehoge&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myClass</span><span class="p">.</span><span class="nx">getMember</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// -&gt; &#39;bar&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myClass</span><span class="p">.</span><span class="nx">count</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// -&gt; 2</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// setメソッドは何もしないので値を登録しても値は変化しない。</span>
+</span><span class='line'><span class="nx">myClass</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myClass</span><span class="p">.</span><span class="nx">count</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// -&gt; 2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>create<br/>
+指定したオブジェクトのプロトタイプ及び、プロパティを持つオブジェクトを生成する。簡単に既存のオブジェクトを継承して、新しいプロトタイプも持つオブジェクトがつくれる。<br/>
+definePropertyと同様に、各属性の設定や、アクセサもつくれる。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create">create</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// 通常の配列を追加</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">232</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="mi">1111</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 配列を拡張して、0から数えたlengthプロパティを新たに追加。</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">customArr</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">arr</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">lengthFromZero</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">customArr</span><span class="p">.</span><span class="nx">lengthFromZero</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>getOwnPropertyNames<br/>
+enumerable属性に関わらず、オブジェクトのプロパティを配列で返却する。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames">getOwnPropertyNames</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyNames</span><span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// -&gt; [&quot;length&quot;, &quot;constructor&quot;, &quot;toString&quot;, &quot;toLocaleString&quot;, &quot;join&quot;, &quot;pop&quot;, &quot;push&quot;, &quot;concat&quot;, &quot;reverse&quot;, &quot;shift&quot;, &quot;unshift&quot;, &quot;slice&quot;, &quot;splice&quot;, &quot;sort&quot;, &quot;filter&quot;, &quot;forEach&quot;, &quot;some&quot;, &quot;every&quot;, &quot;map&quot;, &quot;indexOf&quot;, &quot;lastIndexOf&quot;, &quot;reduce&quot;, &quot;reduceRight&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>keys<br/>
+オブジェクトの列挙可能なプロパティを配列で返却する。for-inループと違い、プロトタイプのプロパティはとってこない。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/keys">keys</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">hoge</span><span class="o">:</span> <span class="s1">&#39;hogehoge&#39;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">obj</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// -&gt; [&#39;foo&#39;, &#39;hoge&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>freeze<br/>
+オブジェクトを凍結する。具体的にはプロパティの追加/編集/削除、設定変更を不可能にする。プロパティがObjectの場合、その中身までは凍結できない。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze">freeze</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">foo</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">hoge</span><span class="o">:</span> <span class="s1">&#39;hogehoge&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">list</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">foofoo</span><span class="o">:</span> <span class="s1">&#39;barbar&#39;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// オブジェクトを凍結</span>
+</span><span class='line'><span class="nb">Object</span><span class="p">.</span><span class="nx">freeze</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// obj.list.foofooのみ編集可能。</span>
+</span><span class='line'><span class="nx">obj</span><span class="p">.</span><span class="nx">hoge</span> <span class="o">=</span> <span class="s1">&#39;hogehogehoge&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">obj</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;taro&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">obj</span><span class="p">.</span><span class="nx">list</span><span class="p">.</span><span class="nx">foofoo</span> <span class="o">=</span> <span class="s1">&#39;barbarbarbar&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Function</h3>
+
+<ul>
+<li>bind
+Functionのthisを引数のオブジェクトでバインドする。apply/callと違ってその場でfunctionコールせず、thisでbindされたfunctionオブジェクトを返却してくれる。<br/>
+※ $.proxyとか_.bindと同じ。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">.</span><span class="nx">bind</span><span class="p">({</span><span class="nx">hoge</span><span class="o">:</span> <span class="s1">&#39;hogehoge&#39;</span><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">bar</span><span class="p">();</span>
+</span><span class='line'><span class="c1">// -&gt; {hoge: &#39;hogehoge&#39;}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>String</h3>
+
+<ul>
+<li>trim / trimRight / trimLeft<br/>
+念願のtrimがようやくjsに。文字列の前後の空白を削除する。非破壊的メソッド<br/>
+※ 驚くべきことに全角空白にも対応している！！！<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/trim">trim</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;　　　   bar   　　　&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">trim</span><span class="p">());</span>
+</span><span class='line'><span class="c1">// -&gt; bar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Date</h3>
+
+<ul>
+<li>now<br/>
+UTC（協定世界時）での1970年1月1日00時00分00秒から現在までの経過ミリ秒を数値で取得するメソッド。new Date().getTime()と同じ。相違点はスピード。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Date/now">now</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>IE8とどうしてもまだ付き合わなきゃいけない方へ</h2>
+
+<p>es5のshimを使ってくださってる方がいるので、これを入れると上記のメソッド達はだいたい使えます。<br/>
+<a href="https://github.com/kriskowal/es5-shim">https://github.com/kriskowal/es5-shim</a></p>
+
+<p>DOM系のやつもそれぞれshimを作ってる方がいたり、あとは自分でpolyfill作ってしまってもよいかもですね。</p>
+
+<h2>まとめ的な</h2>
+
+<p>HTML5とかCSS3はまだだいぶ弱いですが、DOM系とES5系でそれなりに強化されるので、小さいサイトの制作であればjQueryを使わない選択肢があってもいいんじゃないかなーと思ってます。<br/>
+まあこのへんが前からサポートされてるスマートフォン向けサイトでも、Zeptoすらあまり使われずjQueryが当たり前に使われてる現状を考えると難しそうですが。。。<br/>
+ネイティブのjsでかかれたプラグインが充実してくれば変わってくるのかな。</p>
+
+<h2>HTML5</h2>
+
+<p>HTML5のAPIについてはいろんなところにサンプルあるので詳細は割愛しますー。<br/>
+やはりCanvasとSVGが目立つところですかね。</p>
+
+<h3>canvas</h3>
+
+<h3>SVG</h3>
+
+<h3>Sectioning Elements</h3>
+
+<h3>Geolocation</h3>
+
+<h3>Video(H.264) not Mpeg4, WebM</h3>
+
+<h3>Audio(AAC and MP3)</h3>
+
+<h2>IE10+ (HTML5)</h2>
+
+<p>ちゃんと洗い出1してないのでこれだけではないと思いますが、IE10まで移行できれば強力なAPIが目白押しですね。</p>
+
+<h3>History API</h3>
+
+<h3>websocket</h3>
+
+<h3>input[type=xxx]</h3>
+
+<h3>Form VDalidation</h3>
+
+<h3>Pointer Events</h3>
+
+<h3>XHR2</h3>
+
+<h3>Drag and Drop</h3>
+
+<h3>Native Binary Data</h3>
+
+<h3>Web Workers</h3>
+
+<h3>CORS</h3>
+
+<h3>Sandboxed iframe</h3>
+
+<h3>Application cache</h3>
+
+<h3>Indexed DB</h3>
+
+<h3>File API</h3>
+
+<h3>pagevisibility API</h3>
+
+<h3>CSS3 Animations</h3>
+
+<h2>さらにES6も使いたい方へ</h2>
+
+<p>ES6では、定数、ブロックスコープ変数、Class、Module、Promise、generator、iterator、配列内包表記、arrow function、Map、WeakMap、Set、of loopなどなどまさに夢のようなAPI達がこれでもかと使うことができます。現在の実装状況は下記を参照すると良いです。<br/>
+<a href="http://kangax.github.io/es5-compat-table/es6/  ">http://kangax.github.io/es5-compat-table/es6/  </a>
+見ていただければわかりますが、FFの実装が最も進んでいます。Chromeも頑張ってはいますが、FlagをONにしなきゃいけないので非現実的ですね。<br/>
+まとめると以下の方法が現在ES6を使うための手法です。</p>
+
+<ul>
+<li>traceur-compilerを使う。<br/>
+<a href="https://github.com/google/traceur-compiler">https://github.com/google/traceur-compiler</a></li>
+</ul>
+
+
+<p>主要な機能は大体使えます。具体的な使い方はこんな感じ。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://traceur-compiler.googlecode.com/git/bin/traceur.js&quot;</span>
+</span><span class='line'>        <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://traceur-compiler.googlecode.com/git/src/bootstrap.js&quot;</span>
+</span><span class='line'>        <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/traceur&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="kr">class</span> <span class="nx">Greeter</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">constructor</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">message</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">greet</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>          <span class="kd">let</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;#message&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">element</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">let</span> <span class="nx">greeter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Greeter</span><span class="p">(</span><span class="s1">&#39;Hello, world!&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">greeter</span><span class="p">.</span><span class="nx">greet</span><span class="p">();</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>typescriptを使う。
+MicroSoftの開発しているtypescriptはES6の先行実装的な思想で作られてるjsのプリコンパイラなので、これを使う手もあります。<br/>
+<a href="http://www.typescriptlang.org/">typescript</a></li>
+<li>node.jsを使う。<br/>
+Gruntなどサーバを立てる用途でなくてもnodeを使う機会は確実に増えている今日この頃、これを使わない手はありません。<br/>
+node起動時に&mdash;harmonyオプションをつけるか、Gruntなど内部的にNodeを呼ぶやつで使う場合はpackage.jsonをちょっと工夫してやるとES6の機能が開放されます。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>{
+</span><span class='line'>  &quot;scripts&quot;: {
+</span><span class='line'>    &quot;start&quot;: &quot;node --harmony ./node_modules/.bin/grunt start&quot;
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>FirefoxOSアプリ開発を行う。<br/>
+上記でも言ったようにFirefoxの実装は最も進んでいる状況なので、FirefoxOS向けアプリ開発ではES6の機能がガンガン使えます。<br/>
+本来Web標準で作れることのメリットであるクロスプラットフォームの互換性は失われますが、そんなものは現場からすると初めから幻想なのでムシムシ。</li>
+<li>RhinoもしくはNashornを使う。<br/>
+これはだいぶマニアックな方法ですがMozillaがJVM上でjavascriptで書いたコードをJavaに変換して実行するライブラリを出しています。<br/>
+MozillaということはFirefoxと大体同じ実装状況だと言えるので、ES6の機能もだいぶサポートされています。<br/>
+Java7までがRhino、Java8からがNashornになります。<br/>
+ちなみにClosure CompilerはRhinoを使ってますね。</li>
+</ul>
+
+
+<p>というわけでここまで読んでいただいてありがとうございましたー！</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/blog/categories/javascript/"><span class="badge">javascript</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/blog/2013/12/14/hello-world/" title="Previous Post: Hello World">&laquo; Hello World</a>
+          
+          
+            <a class="basic-alignment right" href="/blog/2013/12/15/js-tech/" title="Next Post: 便利なjavascriptテクニック集">便利なjavascriptテクニック集 &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Ryosuke Tsuji -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+  </div>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

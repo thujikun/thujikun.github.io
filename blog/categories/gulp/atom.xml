@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gulp | Thujikun blog]]></title>
+  <link href="http://thujikun.github.io/blog/categories/gulp/atom.xml" rel="self"/>
+  <link href="http://thujikun.github.io/"/>
+  <updated>2014-12-07T19:11:14+09:00</updated>
+  <id>http://thujikun.github.io/</id>
+  <author>
+    <name><![CDATA[Ryosuke Tsuji]]></name>
+    <email><![CDATA[tsuji.0107@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[webpackを使い倒す]]></title>
+    <link href="http://thujikun.github.io/blog/2014/12/07/webpack/"/>
+    <updated>2014-12-07T16:23:03+09:00</updated>
+    <id>http://thujikun.github.io/blog/2014/12/07/webpack</id>
+    <content type="html"><![CDATA[<p>本エントリー<a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>&nbsp;7日目の記事になります。</p>
+
+<h2>webpackとは</h2>
+
+<p>概要については最近いろんな方が書いてるいるのでそちらを参考にしていただければつかめるかと。</p>
+
+<ul>
+<li><a href="http://qiita.com/shn/items/7bd544a39ee7ac858669">全部のせRequireJSっぽいWebpackを使ってみた。</a></li>
+<li><a href="http://ameblo.jp/ca-1pixel/entry-11884453208.html">RequireJS等はもう古い。WebPackとは？</a></li>
+</ul>
+
+
+<p>ようはナウいフロントエンドの依存解決ツールですね。</p>
+
+<p>っていうネタで書こうと思っていたら、昨日yutaponさんが既に書いていたりするので（<a href="http://yutapon.hatenablog.com/entry/2014/12/06/123000">gulp.jsを使ってフロントエンドのビルドをする【webpack, stylus】</a>）、いいところは<del>パクリ</del>参考にしつつ、もうちょっとwebpackに突っ込んだ内容を書いてみようと思います。</p>
+
+<h2>Options</h2>
+
+<h3>entryとoutput</h3>
+
+<p>簡単に試すときはentryは1ファイルだけ指定できればよいですが、実際にプロジェクトで使うとなると複数のファイルを指定しなければならない状況になるかと思います。</p>
+
+<p>webpackのentryはオブジェクト形式に対応していて、outputでそのproperty名を使用して動的に名前をつけることでその問題が解決できます。</p>
+
+<p>```javascript</p>
+
+<pre><code>entry: {
+    top: './app/main.js',
+    list: './app/list/main.js'
+},
+output: {
+    filename: '[name].bundle.js',
+    publicPath: '/assets/'
+}
+</code></pre>
+
+<p>```</p>
+
+<p>上記のような設定をすることで結果的に top.bundle.jsとlist.bundle.jsの2ファイルがdestに指定したディレクトリに置かれることになります。</p>
+
+<h3>loader</h3>
+
+<p>Webpackの大きな特徴としてjs以外のどんなファイルでもloaderさえ使えば読み込むことができる、というのがあります。</p>
+
+<p><a href="http://webpack.github.io/docs/list-of-loaders.html">loader一覧</a></p>
+
+<p>上記を見てわかるようにかなりの数のloaderがあるので、いくつかpuckupして紹介します。</p>
+
+<ul>
+<li><p>html-loader</p>
+
+<p>  htmlファイルを読み込んで文字列としてjs内で使用することが可能。underscoreのtemplateなど、フロントでrenderingをするときに非常に便利。</p></li>
+<li><p>css-loader(sass-loader, stylus-loader)</p>
+
+<p>  cssファイルをテキストとして読み込んで、headに埋め込むことが可能。sass-loaderやstylus-loaderの場合compileも同時に行う。angularやreact等を使ってHTMLをcomponentとして扱っている場合に有効。</p></li>
+<li><p>json-loader</p>
+
+<p>  jsonファイルを読み込んで、jsのオブジェクトに変換して使うことが可能。</p></li>
+<li><p>coffee-loader</p>
+
+<p>  coffee scriptで書かれたファイルをjsに変換して読み込むことが可能。</p></li>
+<li><p>jade-loader</p>
+
+<p>  jadeで書かれたファイルをhtmlに変換して読み込むことが可能。</p></li>
+<li><p>es6-loader</p>
+
+<p>  es6で書かれたコードをes5互換にして読み込むことが可能。</p></li>
+<li><p>url-loader
+  ファイルサイズが小さい場合data-uriに変換して読み込み、大きい場合はそのままpathとして読み込むことが可能。</p></li>
+<li><p>expose-loader</p>
+
+<p>  指定したファイル内のオブジェクトをグローバル変数として外に公開することが可能。詳しくは下の例を見るとわかりやすい。</p></li>
+<li><p>export-loader</p>
+
+<p>  commonJS形式に対応していない（module.exportsがない）jsファイルにmodule.exportsの記述を追加し、内部の変数を外に公開することが可能。</p></li>
+</ul>
+
+
+<p>などなどwebpackを強力なツールたらしめているのがloaderです。是非使いこなしましょう。</p>
+
+<p>```javascript
+// configで指定する場合
+module: {</p>
+
+<pre><code>loaders: [
+    // htmlファイルを読み込んだ場合にhtml-loaderを使用する。その際minimizeする。
+    { test: /\.html$/, loader: 'html?minimize' },
+
+    // cssファイルを読み込んだ場合にcss-loaderを使用する。その際minimizeする。
+    { test: /\.css$/, loader: 'css?minimize' },
+
+    // jsonファイルを読み込んだ場合にjson-loaderを使用する。
+    { test: /\.json$/, loader: 'json' },
+
+    // coffeeファイルを読み込んだ場合にcoffee-loaderを使用する。
+    { test: /\.coffee$/, loader: 'coffee' },
+
+    // jadeファイルを読み込んだ場合にjade-loaderを使用する。
+    { test: /\.jade$/, loader: 'jade' },
+
+    // es6で記述されたjsファイルを読み込んだ場合にes6-loaderを使用する。
+    { test: /\.js$/, loader: 'es6' },
+
+    // 画像ファイルを読み込んだ場合にurl-loaderを使用する。ファイルサイズが8kb以下であればdata-uriに変換する
+    { test: /\.png$/, loader: 'url?limit=8192' },
+
+    // jQueryを読み込んだ場合に"jQuery"をグローバルオブジェクトにする。
+    { test: /\.jquery.js$/, loader: 'espose?jQuery' },
+    // var $ = require('jquery');
+    // でグローバル変数にjQUeryが登録される
+
+    // angularJsを読み込んだ場合に"angular"を外に公開する。
+    { test: /angular\.js$/, loader: 'exports?angular' }
+    // var angular = require('angular');
+    // で変数"angular"が取得できる
+],
+</code></pre>
+
+<p>}</p>
+
+<p>// requireのタイミングでloaderを指定することもできる。
+// settings.jsonをjsのオブジェクトとして使用する。
+var settings = require(&lsquo;json!./data/settings.json&rsquo;);</p>
+
+<p>// angularオブジェクトを使用する
+var angular = require(&lsquo;exports?angular!angular&rsquo;);</p>
+
+<p>```</p>
+
+<h2>resolve</h2>
+
+<h3>extention</h3>
+
+<p>読み込む際に拡張子を省略できるようにする。jsはデフォルトで入っている。個人的にはコンポーネントを作成した場合に名前を被らせることが多いのでjs以外の省略はしていない。</p>
+
+<p>```
+resolve: {</p>
+
+<pre><code>extenstions: ['', '.js', '.json', '.html']
+</code></pre>
+
+<p>}
+// 上記のようになっているとき、下記のように省略することが可能。
+// require(&lsquo;settings.json&rsquo;) &ndash;>require(&lsquo;settings&rsquo;)
+// require(&lsquo;item-template.html&rsquo;) &ndash;>require(&lsquo;item-template&rsquo;)
+```</p>
+
+<h3>root</h3>
+
+<p>requireで読み込むときのrootのpathを指定できる。配列で複数の指定が可能。下記のようなディレクトリ構造の場合</p>
+
+<p>```
+gulpfile.js
+gulp ┬ config.js</p>
+
+<pre><code> └ tasks ─ 各タスクファイル
+</code></pre>
+
+<p>app ─ js ┬ app.js</p>
+
+<pre><code>     └ ─ modules ┬ dialog.js
+                 └ tab.js
+</code></pre>
+
+<p>```
+通常であれば</p>
+
+<p><code>javascript
+//@file app.js
+var dialog = require('./modules/dialog');
+var tab = require('./modules/tab');
+</code></p>
+
+<p>としなければならないところを、</p>
+
+<p>```javascript
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    root: path.join(current, 'app/js/modules')
+}
+// 他の設定
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var dialog = require(&lsquo;dialog&rsquo;);
+var tab = require(&lsquo;tab&rsquo;);
+```</p>
+
+<p>のように記述することが可能。</p>
+
+<h3>alias</h3>
+
+<p>ファイル単位でaliasをはる。root使えばいらない子のようなきがする。用途としてはbowerでとってきたときのmainに設定されてないファイルを使いたい場合くらいかな。</p>
+
+<p>```javascript
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    alias: {
+        bar: path.join(current, 'bower_components/foo/plugins/bar.js')
+    }
+}
+// 他の設定
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var bar = require(&lsquo;bar&rsquo;);
+```</p>
+
+<h2>plugins</h2>
+
+<p>loaderと並んでwebpackの強力な機能。というか一部どっち使えばいいか迷うものもある。後述。</p>
+
+<p><a href="https://github.com/webpack/docs/wiki/list-of-plugins">plugins一覧</a></p>
+
+<p>見てわかるように非常に沢山あるので自分も見切れてないです。なので便利なやつだけ一部紹介します。</p>
+
+<h3>ResolverPlugin</h3>
+
+<p>これとresolveのrootの設定と組わせると、bowerでとってきたmoduleをそのままrequireすることが可能。非常に便利。他の用途もあるんだろうけど知らない。</p>
+
+<p>```
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    root: [
+        path.join(current, 'bower_components')
+    ]
+},
+plugins: {
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+}
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var $ = require(&lsquo;jquery&rsquo;);
+```
+※ bowerモジュールの中にはbower.jsonをignoreに設定しているものがあるため、bowerが動的に作成する.bower.jsonを参照する方が安全。</p>
+
+<h3>ProvidePlugin</h3>
+
+<p>指定した変数を他のモジュール内で使用できるようにする。globalには置かない。</p>
+
+<p>```
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    root: [
+        path.join(current, 'bower_components')
+    ]
+},
+plugins: {
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+},
+new webpack.ProvidePlugin({
+    jQuery: "jquery",
+    $: "jquery"
+})
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var $ = require(&lsquo;jquery&rsquo;);
+require(&lsquo;jquery-ui&rsquo;);
+```</p>
+
+<p>jQueryとかAngularのプラグインは、jQueryやangular変数に対してオブジェクトを追加する形となるため、その変数を参照できないとエラーになってしまいます。</p>
+
+<p>そのときこのprovidePluginを使用するとこの問題を解決できるのですが、グローバル変数を生成するexpose-loaderでも解決することができます。</p>
+
+<p>グローバル汚染しない分providePluginを使用する方が望ましいですが、別機能でwebpackに依存しないモジュールが画面内にあったりする場合はexpose-loaderで解決してもよいでしょう。</p>
+
+<h3>開発環境向けplugin</h3>
+
+<ul>
+<li><p>HotModuleReplacementPlugin</p>
+
+<p>  webpack-dev-serverを使っているときに、画面をリロードすることなくモジュールの差し替えを可能にする。（実験的機能）</p></li>
+<li><p>NoErrorsPlugin</p>
+
+<p>  compile時にエラーが出たらskipする。</p></li>
+</ul>
+
+
+<h3>本番環境向けplugin</h3>
+
+<ul>
+<li><p>DedupePlugin</p>
+
+<p>  被ってるモジュールがいたらひとつにまとめる。</p></li>
+<li><p>UglifyJsPlugin</p>
+
+<p>  compile時にuglifyでminimizeする。</p></li>
+<li><p>OccurenceOrderPlugin</p>
+
+<p>  よく使われるモジュールに降るIDの桁数をより短くすることでよりコードを圧縮する。</p></li>
+<li><p>AggressiveMergingPlugin</p>
+
+<p>  ファイルを細かく分析し、まとめられるところはできるだけまとめてコードを圧縮する。Closure CompilerのADVANCED_OPTIMIZATIONみたいなことはしない。</p></li>
+</ul>
+
+
+<h2>Webpack Deb Server</h2>
+
+<p>webpackが提供している開発環境向けのサーバー。compile時に時間がかかる問題を、修正がかかった箇所だけcompileする方式を採用することで高速化している。</p>
+
+<p>上記で紹介したHotModuleReplacementPluginを使用するとreloadなしにモジュールの再読み込みが可能。</p>
+
+<p>が、これ実際に使おうとすると情報が少なかったりして結構苦戦したので備忘録。</p>
+
+<p>今回サンプルのアプリケーションを作成したときの開発環境、本番環境、webpack dev server、gulp-serveでたてたstaticサーバのそれぞれのconfig</p>
+
+<p>```
+// 本番環境
+{</p>
+
+<pre><code>entry: {
+    top: dir.js + '/main.js',
+},
+output: {
+    filename: '[name].bundle.js',
+    publicPath: '/js/'
+},
+resolve: {
+    extensions: ['', '.js'],
+    root: [
+        path.join(current, 'bower_components'),
+        path.join(current, dir.js, 'modules'),
+        path.join(current, dir.js, 'templates')
+    ]
+},
+debug: false,
+devtool: false,
+stats: {
+    colors: true,
+    reasons: false
+},
+plugins: [
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.ProvidePlugin({
+        jQuery: "jquery",
+        $: "jquery"
+    })
+],
+module: {
+    loaders: [
+        { test: /\.html$/, loader: 'html?minimize' }
+    ]
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// 開発環境
+{</p>
+
+<pre><code>entry: {
+    top: dir.js + '/main.js',
+},
+output: {
+    path: path.join(current, 'app',  'js'),
+    filename: '[name].bundle.js',
+    publicPath: '/js/'
+},
+resolve: {
+    extensions: ['', '.js'],
+    root: [
+        path.join(current, 'bower_components'),
+        path.join(current, dir.js, 'modules'),
+        path.join(current, dir.js, 'templates')
+    ]
+},
+cache: true,
+debug: true,
+devtool: false,
+stats: {
+    colors: true,
+    reasons: false
+},
+plugins: [
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+        jQuery: "jquery",
+        $: "jquery"
+    })
+],
+module: {
+    loaders: [
+        { test: /\.html$/, loader: 'html?minimize' }
+    ]
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// webpack dev server
+{</p>
+
+<pre><code>contentBase: "http://localhost:3000",
+hot: true,
+quiet: false,
+noInfo: false,
+lazy: false,
+watchDelay: 300,
+publicPath: "http://localhost:9000/js/",
+stats: { colors: true }
+</code></pre>
+
+<p>}</p>
+
+<p>// static server by gulp-serve
+{</p>
+
+<pre><code>port: 3000,
+root: [dir.tmp, dir.app]
+</code></pre>
+
+<p>}
+```</p>
+
+<h3>ハマりポイント1</h3>
+
+<p>webpack dev serverでは"<a href="http://localhost:9000/webpack-dev-server/">http://localhost:9000/webpack-dev-server/</a>&ldquo;のようなURLでページを確認することになるため、pathをどう通していいかわからない。</p>
+
+<p>→ と思っていたらiframeで"/webpack-dev-server/&ldquo;の部分を削ったページを表示していたので、pathに関してはやってみたら問題なかった。</p>
+
+<h3>ハマりポイント2</h3>
+
+<p>webpack dev serverでは、baseが一箇所しか指定できないため、開発環境でcompileしたファイルだけtmpディレクトリに置き、compileせずにそのまま使うファイルはappディレクトリに置いてどちらも参照する方法がわからない。</p>
+
+<p>→ 別でたてたサーバをcontentBaseに設定することが可能。そのためgulp-serveを使って.tmpとappをrootにしたサーバを立ち上げ、webpack dev serverをそこに向けることができる。</p>
+
+<p><code>contentBase: "http://localhost:3000",</code> のところ。</p>
+
+<h3>はまりポイント3</h3>
+
+<p>2の対策をした場合に、webpack dev serverが動的にcompileをかけるjsファイルの参照の仕方がわからない。</p>
+
+<p>→ jsファイルのみwebpack dev serverの方のportを参照する必要あり。自分の場合"<a href="http://localhost:9000/js/top.bundle.js">http://localhost:9000/js/top.bundle.js</a>"を参照している。</p>
+
+<p>またその場合に本番環境ではそのままにするわけにはいかないので、自分の場合はgulp-ectでhtmlも本番用と開発用を分けてbuildできるようにした。</p>
+
+<p>ただ正直ここは自動で書き換えられるようにwebpack側で対応入れて欲しい。</p>
+
+<h3>はまりポイント4</h3>
+
+<p>webpack dev serverのwatchとgulp-watchの住み分けをどうすればいいかわからない。</p>
+
+<p>→ webpack dev serverとwatchを並列で実行してしまえば問題ない。もちろんwatchの方でwebpackで管理しているファイルの監視をする必要はない。</p>
+
+<p>以上、なかなか厄介でしたがとりあえず使えるようになりました。</p>
+
+<h2>AMD形式の読み込み</h2>
+
+<p>requireの第二引数のfunctionを入れれば、結果がcallbackで返ってくる。</p>
+
+<p>この後紹介するsampleでは使っていないが、publicPathに設定したディレクトリに非同期で読み込むファイルが置かれる。</p>
+
+<p>requirejsとは違い、非同期で読み込む先のファイルも最適なbuildがかかった状態になるためパフォーマンスがよい。また、複雑なファイル解析はせず、単純にjsonp形式で追加モジュールを読み込むため非常にシンプル。</p>
+
+<h2>その他</h2>
+
+<ul>
+<li>webpackでは全てのモジュールが閉じたスコープ内で管理される。（もちろんexpose-loaderを使用しない限り）</li>
+<li>何度requireしてもキャッシュされた同じ箇所を参照するのみなので、パフォーマンスに悪影響を与えない。例えばurl-loaderで何度画像をrequireしても、文字列として展開される箇所は一箇所。</li>
+</ul>
+
+
+<h2>サンプルアプリケーション</h2>
+
+<p>今回紹介したポイントをほとんど抑えたサンプルを作成しました。</p>
+
+<p><a href="http://instarest.thujikun.com/">demo</a></p>
+
+<p>やっていることは</p>
+
+<ol>
+<li>instagramのAPIで画像及びテキストデータ取得。</li>
+<li>pinterest風に並べる。</li>
+</ol>
+
+
+<p>の２つです。環境は</p>
+
+<ul>
+<li>gulp</li>
+<li>webpack</li>
+<li>webpack-dev-server</li>
+<li>stylus</li>
+<li>ect</li>
+</ul>
+
+
+<p>を用いて開発環境と本番環境をそれぞれ別々に構築していて、Backbone、Angular、react等のフレームワークには依存していないので、応用しやすいかなと思います。</p>
+
+<p><a href="https://github.com/thujikun/instarest/tree/master/">source</a></p>
+
+<p>ふー、なんとか日にち間に合った。駆け足だったので変なこと書いていたら教えて下さい。使い倒すとか言ってますがまだまだ使い倒せてません＞＜</p>
+
+<p><a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>の8日目は、muyuuさんです！よろしくお願いします！</p>
+]]></content>
+  </entry>
+  
+</feed>

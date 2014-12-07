@@ -1,0 +1,1399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | Thujikun blog]]></title>
+  <link href="http://thujikun.github.io/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://thujikun.github.io/"/>
+  <updated>2014-12-07T19:11:14+09:00</updated>
+  <id>http://thujikun.github.io/</id>
+  <author>
+    <name><![CDATA[Ryosuke Tsuji]]></name>
+    <email><![CDATA[tsuji.0107@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[webpackを使い倒す]]></title>
+    <link href="http://thujikun.github.io/blog/2014/12/07/webpack/"/>
+    <updated>2014-12-07T16:23:03+09:00</updated>
+    <id>http://thujikun.github.io/blog/2014/12/07/webpack</id>
+    <content type="html"><![CDATA[<p>本エントリー<a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>&nbsp;7日目の記事になります。</p>
+
+<h2>webpackとは</h2>
+
+<p>概要については最近いろんな方が書いてるいるのでそちらを参考にしていただければつかめるかと。</p>
+
+<ul>
+<li><a href="http://qiita.com/shn/items/7bd544a39ee7ac858669">全部のせRequireJSっぽいWebpackを使ってみた。</a></li>
+<li><a href="http://ameblo.jp/ca-1pixel/entry-11884453208.html">RequireJS等はもう古い。WebPackとは？</a></li>
+</ul>
+
+
+<p>ようはナウいフロントエンドの依存解決ツールですね。</p>
+
+<p>っていうネタで書こうと思っていたら、昨日yutaponさんが既に書いていたりするので（<a href="http://yutapon.hatenablog.com/entry/2014/12/06/123000">gulp.jsを使ってフロントエンドのビルドをする【webpack, stylus】</a>）、いいところは<del>パクリ</del>参考にしつつ、もうちょっとwebpackに突っ込んだ内容を書いてみようと思います。</p>
+
+<h2>Options</h2>
+
+<h3>entryとoutput</h3>
+
+<p>簡単に試すときはentryは1ファイルだけ指定できればよいですが、実際にプロジェクトで使うとなると複数のファイルを指定しなければならない状況になるかと思います。</p>
+
+<p>webpackのentryはオブジェクト形式に対応していて、outputでそのproperty名を使用して動的に名前をつけることでその問題が解決できます。</p>
+
+<p>```javascript</p>
+
+<pre><code>entry: {
+    top: './app/main.js',
+    list: './app/list/main.js'
+},
+output: {
+    filename: '[name].bundle.js',
+    publicPath: '/assets/'
+}
+</code></pre>
+
+<p>```</p>
+
+<p>上記のような設定をすることで結果的に top.bundle.jsとlist.bundle.jsの2ファイルがdestに指定したディレクトリに置かれることになります。</p>
+
+<h3>loader</h3>
+
+<p>Webpackの大きな特徴としてjs以外のどんなファイルでもloaderさえ使えば読み込むことができる、というのがあります。</p>
+
+<p><a href="http://webpack.github.io/docs/list-of-loaders.html">loader一覧</a></p>
+
+<p>上記を見てわかるようにかなりの数のloaderがあるので、いくつかpuckupして紹介します。</p>
+
+<ul>
+<li><p>html-loader</p>
+
+<p>  htmlファイルを読み込んで文字列としてjs内で使用することが可能。underscoreのtemplateなど、フロントでrenderingをするときに非常に便利。</p></li>
+<li><p>css-loader(sass-loader, stylus-loader)</p>
+
+<p>  cssファイルをテキストとして読み込んで、headに埋め込むことが可能。sass-loaderやstylus-loaderの場合compileも同時に行う。angularやreact等を使ってHTMLをcomponentとして扱っている場合に有効。</p></li>
+<li><p>json-loader</p>
+
+<p>  jsonファイルを読み込んで、jsのオブジェクトに変換して使うことが可能。</p></li>
+<li><p>coffee-loader</p>
+
+<p>  coffee scriptで書かれたファイルをjsに変換して読み込むことが可能。</p></li>
+<li><p>jade-loader</p>
+
+<p>  jadeで書かれたファイルをhtmlに変換して読み込むことが可能。</p></li>
+<li><p>es6-loader</p>
+
+<p>  es6で書かれたコードをes5互換にして読み込むことが可能。</p></li>
+<li><p>url-loader
+  ファイルサイズが小さい場合data-uriに変換して読み込み、大きい場合はそのままpathとして読み込むことが可能。</p></li>
+<li><p>expose-loader</p>
+
+<p>  指定したファイル内のオブジェクトをグローバル変数として外に公開することが可能。詳しくは下の例を見るとわかりやすい。</p></li>
+<li><p>export-loader</p>
+
+<p>  commonJS形式に対応していない（module.exportsがない）jsファイルにmodule.exportsの記述を追加し、内部の変数を外に公開することが可能。</p></li>
+</ul>
+
+
+<p>などなどwebpackを強力なツールたらしめているのがloaderです。是非使いこなしましょう。</p>
+
+<p>```javascript
+// configで指定する場合
+module: {</p>
+
+<pre><code>loaders: [
+    // htmlファイルを読み込んだ場合にhtml-loaderを使用する。その際minimizeする。
+    { test: /\.html$/, loader: 'html?minimize' },
+
+    // cssファイルを読み込んだ場合にcss-loaderを使用する。その際minimizeする。
+    { test: /\.css$/, loader: 'css?minimize' },
+
+    // jsonファイルを読み込んだ場合にjson-loaderを使用する。
+    { test: /\.json$/, loader: 'json' },
+
+    // coffeeファイルを読み込んだ場合にcoffee-loaderを使用する。
+    { test: /\.coffee$/, loader: 'coffee' },
+
+    // jadeファイルを読み込んだ場合にjade-loaderを使用する。
+    { test: /\.jade$/, loader: 'jade' },
+
+    // es6で記述されたjsファイルを読み込んだ場合にes6-loaderを使用する。
+    { test: /\.js$/, loader: 'es6' },
+
+    // 画像ファイルを読み込んだ場合にurl-loaderを使用する。ファイルサイズが8kb以下であればdata-uriに変換する
+    { test: /\.png$/, loader: 'url?limit=8192' },
+
+    // jQueryを読み込んだ場合に"jQuery"をグローバルオブジェクトにする。
+    { test: /\.jquery.js$/, loader: 'espose?jQuery' },
+    // var $ = require('jquery');
+    // でグローバル変数にjQUeryが登録される
+
+    // angularJsを読み込んだ場合に"angular"を外に公開する。
+    { test: /angular\.js$/, loader: 'exports?angular' }
+    // var angular = require('angular');
+    // で変数"angular"が取得できる
+],
+</code></pre>
+
+<p>}</p>
+
+<p>// requireのタイミングでloaderを指定することもできる。
+// settings.jsonをjsのオブジェクトとして使用する。
+var settings = require(&lsquo;json!./data/settings.json&rsquo;);</p>
+
+<p>// angularオブジェクトを使用する
+var angular = require(&lsquo;exports?angular!angular&rsquo;);</p>
+
+<p>```</p>
+
+<h2>resolve</h2>
+
+<h3>extention</h3>
+
+<p>読み込む際に拡張子を省略できるようにする。jsはデフォルトで入っている。個人的にはコンポーネントを作成した場合に名前を被らせることが多いのでjs以外の省略はしていない。</p>
+
+<p>```
+resolve: {</p>
+
+<pre><code>extenstions: ['', '.js', '.json', '.html']
+</code></pre>
+
+<p>}
+// 上記のようになっているとき、下記のように省略することが可能。
+// require(&lsquo;settings.json&rsquo;) &ndash;>require(&lsquo;settings&rsquo;)
+// require(&lsquo;item-template.html&rsquo;) &ndash;>require(&lsquo;item-template&rsquo;)
+```</p>
+
+<h3>root</h3>
+
+<p>requireで読み込むときのrootのpathを指定できる。配列で複数の指定が可能。下記のようなディレクトリ構造の場合</p>
+
+<p>```
+gulpfile.js
+gulp ┬ config.js</p>
+
+<pre><code> └ tasks ─ 各タスクファイル
+</code></pre>
+
+<p>app ─ js ┬ app.js</p>
+
+<pre><code>     └ ─ modules ┬ dialog.js
+                 └ tab.js
+</code></pre>
+
+<p>```
+通常であれば</p>
+
+<p><code>javascript
+//@file app.js
+var dialog = require('./modules/dialog');
+var tab = require('./modules/tab');
+</code></p>
+
+<p>としなければならないところを、</p>
+
+<p>```javascript
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    root: path.join(current, 'app/js/modules')
+}
+// 他の設定
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var dialog = require(&lsquo;dialog&rsquo;);
+var tab = require(&lsquo;tab&rsquo;);
+```</p>
+
+<p>のように記述することが可能。</p>
+
+<h3>alias</h3>
+
+<p>ファイル単位でaliasをはる。root使えばいらない子のようなきがする。用途としてはbowerでとってきたときのmainに設定されてないファイルを使いたい場合くらいかな。</p>
+
+<p>```javascript
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    alias: {
+        bar: path.join(current, 'bower_components/foo/plugins/bar.js')
+    }
+}
+// 他の設定
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var bar = require(&lsquo;bar&rsquo;);
+```</p>
+
+<h2>plugins</h2>
+
+<p>loaderと並んでwebpackの強力な機能。というか一部どっち使えばいいか迷うものもある。後述。</p>
+
+<p><a href="https://github.com/webpack/docs/wiki/list-of-plugins">plugins一覧</a></p>
+
+<p>見てわかるように非常に沢山あるので自分も見切れてないです。なので便利なやつだけ一部紹介します。</p>
+
+<h3>ResolverPlugin</h3>
+
+<p>これとresolveのrootの設定と組わせると、bowerでとってきたmoduleをそのままrequireすることが可能。非常に便利。他の用途もあるんだろうけど知らない。</p>
+
+<p>```
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    root: [
+        path.join(current, 'bower_components')
+    ]
+},
+plugins: {
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+}
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var $ = require(&lsquo;jquery&rsquo;);
+```
+※ bowerモジュールの中にはbower.jsonをignoreに設定しているものがあるため、bowerが動的に作成する.bower.jsonを参照する方が安全。</p>
+
+<h3>ProvidePlugin</h3>
+
+<p>指定した変数を他のモジュール内で使用できるようにする。globalには置かない。</p>
+
+<p>```
+//@ config.js
+var path = require(&lsquo;path&rsquo;),</p>
+
+<pre><code>current = process.cwd();
+</code></pre>
+
+<p>module.exports = {</p>
+
+<pre><code>// 他の設定
+resolve: {
+    root: [
+        path.join(current, 'bower_components')
+    ]
+},
+plugins: {
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+},
+new webpack.ProvidePlugin({
+    jQuery: "jquery",
+    $: "jquery"
+})
+</code></pre>
+
+<p>};</p>
+
+<p>//@app.js
+var $ = require(&lsquo;jquery&rsquo;);
+require(&lsquo;jquery-ui&rsquo;);
+```</p>
+
+<p>jQueryとかAngularのプラグインは、jQueryやangular変数に対してオブジェクトを追加する形となるため、その変数を参照できないとエラーになってしまいます。</p>
+
+<p>そのときこのprovidePluginを使用するとこの問題を解決できるのですが、グローバル変数を生成するexpose-loaderでも解決することができます。</p>
+
+<p>グローバル汚染しない分providePluginを使用する方が望ましいですが、別機能でwebpackに依存しないモジュールが画面内にあったりする場合はexpose-loaderで解決してもよいでしょう。</p>
+
+<h3>開発環境向けplugin</h3>
+
+<ul>
+<li><p>HotModuleReplacementPlugin</p>
+
+<p>  webpack-dev-serverを使っているときに、画面をリロードすることなくモジュールの差し替えを可能にする。（実験的機能）</p></li>
+<li><p>NoErrorsPlugin</p>
+
+<p>  compile時にエラーが出たらskipする。</p></li>
+</ul>
+
+
+<h3>本番環境向けplugin</h3>
+
+<ul>
+<li><p>DedupePlugin</p>
+
+<p>  被ってるモジュールがいたらひとつにまとめる。</p></li>
+<li><p>UglifyJsPlugin</p>
+
+<p>  compile時にuglifyでminimizeする。</p></li>
+<li><p>OccurenceOrderPlugin</p>
+
+<p>  よく使われるモジュールに降るIDの桁数をより短くすることでよりコードを圧縮する。</p></li>
+<li><p>AggressiveMergingPlugin</p>
+
+<p>  ファイルを細かく分析し、まとめられるところはできるだけまとめてコードを圧縮する。Closure CompilerのADVANCED_OPTIMIZATIONみたいなことはしない。</p></li>
+</ul>
+
+
+<h2>Webpack Deb Server</h2>
+
+<p>webpackが提供している開発環境向けのサーバー。compile時に時間がかかる問題を、修正がかかった箇所だけcompileする方式を採用することで高速化している。</p>
+
+<p>上記で紹介したHotModuleReplacementPluginを使用するとreloadなしにモジュールの再読み込みが可能。</p>
+
+<p>が、これ実際に使おうとすると情報が少なかったりして結構苦戦したので備忘録。</p>
+
+<p>今回サンプルのアプリケーションを作成したときの開発環境、本番環境、webpack dev server、gulp-serveでたてたstaticサーバのそれぞれのconfig</p>
+
+<p>```
+// 本番環境
+{</p>
+
+<pre><code>entry: {
+    top: dir.js + '/main.js',
+},
+output: {
+    filename: '[name].bundle.js',
+    publicPath: '/js/'
+},
+resolve: {
+    extensions: ['', '.js'],
+    root: [
+        path.join(current, 'bower_components'),
+        path.join(current, dir.js, 'modules'),
+        path.join(current, dir.js, 'templates')
+    ]
+},
+debug: false,
+devtool: false,
+stats: {
+    colors: true,
+    reasons: false
+},
+plugins: [
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.ProvidePlugin({
+        jQuery: "jquery",
+        $: "jquery"
+    })
+],
+module: {
+    loaders: [
+        { test: /\.html$/, loader: 'html?minimize' }
+    ]
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// 開発環境
+{</p>
+
+<pre><code>entry: {
+    top: dir.js + '/main.js',
+},
+output: {
+    path: path.join(current, 'app',  'js'),
+    filename: '[name].bundle.js',
+    publicPath: '/js/'
+},
+resolve: {
+    extensions: ['', '.js'],
+    root: [
+        path.join(current, 'bower_components'),
+        path.join(current, dir.js, 'modules'),
+        path.join(current, dir.js, 'templates')
+    ]
+},
+cache: true,
+debug: true,
+devtool: false,
+stats: {
+    colors: true,
+    reasons: false
+},
+plugins: [
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('.bower.json', ['main'])
+    ),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+        jQuery: "jquery",
+        $: "jquery"
+    })
+],
+module: {
+    loaders: [
+        { test: /\.html$/, loader: 'html?minimize' }
+    ]
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// webpack dev server
+{</p>
+
+<pre><code>contentBase: "http://localhost:3000",
+hot: true,
+quiet: false,
+noInfo: false,
+lazy: false,
+watchDelay: 300,
+publicPath: "http://localhost:9000/js/",
+stats: { colors: true }
+</code></pre>
+
+<p>}</p>
+
+<p>// static server by gulp-serve
+{</p>
+
+<pre><code>port: 3000,
+root: [dir.tmp, dir.app]
+</code></pre>
+
+<p>}
+```</p>
+
+<h3>ハマりポイント1</h3>
+
+<p>webpack dev serverでは"<a href="http://localhost:9000/webpack-dev-server/">http://localhost:9000/webpack-dev-server/</a>&ldquo;のようなURLでページを確認することになるため、pathをどう通していいかわからない。</p>
+
+<p>→ と思っていたらiframeで"/webpack-dev-server/&ldquo;の部分を削ったページを表示していたので、pathに関してはやってみたら問題なかった。</p>
+
+<h3>ハマりポイント2</h3>
+
+<p>webpack dev serverでは、baseが一箇所しか指定できないため、開発環境でcompileしたファイルだけtmpディレクトリに置き、compileせずにそのまま使うファイルはappディレクトリに置いてどちらも参照する方法がわからない。</p>
+
+<p>→ 別でたてたサーバをcontentBaseに設定することが可能。そのためgulp-serveを使って.tmpとappをrootにしたサーバを立ち上げ、webpack dev serverをそこに向けることができる。</p>
+
+<p><code>contentBase: "http://localhost:3000",</code> のところ。</p>
+
+<h3>はまりポイント3</h3>
+
+<p>2の対策をした場合に、webpack dev serverが動的にcompileをかけるjsファイルの参照の仕方がわからない。</p>
+
+<p>→ jsファイルのみwebpack dev serverの方のportを参照する必要あり。自分の場合"<a href="http://localhost:9000/js/top.bundle.js">http://localhost:9000/js/top.bundle.js</a>"を参照している。</p>
+
+<p>またその場合に本番環境ではそのままにするわけにはいかないので、自分の場合はgulp-ectでhtmlも本番用と開発用を分けてbuildできるようにした。</p>
+
+<p>ただ正直ここは自動で書き換えられるようにwebpack側で対応入れて欲しい。</p>
+
+<h3>はまりポイント4</h3>
+
+<p>webpack dev serverのwatchとgulp-watchの住み分けをどうすればいいかわからない。</p>
+
+<p>→ webpack dev serverとwatchを並列で実行してしまえば問題ない。もちろんwatchの方でwebpackで管理しているファイルの監視をする必要はない。</p>
+
+<p>以上、なかなか厄介でしたがとりあえず使えるようになりました。</p>
+
+<h2>AMD形式の読み込み</h2>
+
+<p>requireの第二引数のfunctionを入れれば、結果がcallbackで返ってくる。</p>
+
+<p>この後紹介するsampleでは使っていないが、publicPathに設定したディレクトリに非同期で読み込むファイルが置かれる。</p>
+
+<p>requirejsとは違い、非同期で読み込む先のファイルも最適なbuildがかかった状態になるためパフォーマンスがよい。また、複雑なファイル解析はせず、単純にjsonp形式で追加モジュールを読み込むため非常にシンプル。</p>
+
+<h2>その他</h2>
+
+<ul>
+<li>webpackでは全てのモジュールが閉じたスコープ内で管理される。（もちろんexpose-loaderを使用しない限り）</li>
+<li>何度requireしてもキャッシュされた同じ箇所を参照するのみなので、パフォーマンスに悪影響を与えない。例えばurl-loaderで何度画像をrequireしても、文字列として展開される箇所は一箇所。</li>
+</ul>
+
+
+<h2>サンプルアプリケーション</h2>
+
+<p>今回紹介したポイントをほとんど抑えたサンプルを作成しました。</p>
+
+<p><a href="http://instarest.thujikun.com/">demo</a></p>
+
+<p>やっていることは</p>
+
+<ol>
+<li>instagramのAPIで画像及びテキストデータ取得。</li>
+<li>pinterest風に並べる。</li>
+</ol>
+
+
+<p>の２つです。環境は</p>
+
+<ul>
+<li>gulp</li>
+<li>webpack</li>
+<li>webpack-dev-server</li>
+<li>stylus</li>
+<li>ect</li>
+</ul>
+
+
+<p>を用いて開発環境と本番環境をそれぞれ別々に構築していて、Backbone、Angular、react等のフレームワークには依存していないので、応用しやすいかなと思います。</p>
+
+<p><a href="https://github.com/thujikun/instarest/tree/master/">source</a></p>
+
+<p>ふー、なんとか日にち間に合った。駆け足だったので変なこと書いていたら教えて下さい。使い倒すとか言ってますがまだまだ使い倒せてません＞＜</p>
+
+<p><a href="http://qiita.com/advent-calendar/2014/javascript">JavaScript Advent Calendar 2014</a>の8日目は、muyuuさんです！よろしくお願いします！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[便利なjavascriptテクニック集]]></title>
+    <link href="http://thujikun.github.io/blog/2013/12/15/js-tech/"/>
+    <updated>2013-12-15T10:33:40+09:00</updated>
+    <id>http://thujikun.github.io/blog/2013/12/15/js-tech</id>
+    <content type="html"><![CDATA[<p>今回はjavascriptで知ってる人にとっては当たり前だけど、そうでない人は全然知らないようなテクニックをまとめていきます。</p>
+
+<h2>globalを汚さない無名関数スコープ</h2>
+
+<p>javascriptの問題のひとつとしてスコープがよくとりあげられますが、ここではグローバルスコープを汚さない手法を紹介していきます。</p>
+
+<h3>悪い例</h3>
+
+<p><code>javascript
+// これはグローバルスコープ
+var foo = 'bar';
+</code>
+ちなみにglobalスコープとはwindowオブジェクトにプロパティを追加していくことと同義です。<br/>
+<code>javascript
+// 下記の２つは結果として同じことを行っている。
+var foo = 'bar';
+window.foo = 'bar';
+</code>
+解決するには下記のように無名関数を用います。<br/>
+```javascript
+// 無名関数をつくり即時実行
+;(function() {</p>
+
+<pre><code>// スコープが関数内で閉じる。
+var foo = 'bar';
+</code></pre>
+
+<p>}.call(this));
+<code>
+また、jQueryを使うときは、下記のように引数でjQueryを渡して、$という名前で引数として受け取ってあげると、$のconflict問題から開放されます。  
+というか$をグローバル参照するのはバグの元になるのでやめましょう。
+</code>javascript
+;(function($) {</p>
+
+<pre><code>// スコープが関数内で閉じる。
+var foo = 'bar';
+$('#hoge').text('hogehoge')
+</code></pre>
+
+<p>}.call(this, jQuery));
+<code>
+ちなみに無名関数の書き方は他にもあります。気にしなきゃいけないほどの違いはないので好みで選んでよいでしょう。  
+</code>javascript
+// カッコの位置がちょっと違う。
+;(function() {
+}).call(this);</p>
+
+<p>// jslintだとsyntaxエラーになるかも。一応一文字少ないので一番軽い。
+;!function() {
+}.call(this);
+```
+※1 先頭のセミコロンはconcatした場合に、エラーになる可能性を排除するためです。<br/>
+※2 callを使っているのは、通常の関数呼び出しだとstrictモードの場合に無名関数内部のthisがwindowオブジェクトにならないためです。</p>
+
+<h2>ArrayっぽいけどArrayじゃないObjectをArrayにする方法</h2>
+
+<p>document.getElementsByClassNameとかdocument.querySelectorAllとかで複数のDOMを取得したときの戻り値とか、argumentsプロパティは見た感じArrayっぽいのにArrayにはなってません。<br/>
+その結果何がどうなるかというと、pushとかjoinとかArrayが持っているメソッドが使えず、非常に使いづらい状態です。<br/>
+それを解消するための方法が下記のテクニックです。<br/>
+```javascript
+// リストのDOMを取得
+var list = document.querySelectorAll(&lsquo;.hoge-list li&rsquo;);</p>
+
+<p>// ArrayっぽいObjectからArrayに変換
+list = Array.prototype.slice.call(list);
+```
+ちょっと解説すると、まずArray型が持っているメソッドで、配列の一部を切り出すsliceメソッドがあります。<br/>
+これは非破壊的メソッドで、このメソッドを実行したArrayはそのままで、実行結果を新しいArrayとして返却してくれます。<br/>
+その結果引数を指定しなければ、Arrayをシャローコピー(1階層のみコピー)することができます。<br/>
+さらにその特性を活かして、sliceをArrayのprototypeから直接呼び出し、callを使ってthisをArrayっぽいObjectで上書くことで完全なArray型にキャストすることができます。</p>
+
+<h2>関数のthisを指定したObjectでbind</h2>
+
+<p>当たり前に使われてますが、知らない人も結構多いかと思うので一応。applyとcallです。<br/>
+javascriptのfunction型はprototypeにcallとapplyってメソッドを持っていて、呼び出したfunctionのthisを第一引数でbindすることができます。<br/>
+```javascript
+function hoge(foo) {</p>
+
+<pre><code>console.log(this.hoge, foo);
+// -&gt; hogehoge bar
+</code></pre>
+
+<p>}
+// hoge関数のthisに文字列’hogehoge’を指定して実行。
+hoge.call({hoge: &lsquo;hogehoge&rsquo;}, &lsquo;bar&rsquo;);
+```
+jQueryでthisを参照するとDOMオブジェクトになってるのはこういう方法を使ってます。そのせいでthisってなんぞ？みたいなことになるわけですが。<br/>
+callとapplyの違いは関数の引数の指定方法です。<br/>
+callは第2引数が第1引数に、第3引数が第2引数に、といった具合に順番がひとつずつずれる方法になります。<br/>
+applyは第2引数をArray指定する形になっていて、それが順番に引数になります。<br/>
+apply使うと$.whenみたいなArrayの引数ではなく可変長な引数の関数が格段に使いやすくなるのでお勧めです。</p>
+
+<h2>可変長引数の扱い方</h2>
+
+<p>関数で可変長な引数に対応したい場合がたまにあります。その方が綺麗に見える場合だったり、プラグインを独自拡張したい場合だったり。<br/>
+そんなときに使えるのargumentsプロパティです。
+```javascript
+function hoge(name1, name2) {</p>
+
+<pre><code>console.log(name, name2);
+// -&gt; foo bar
+
+// arumentsプロパティには引数が入っている
+console.log(arguments[0], arguments[1]);
+// -&gt; foo bar
+</code></pre>
+
+<p>}
+hoge(&lsquo;foo&rsquo;, &lsquo;bar&rsquo;);
+<code>
+ただ、実際に可変長引数を使いたいと思った場合は、for文とかでまわして処理を行いたいことが多いです。  
+しかし、argumentsプロパティは配列っぽい要素であって配列ではありません。というわけで、上で書いた手法がよく使われることになります。  
+</code>javascript
+function hoge() {</p>
+
+<pre><code>var args = Array.prototype.slice.call(arguments);
+
+args.forEach(function(value)) {
+    // 引数それぞれに対しての処理
+}
+</code></pre>
+
+<p>}
+<code>
+ちなみにargumentsプロパティは実装がヤバイらしく、あまり使用が推奨されていません。  
+ES6からは正式に可変長引数がサポートされるので将来的にはそっちを使うほうがよいです。  
+あとこれ必要ない場合に使うと可読性が著しく落ちるのでご利用は計画的に。  
+最後に、プラグイン内部で関数どおしが何やってるかわからないけど、一部の値をちょっと書き換えたり、取得したいって場合がまれによくあります。  
+そんなときは下記のようなテクニックが使えます。  
+</code>javascript
+// 元の処理を退避
+var _ajax = Backbone.ajax;</p>
+
+<p>Backbone.ajax = function() {</p>
+
+<pre><code>// なんか独自処理
+
+// 元々のBackbone.ajaxを本来呼ばれたときと同じ形で呼び出す。
+_ajax.apply(this, arguments);
+</code></pre>
+
+<p>};
+```
+このときはBackboneのajaxをカスタマイズして、エラーハンドリングを全処理で共通的に行うようなことをしたんですが、長くなるので今回は見送ります。</p>
+
+<h2>argumentsの隠された力</h2>
+
+<p>argumentsプロパティは上で書いたようによく引数取得で使われるわけですが、実は隠された力を持っています。<br/>
+ただその力はあまりにチートで危険すぎるため、strictモードでは禁止されていますのであらかじめご了承ください。</p>
+
+<h3>arguments.callee</h3>
+
+<p>まず一つ目はarguments.calleeです。これはその関数自身のことです。無名関数だけど再帰処理がしたい場合とかに使えます。<br/>
+```javascript
+var deepCopy = function(obj) {</p>
+
+<pre><code>var name,
+    ret;
+
+if(typeof obj === 'object') {
+    ret = {};
+    for(name in obj) {
+        if(typeof obj[name] === 'object') {
+            ret[name] = arguments.callee(obj[name]);
+        } else {
+            ret[name] = obj[name];
+        }
+    }
+} else {
+    ret = obj;
+}
+
+return ret;
+</code></pre>
+
+<p>};
+<code>
+上記はObjectをdeepコピーする関数ですが、無名関数で作っているため再帰処理をする場合に自分自身を関数名で呼び出すことができません。  
+そのため、arguments.calleeで自分自身を呼んでいます。  
+もちろん名前付き関数として定義すれば問題なく動作しますが、関数名変えたりする場合に一箇所修正すればいいので個人的には好きな書き方です。  
+あと[@azu_re](https://twitter.com/azu_re)さんからご指摘もらった件について追記します。  
+IE8を無視すれば名前付き関数式がサポートされてるので下記のような書き方が可能です。  
+</code>
+var deepCopy = function dc(obj) {</p>
+
+<pre><code>var name,
+    ret;
+
+if(typeof obj === 'object') {
+    ret = {};
+    for(name in obj) {
+        if(typeof obj[name] === 'object') {
+            ret[name] = dc(obj[name]);
+        } else {
+            ret[name] = obj[name];
+        }
+    }
+} else {
+    ret = obj;
+}
+
+return ret;
+</code></pre>
+
+<p>};</p>
+
+<p>// IE8に対応した書き方は下記のような感じ
+var deepCopy = function (obj) {</p>
+
+<pre><code>return dc(obj);
+
+function dc(obj) {
+    var name,
+        ret;
+
+    if(typeof obj === 'object') {
+        ret = {};
+        for(name in obj) {
+            if(typeof obj[name] === 'object') {
+                ret[name] = dc(obj[name]);
+            } else {
+                ret[name] = obj[name];
+            }
+        }
+    } else {
+        ret = obj;
+    }
+
+    return ret;
+}
+</code></pre>
+
+<p>};
+```</p>
+
+<h3>arguments.callee.caller.arguments</h3>
+
+<p>次に紹介するのはarguments.callee.caller.argumentsです。<br/>
+これはなんと呼び出し元の関数の引数を取得することができます。ちなみにarguments.callee.callerは呼び出しの関数が取得できます。<br/>
+```javascript
+function hoge(name) {</p>
+
+<pre><code>hogehoge();
+</code></pre>
+
+<p>}
+function hogehoge() {</p>
+
+<pre><code>// 呼び出し元の一つ目の引数を表示
+console.log(arguments.callee.caller.arguments[0]);
+// -&gt; foo
+</code></pre>
+
+<p>}
+hoge(&lsquo;foo&rsquo;);
+```
+ただしこれをやってしまうと、可読性が著しく悪化するばかりか、関数の呼び出し順に過度に依存することになるので、非常事態以外には触るな危険です。<br/>
+また、もちろんこれどんどん遡って行くことが可能で、一番最初の呼び出し元関数まで全部取得可能です。<br/>
+私はBackbone.ajaxでBackbone.syncの引数の取得に使用しました。ごめんなさい。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ちょっと未来のJavaScript]]></title>
+    <link href="http://thujikun.github.io/blog/2013/12/14/ie/"/>
+    <updated>2013-12-14T02:00:03+09:00</updated>
+    <id>http://thujikun.github.io/blog/2013/12/14/ie</id>
+    <content type="html"><![CDATA[<p>本エントリは　<a href="http://qiita.com/advent-calendar/2013/javascript">JavaScript Advent Calendar 2013</a>14日目となります。<br/>
+来年遂にXPが逝去されるということで、IE9以降のシェアが飛躍的に伸びることを祈りつつ、IE9以降でJavaScriptでできるようになることを気がつく限りまとめてみました。</p>
+
+<h2>DOM</h2>
+
+<h3>addEventListener / removeEventListener</h3>
+
+<p>イベントを登録/削除するためのメソッド。IE8まではattachEventとdetachEventという似たような、でも割と細かいところで動きが違うメソッドを使う必要があったが、IE9から標準のaddEventListenerがサポートされている。<br/>
+※ jQueryのon/offとかbind/unbindとだいたい同じ。<br/>
+※ 第3引数はuseCaptureといって、trueにするとイベント伝播を上位のDOMから発生させることができる。まあ使うことないけど。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/API/EventTarget.addEventListener">addEventListener</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/EventTarget.removeEventListener">removeEventListener</a>
+```javascript</p>
+
+<pre><code>function onClickFunction(e) {
+    //クリック時の処理
+}
+// クリックイベント設定
+document.getElementById('hoge').addEventListener('click', onClickFunction, false);
+
+// クリックイベント削除
+document.getElementById('hoge').removeEventListener('click', onClickFunction, false);
+</code></pre>
+
+<p>```</p>
+
+<h3>createEvent / dispatchEvent</h3>
+
+<p>イベントを作成/発火するためのメソッド。IE8まではcreateEventObjectとfireEventというこれまた似たような、でもやっぱり色々動きが異なるメソッドがあった。<br/>
+※ jQueryの$.eventとかtriggerとだいたい同じ。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/DOM/document.createEvent">createEvent</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/EventTarget.dispatchEvent">dispatchEvent</a>
+```javascript</p>
+
+<pre><code>// イベントオブジェクト作成
+// 引数にはイベント種別を渡す。
+var evt = document.createEvent('MouseEvents');
+
+// イベントオブジェクト初期化
+// 引数の内容はhttps://developer.mozilla.org/ja/docs/Web/API/event.initMouseEventを参照。
+// マウス座標とかctrlキーが押されてるかどうかなど色々指定可能。
+evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+
+// イベント発火
+document.getElementById('hoge').dispatchEvent(evt);
+</code></pre>
+
+<p>```</p>
+
+<h3>Composition Events</h3>
+
+<p>composition Eventsは文字の変換イベントを取得できるメソッドです。<br/>
+これまではFFにも対応したければsetIntervalで入力中にテキストフィールドを監視する必要があったのが、これを使えば解消することができます。<br/>
+まあIE系ならkeydown + setTimeoutでもいいし、FFならinputイベント使えばいいって話もあるけど。<br/>
+※ compositionstartイベントとcompositionupdateイベントは同時に発火するが、compositionupdateイベントとcompositionendイベントは同時に発火しない。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/DOM/CompositionEvent">CompositionEvent</a>
+```javascript</p>
+
+<pre><code>var textElement = document.getElementById('hoge');
+
+// テキスト変換開始時イベント監視
+textxElement.addEventListener('compositionstart', function(e) {
+    //変換開始時処理
+}, false);
+
+// テキスト変換中イベント監視
+textxElement.addEventListener('compositionupdate', function(e) {
+    //変換中処理
+}, false);
+
+// テキスト変換完了時イベント監視
+textxElement.addEventListener('compositionend', function(e) {
+    //変換完了時処理
+}, false);
+</code></pre>
+
+<p>```</p>
+
+<h3>Mutation Events</h3>
+
+<p>DOMの追加/変更/削除などDOMの状態監視ができるイベント。類似メソッドは今までなかったのでかなり画期的なんじゃないかと思う。Angularの処理を強引にjQueryで補足したいときとかに使えるかもね。<br/>
+※ 多用すると処理が追えなくなる可能性あり。<br/>
+※ IE9ではDOMNodeInsertedが動かないらしい。<br/>
+※ パフォーマンスの関係でMutation Eventsは非推奨になり、最新仕様はMutation Observerになっている。そのためMutation EventsはPolyfillとして用いるべし。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/Guide/API/DOM/Events/Mutation_events">Mutation Events</a>, <a href="https://developer.mozilla.org/ja/docs/Web/API/MutationObserver">Mutation Observer</a>
+```</p>
+
+<pre><code>// エレメントの属性の変更を監視
+document.addEventListener('DOMNodeInserted', function(e) {
+    // 属性変更時処理
+    console.log('追加された！');
+});
+
+document.body.appendChild(document.createElement('div'));
+// -&gt; 追加された！
+</code></pre>
+
+<p>```</p>
+
+<pre><code>DOMAttrModifiedはどのブラウザでも動作しない模様。  
+</code></pre>
+
+<h3>DOMContentLoaded Event</h3>
+
+<p>DOMの読み込みを待ち合わせるイベント。<br/>
+※ $(document).ready(function(){})とか$(function(){})と同じ。IE9以降なら内f部的にこれが使われてる。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/Reference/Events/DOMContentLoaded">DOMContentLoaded</a>
+```javascript</p>
+
+<pre><code>document.addEventListener('DOMContentLoaded', function() {
+    // DOM読み込み時処理
+}, false);
+</code></pre>
+
+<p>```</p>
+
+<h3>querySelector / querySelectorAll</h3>
+
+<p>CSSのselectorでDOM探索ができるメソッド。完全にjQuery感覚で使えます。まあgetElementByIdとかgetElementsByClassNameとか別のが使える場合はそっち使った方が速いです。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/API/document.querySelectorAll">querySelectorAll</a><br/>
+※ 追記 querySelectorはIE8からサポートされてましたm(__)m。<a href="https://twitter.com/teppeis">@teppeis</a>さんご指摘ありがとうございますー！
+<code>
+var list = document.querySelectorAll('ul li');
+</code></p>
+
+<p>classListはIE10から、datasetはIE11からの実装のようです。。。</p>
+
+<h2>ECMA Script 5</h2>
+
+<h3>Array</h3>
+
+<pre><code>Array型の追加メソッドはunderscoreとか使ってる人ならピンとくるはず。  
+</code></pre>
+
+<ul>
+<li><p>forEach<br/>
+  引数に関数をとり、値とインデックスがループでまわって引数に入ってくる。ようはfor文回すのに、iとかlengthとか必要ないし、 ループ内スコープの変数が使えるってこと。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">forEach</a><br/>
+```javascript
+  var arr = [&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;, &rsquo;d', &lsquo;e&rsquo;];</p>
+
+<p>  arr.forEach(function(value, index) {
+      // function内部なので、スコープがループの中で閉じる
+      var foo = &lsquo;bar&rsquo;;</p>
+
+<pre><code>  console.log(value, index);
+  // -&gt; 値とインデックスがコンソールに出力される
+</code></pre>
+
+<p>  });
+```</p></li>
+<li><p>filter<br/>
+  配列の中から指定した条件を満たすものだけを取り出して新たな配列を作成することができる。非破壊的メソッド。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">filter</a><br/>
+```javascript
+  var arr = [2, 45, 21, 67, 32, 2, 43];</p>
+
+<p>  arr.filter(function(value, index) {
+      // 偶数のものだけ取り出す。
+      return value % 2 === 0;
+  });
+```</p></li>
+<li><p>indexOf<br/>
+  配列を指定された値で検索するメソッド。返却値は見つかった最初のインデックスで、ない場合は-1が返る。<br/>
+  検索を始めるインデックスを第二引数で指定することも可能。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">indexOf</a>
+```javascript
+  var arr = [&lsquo;abc&rsquo;, &lsquo;def&rsquo;, &lsquo;ghi&rsquo;, &lsquo;jkl&rsquo;];</p>
+
+<p>  console.log(arr.indexOf(&lsquo;def&rsquo;));
+  // &ndash;> 1
+  console.log(arr.indexOf(&lsquo;mno&rsquo;));
+  // &ndash;> -1
+```</p></li>
+<li><p>some<br/>
+  配列の各要素に対してテストを実行し、一つでもテストに合格する要素があればtrueを返し、一つもなければfalseを返す。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a>
+```javascript
+  var arr = [2, 45, 21, 67, 32, 2, 43];</p>
+
+<p>  // 60以上の値があるかどうか判定
+  console.log(arr.some(function(value) {
+      return 60 &lt; value;
+  }));
+  // &ndash;> true</p>
+
+<p>  // 70以上の値があるかどうか判定
+  console.log(arr.some(function(value) {
+      return 70 &lt; value;
+  }));
+  // &ndash;> false
+```</p></li>
+<li><p>every<br/>
+  配列の各要素に対してテストを実行し、全要素がテストに合格であればtrueを返し、一つでも欠ければfalseを返す。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a>
+```javascript
+  var arr = [2, 45, 21, 67, 32, 2, 43];</p>
+
+<p>  // 全ての値が1以上かどうか判定
+  console.log(arr.every(function(value) {
+      return 1 &lt; value;
+  }));
+  // &ndash;> true</p>
+
+<p>  // 全ての値が5以上かどうか判定
+  console.log(arr.every(function(value) {
+      return 5 &lt; value;
+  }));
+  // &ndash;> false
+```</p></li>
+<li><p>map<br/>
+  配列の各要素に対して処理を行い、その結果からなる新しい配列を生成する。非破壊的メソッド<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map">map</a>
+```javascript
+  var arr = [2, 45, 21, 67, 32, 2, 43];</p>
+
+<p>  // 全ての値が1以上かどうか判定
+  console.log(arr.map(function(value) {
+      return value * 10;
+  }));
+  // &ndash;> [20, 450, 210, 670, 320, 20, 430]
+```</p></li>
+<li><p>reduce<br/>
+  配列の隣り合う値を左から順に呼び出し、その結果から単一の値をつくる。<br/>
+  ※ 右から実行する<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight">reduceRight</a>もある。<br/>
+  ※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce">reduce</a>
+```javascript
+  var arr = [2, 45, 21, 67, 32, 2, 43];</p>
+
+<p>  // 全ての値が1以上かどうか判定
+  console.log(arr.reduce(function(value1, value2) {
+      console.log(arguments);
+      return value1 + value2;
+  }));
+  // &ndash;> 212
+```</p></li>
+</ul>
+
+
+<h3>Object</h3>
+
+<ul>
+<li>defineProperty / defineProperties<br/>
+  -Object.hoge = function(){};の形で書くのに比べ、writable属性、enumerable属性、configurable属性の設定ができたり、アクセサ（配列のlengthみたいなやつ）がつくれたりする。
+
+<ul>
+<li>writable: 上書き可能かどうか</li>
+<li>enumerable: for inループなどのObjectのプロパティ列挙時に表示されるかどうか。</li>
+<li>configurable: プロパティの設定を変更することができるかどうか。</li>
+<li>get: プロパティのゲッターとなるメソッド。(アクセサの場合のみ)</li>
+<li>set: プロパティのセッターとなるメソッド。(アクセサの場合のみ)<br/>
+※ 個人的にはprototype拡張の際によく使うが、様々な用途で使えるとは思う。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">defineProperty</a>
+```
+var MyClass = function() {
+  this.members = {};
+};</li>
+</ul>
+
+
+<p>  // メンバーを登録するsetMemberメソッドを作成
+  Object.defineProperty(MyClass.prototype, &lsquo;setMember&rsquo;, {
+      writable: false,
+      enumeable: false,
+      configurable: false,
+      value: function(id, name) {
+          this.members[id] = name;
+      }
+  });</p>
+
+<p>  // メンバーを取得するgetMemberメソッドを作成
+  Object.defineProperty(MyClass.prototype, &lsquo;getMember&rsquo;, {
+      writable: false,
+      enumeable: false,
+      configurable: false,
+      value: function(id) {
+          return this.members[id];
+      }
+  });</p>
+
+<p>  // 現在のメンバー数を返却するcountアクセサを追加。値を指定された場合は何もしない。
+  Object.defineProperty(MyClass.prototype, &lsquo;count&rsquo;, {
+      get: function() {
+          return Object.keys(this.members).length;
+      },
+      set: function() {}
+  });</p>
+
+<p>  var myClass = new MyClass();</p>
+
+<p>  myClass.setMember(&lsquo;foo&rsquo;, &lsquo;bar&rsquo;);
+  myClass.setMember(&lsquo;hoge&rsquo;, &lsquo;hogehoge&rsquo;);
+  console.log(myClass.getMember(&lsquo;foo&rsquo;));
+  // &ndash;> &lsquo;bar&rsquo;</p>
+
+<p>  console.log(myClass.count);
+  // &ndash;> 2</p>
+
+<p>  // setメソッドは何もしないので値を登録しても値は変化しない。
+  myClass.count = 10;
+  console.log(myClass.count);
+  // &ndash;> 2
+```</p></li>
+<li>create<br/>
+指定したオブジェクトのプロトタイプ及び、プロパティを持つオブジェクトを生成する。簡単に既存のオブジェクトを継承して、新しいプロトタイプも持つオブジェクトがつくれる。<br/>
+definePropertyと同様に、各属性の設定や、アクセサもつくれる。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/create">create</a>
+```
+  // 通常の配列を追加
+  var arr = [&lsquo;a&rsquo;, 232, &lsquo;b&rsquo;, true, 1111];
+  // 配列を拡張して、0から数えたlengthプロパティを新たに追加。
+  var customArr = Object.create(arr, {
+      lengthFromZero: {
+          get: function() {
+              return this.length &ndash; 1;
+          },
+          set: function() {}
+      }
+  });</li>
+</ul>
+
+
+<p>console.log(customArr.lengthFromZero);
+<code>
+* getOwnPropertyNames  
+enumerable属性に関わらず、オブジェクトのプロパティを配列で返却する。  
+※ [getOwnPropertyNames](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames)
+</code>
+console.log(Object.getOwnPropertyNames(Array.prototype));
+// &ndash;> [&ldquo;length&rdquo;, &ldquo;constructor&rdquo;, &ldquo;toString&rdquo;, &ldquo;toLocaleString&rdquo;, &ldquo;join&rdquo;, &ldquo;pop&rdquo;, &ldquo;push&rdquo;, &ldquo;concat&rdquo;, &ldquo;reverse&rdquo;, &ldquo;shift&rdquo;, &ldquo;unshift&rdquo;, &ldquo;slice&rdquo;, &ldquo;splice&rdquo;, &ldquo;sort&rdquo;, &ldquo;filter&rdquo;, &ldquo;forEach&rdquo;, &ldquo;some&rdquo;, &ldquo;every&rdquo;, &ldquo;map&rdquo;, &ldquo;indexOf&rdquo;, &ldquo;lastIndexOf&rdquo;, &ldquo;reduce&rdquo;, &ldquo;reduceRight&rdquo;]
+<code>
+* keys  
+オブジェクトの列挙可能なプロパティを配列で返却する。for-inループと違い、プロトタイプのプロパティはとってこない。  
+※ [keys](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/keys)
+</code>
+var obj = {</p>
+
+<pre><code>foo: 'bar',
+hoge: 'hogehoge'
+</code></pre>
+
+<p>};
+console.log(Object.keys(obj));
+// &ndash;> [&lsquo;foo&rsquo;, &lsquo;hoge&rsquo;]
+<code>
+* freeze  
+オブジェクトを凍結する。具体的にはプロパティの追加/編集/削除、設定変更を不可能にする。プロパティがObjectの場合、その中身までは凍結できない。  
+※ [freeze](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
+</code>
+var obj = {</p>
+
+<pre><code>foo: 'bar',
+hoge: 'hogehoge',
+list: {
+    foofoo: 'barbar'
+}
+</code></pre>
+
+<p>};</p>
+
+<p>// オブジェクトを凍結
+Object.freeze(obj);</p>
+
+<p>// obj.list.foofooのみ編集可能。
+obj.hoge = &lsquo;hogehogehoge&rsquo;;
+obj.name = &lsquo;taro&rsquo;;
+obj.list.foofoo = &lsquo;barbarbarbar&rsquo;;
+console.log(obj);
+```</p>
+
+<h3>Function</h3>
+
+<ul>
+<li>bind
+Functionのthisを引数のオブジェクトでバインドする。apply/callと違ってその場でfunctionコールせず、thisでbindされたfunctionオブジェクトを返却してくれる。<br/>
+※ $.proxyとか_.bindと同じ。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind</a>
+```
+function foo() {
+  console.log(this);
+}</li>
+</ul>
+
+
+<p>var bar = foo.bind({hoge: &lsquo;hogehoge&rsquo;});</p>
+
+<p>bar();
+// &ndash;> {hoge: &lsquo;hogehoge&rsquo;}
+```</p>
+
+<h3>String</h3>
+
+<ul>
+<li>trim / trimRight / trimLeft<br/>
+念願のtrimがようやくjsに。文字列の前後の空白を削除する。非破壊的メソッド<br/>
+※ 驚くべきことに全角空白にも対応している！！！<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/trim">trim</a>
+```
+var foo = &lsquo;　　　   bar   　　　&rsquo;;</li>
+</ul>
+
+
+<p>console.log(foo.trim());
+// &ndash;> bar
+```</p>
+
+<h3>Date</h3>
+
+<ul>
+<li>now<br/>
+UTC（協定世界時）での1970年1月1日00時00分00秒から現在までの経過ミリ秒を数値で取得するメソッド。new Date().getTime()と同じ。相違点はスピード。<br/>
+※ <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Date/now">now</a>
+<code>javascript
+console.log(Date.now());
+</code></li>
+</ul>
+
+
+<h2>IE8とどうしてもまだ付き合わなきゃいけない方へ</h2>
+
+<p>es5のshimを使ってくださってる方がいるので、これを入れると上記のメソッド達はだいたい使えます。<br/>
+<a href="https://github.com/kriskowal/es5-shim">https://github.com/kriskowal/es5-shim</a></p>
+
+<p>DOM系のやつもそれぞれshimを作ってる方がいたり、あとは自分でpolyfill作ってしまってもよいかもですね。</p>
+
+<h2>まとめ的な</h2>
+
+<p>HTML5とかCSS3はまだだいぶ弱いですが、DOM系とES5系でそれなりに強化されるので、小さいサイトの制作であればjQueryを使わない選択肢があってもいいんじゃないかなーと思ってます。<br/>
+まあこのへんが前からサポートされてるスマートフォン向けサイトでも、Zeptoすらあまり使われずjQueryが当たり前に使われてる現状を考えると難しそうですが。。。<br/>
+ネイティブのjsでかかれたプラグインが充実してくれば変わってくるのかな。</p>
+
+<h2>HTML5</h2>
+
+<p>HTML5のAPIについてはいろんなところにサンプルあるので詳細は割愛しますー。<br/>
+やはりCanvasとSVGが目立つところですかね。</p>
+
+<h3>canvas</h3>
+
+<h3>SVG</h3>
+
+<h3>Sectioning Elements</h3>
+
+<h3>Geolocation</h3>
+
+<h3>Video(H.264) not Mpeg4, WebM</h3>
+
+<h3>Audio(AAC and MP3)</h3>
+
+<h2>IE10+ (HTML5)</h2>
+
+<p>ちゃんと洗い出1してないのでこれだけではないと思いますが、IE10まで移行できれば強力なAPIが目白押しですね。</p>
+
+<h3>History API</h3>
+
+<h3>websocket</h3>
+
+<h3>input[type=xxx]</h3>
+
+<h3>Form VDalidation</h3>
+
+<h3>Pointer Events</h3>
+
+<h3>XHR2</h3>
+
+<h3>Drag and Drop</h3>
+
+<h3>Native Binary Data</h3>
+
+<h3>Web Workers</h3>
+
+<h3>CORS</h3>
+
+<h3>Sandboxed iframe</h3>
+
+<h3>Application cache</h3>
+
+<h3>Indexed DB</h3>
+
+<h3>File API</h3>
+
+<h3>pagevisibility API</h3>
+
+<h3>CSS3 Animations</h3>
+
+<h2>さらにES6も使いたい方へ</h2>
+
+<p>ES6では、定数、ブロックスコープ変数、Class、Module、Promise、generator、iterator、配列内包表記、arrow function、Map、WeakMap、Set、of loopなどなどまさに夢のようなAPI達がこれでもかと使うことができます。現在の実装状況は下記を参照すると良いです。<br/>
+<a href="http://kangax.github.io/es5-compat-table/es6/  ">http://kangax.github.io/es5-compat-table/es6/  </a>
+見ていただければわかりますが、FFの実装が最も進んでいます。Chromeも頑張ってはいますが、FlagをONにしなきゃいけないので非現実的ですね。<br/>
+まとめると以下の方法が現在ES6を使うための手法です。</p>
+
+<ul>
+<li>traceur-compilerを使う。<br/>
+<a href="https://github.com/google/traceur-compiler">https://github.com/google/traceur-compiler</a></li>
+</ul>
+
+
+<p>主要な機能は大体使えます。具体的な使い方はこんな感じ。<br/>
+```html
+<html>
+  <body></p>
+
+<pre><code>&lt;script src="https://traceur-compiler.googlecode.com/git/bin/traceur.js" 
+    type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="https://traceur-compiler.googlecode.com/git/src/bootstrap.js"
+    type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/traceur"&gt;
+  class Greeter {
+    constructor(message) {
+      this.message = message;
+    }
+
+    greet() {
+      let element = document.querySelector('#message');
+      element.innerHTML = this.message;
+    }
+  };
+
+  let greeter = new Greeter('Hello, world!');
+  greeter.greet();
+&lt;/script&gt;
+</code></pre>
+
+<p>  </body>
+</html>
+<code>
+* typescriptを使う。
+MicroSoftの開発しているtypescriptはES6の先行実装的な思想で作られてるjsのプリコンパイラなので、これを使う手もあります。  
+[typescript](http://www.typescriptlang.org/)  
+* node.jsを使う。  
+Gruntなどサーバを立てる用途でなくてもnodeを使う機会は確実に増えている今日この頃、これを使わない手はありません。  
+node起動時に--harmonyオプションをつけるか、Gruntなど内部的にNodeを呼ぶやつで使う場合はpackage.jsonをちょっと工夫してやるとES6の機能が開放されます。  
+</code>
+{
+  &ldquo;scripts&rdquo;: {</p>
+
+<pre><code>"start": "node --harmony ./node_modules/.bin/grunt start"
+</code></pre>
+
+<p>  }
+}
+```
+* FirefoxOSアプリ開発を行う。<br/>
+上記でも言ったようにFirefoxの実装は最も進んでいる状況なので、FirefoxOS向けアプリ開発ではES6の機能がガンガン使えます。<br/>
+本来Web標準で作れることのメリットであるクロスプラットフォームの互換性は失われますが、そんなものは現場からすると初めから幻想なのでムシムシ。<br/>
+* RhinoもしくはNashornを使う。<br/>
+これはだいぶマニアックな方法ですがMozillaがJVM上でjavascriptで書いたコードをJavaに変換して実行するライブラリを出しています。<br/>
+MozillaということはFirefoxと大体同じ実装状況だと言えるので、ES6の機能もだいぶサポートされています。<br/>
+Java7までがRhino、Java8からがNashornになります。<br/>
+ちなみにClosure CompilerはRhinoを使ってますね。</p>
+
+<p>というわけでここまで読んでいただいてありがとうございましたー！</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sprite | Thujikun blog]]></title>
+  <link href="http://thujikun.github.io/blog/categories/sprite/atom.xml" rel="self"/>
+  <link href="http://thujikun.github.io/"/>
+  <updated>2014-12-07T19:11:14+09:00</updated>
+  <id>http://thujikun.github.io/</id>
+  <author>
+    <name><![CDATA[Ryosuke Tsuji]]></name>
+    <email><![CDATA[tsuji.0107@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CompassでSpriteなんてもう古い！？grunt-spritesmithのすすめ]]></title>
+    <link href="http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith/"/>
+    <updated>2014-02-20T21:42:54+09:00</updated>
+    <id>http://thujikun.github.io/blog/2014/02/20/grunt-spritesmith</id>
+    <content type="html"><![CDATA[<p>釣りっぽいタイトルになってますが、ようはCompassのSprite Generatorだと解決できないことを<a href="https://github.com/Ensighten/grunt-spritesmith">grunt-spritesmith</a>ならやってくれるよって話です。
+Compassの方については山ほど記事があるので、あまり知らないよって方はてきとーにググってください。</p>
+
+<h2>Compassの問題点</h2>
+
+<h3>Sassでしか使えない</h3>
+
+<p>一つ目は当然ですが、CompassはSassのフレームワークなのでLessとかStylus派の人は使えないってことです。
+私は最近はStylus派なので、なにか良いSpriteツールないかなーと探し始めたのが最初でした。</p>
+
+<h3>SassのCompileのたびにSprite化処理が実行される</h3>
+
+<p>これは画像が多いサイトではかなり深刻な問題となります。画像とは関係ないStyleの変更時でも毎回Sprite化が実行されるため、確認までかなりの時間をロスします。</p>
+
+<h3>正方形に画像を並べるとPaddingの指定が効かない</h3>
+
+<p>Sprite画像のサイズをできるだけ小さくしようとすると、当然正方形に近い方が望ましいといえます。が！CompassのSprite Generatorの場合正方形にするとpaddingの指定が効かず、画像どおしがくっついちゃいます。
+そうするとちょっとpaddingをもたせて配置したいときとか、拡大縮小されたときに隣の画像がチラホラ見えておかしなことになります。</p>
+
+<h3>Retina対応わかりづらい</h3>
+
+<p>なんかいろんな指定方法があって正直わかりづらいと個人的には感じてます。画像サイズも手で指定しなきゃいけないし。</p>
+
+<h3>Compassの開発が停滞中</h3>
+
+<p>最近はめっきり開発が止まっちゃってますね。CSS3のmixinも不十分だし、ちょっとこれからも使っていくには不安です。ちなみにCSS3のmixinについては<a href="http://bourbon.io/">bourbon</a>入れれば一応解決できます。</p>
+
+<p>だいたいぱっと思い浮かぶのはこのへんでしょうか。とくに1と2は深刻な問題ですね。</p>
+
+<h2>grunt-spritesmithができること</h2>
+
+<h3>CSS, Sass, Less, Stylus, JSON形式に対応</h3>
+
+<p>生のCSSや各CSSプリプロセッサ、さらにはJSON形式でも出力してくれます。</p>
+
+<ul>
+<li><p>生のCSSの場合昔ながらのGeneratorを使ったときと同じように、画像名でclassがつくられます。もちろんprefixもつけられます。</p></li>
+<li><p>各CSSプリプロセッサの形式を指定した場合、画像名ごとのmixinと画像の各パラメータ(width, height, offset, 画像名, positionなど)を全て変数として出力してくれます。なのでRetina対応とかもそのへんのパラメータ使えば簡単にできます。</p></li>
+<li><p>JSON形式の場合もCSSプリプロセッサの形式と同じように各パラメータをJSON形式で出力してくれます。個人的にはまだ利用はしていないですが、gruntを経由してjade, js, stylusで同じJSONファイルを元に開発を行ったりできそうだなーとは思ってます。</p></li>
+</ul>
+
+
+<h3>画像が増えたときのみタスクを実行すれば良い</h3>
+
+<p>当然CSSプリプロセッサとは別のタスクとしてGruntの設定を行うため、Sprite画像生成とCSSプリプロセッサのCompileをわけることができます。高速Compile最高ですね。</p>
+
+<h3>画像を正方形に並べてpaddingもとれる</h3>
+
+<p>こちらは問題なく画像を正方形に並べつつ、かつpaddingも設定することができます。なのでSprite画像のサイズを最小限に抑えることができます。</p>
+
+<h2>使い方</h2>
+
+<p>サンプルを<a href="https://github.com/thujikun/spritesmith-sample">こちら</a>に作成しましたので、よかったら試してみてください。
+cloneしてnpm installしてgruntって実行すると、distフォルダに各出力結果ごとの結果が見れます。
+他にもいくつかパラメータつけてるので、Gruntfile.jsと合わせて見てもらえればと思います。</p>
+
+<h2>結論</h2>
+
+<p>みんなこれで心置きなくStylusに移行できる☆彡</p>
+]]></content>
+  </entry>
+  
+</feed>
